@@ -1,0 +1,34 @@
+<main
+  class="container-fluid p-0 d-flex justify-content-center align-items-center"
+>
+  <section
+    class="form-section h-100 d-flex w-50 flex-column gap-3 align-items-center"
+  >
+    <img src="img/gestone.png" alt="" />
+    <h3>{{ title() }}</h3>
+    <ng-content></ng-content>
+    <button
+      (click)="submitLogin()"
+      class="w-75 btn btn-warning d-flex align-items-center justify-content-center"
+    >
+      {{ primaryBtnText() }}
+    </button>
+    <div
+      class="divider w-75 d-flex align-items-center justify-content-center gap-2"
+    >
+      <div class="w-25"></div>
+      <span>ou</span>
+      <div class="w-25"></div>
+    </div>
+    <button
+      class="w-75 btn border d-flex align-items-center justify-content-center"
+    >
+      {{ secondaryBtnText() }}
+    </button>
+  </section>
+  <section
+    class="main-section h-100 ps-5 d-flex justify-content-center align-items-center"
+  >
+    <h1 class="text-white">Gerenciando seu futuro.</h1>
+  </section>
+</main>

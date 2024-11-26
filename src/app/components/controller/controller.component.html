@@ -1,0 +1,27 @@
+<div class="card text-bg-dark w-75 mx-auto">
+  <div class="card-body">
+    <h4 class="card-title">
+      {{ controllerTitle() }}
+      <i class="bi bi-{{ controllerIconText() }}"></i>
+    </h4>
+    <div class="col d-flex justify-content-between">
+      <div class="input-group w-50">
+        <span
+          class="input-group-text d-flex align-items-center justify-content-center"
+          id="search"
+          ><i class="bi bi-search"></i
+        ></span>
+        <input
+          type="text"
+          class="form-control custom-input"
+          placeholder="Pesquisar"
+          aria-describedby="search"
+        />
+      </div>
+      <button class="btn btn-warning">
+        <i class="bi bi-plus-lg"></i>
+        {{ controllerPrimaryButtonText() }}
+      </button>
+    </div>
+  </div>
+</div>

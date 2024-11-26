@@ -1,0 +1,10 @@
+<div class="container-fluid bg-white h-100">
+  <app-navbar></app-navbar>
+  <app-controller controllerTitle="Clientes" controllerIconText="people" controllerPrimaryButtonText="Adicionar cliente"></app-controller>
+  @if (customers$ | async; as customers) {
+    <app-customer-list [customers]="customers">
+
+    </app-customer-list>
+  }
+
+</div>

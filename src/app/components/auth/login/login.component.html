@@ -1,0 +1,17 @@
+<app-default-auth
+  title="Entre em sua conta"
+  primaryBtnText="Entrar"
+  secondaryBtnText="Cadastrar"
+  (login)="login()"
+>
+<form [formGroup]="loginForm" class="w-75">
+  <div class="mb-3">
+    <label for="email" class="form-label mb-0">Email</label>
+    <input formControlName="email" type="email" class="form-control" id="email" aria-describedby="emailHelp">
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label mb-0">Senha</label>
+    <input formControlName="password" type="password" class="form-control" id="password">
+  </div>
+</form>
+</app-default-auth>
