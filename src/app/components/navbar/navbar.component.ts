@@ -14,6 +14,5 @@ export class NavbarComponent {
   marbleshopId: string | null = null
   constructor(private readonly authService: AuthService) {
     this.marbleshopId = authService.getMarbleshopId()
-    console.log(this.marbleshopId)
   }
 }

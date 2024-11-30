@@ -1,26 +1,42 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CustomerResponse } from '../types/CustomerResponse';
 import { AuthService } from './auth.service';
+import { Customer } from '../domain/Customer';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CustomerService {
-  private readonly apiUrl = 'http://localhost:8080/api/v1/customer'
+  private readonly apiUrl = 'http://localhost:8080/api/v1/customer';
 
-  constructor(private readonly http: HttpClient, private readonly authService: AuthService) {
+  constructor(
+    private readonly http: HttpClient,
+    private readonly authService: AuthService
+  ) {}
+
+  getAllCustomersFromMarbleshop(
+    marbleshopId: string | null
+  ): Observable<Customer[]> {
+    return this.http.get<Customer[]>(`${this.apiUrl}/${marbleshopId}`);
   }
 
-  getAllCustomersFromMarbleshop(marbleshopId: string | null): Observable<CustomerResponse[]> {
-    const token = this.authService.getToken()
-    if (!token) {
-      throw new Error('Token not found')
+  saveCustomer(customer: Customer) {
+    if (customer.id) {
+      return this.updateCustomer(customer);
     }
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    })
-    return this.http.get<CustomerResponse[]>(`${this.apiUrl}/${marbleshopId}`, { headers })
+    return this.createCustomer(customer);
+  }
+
+  createCustomer(customer: Customer) {
+    return this.http.post<Customer>(`${this.apiUrl}`, customer);
+  }
+
+  updateCustomer(customer: Customer) {
+    return this.http.put<Customer>(`${this.apiUrl}/${customer.id}`, customer);
+  }
+
+  deleteCustomer(customerId: string) {
+    return this.http.delete(`${this.apiUrl}/${customerId}`);
   }
 }

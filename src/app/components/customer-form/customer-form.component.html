@@ -1,0 +1,69 @@
+<form [formGroup]="customerForm" class="card px-3 py-2 bg-light">
+  <div class="card-header d-flex align-items-center justify-content-between mb-3">
+    <div class="form-titles">
+      <h5 class="card-title">Adicionando cliente</h5>
+      <h6 class="card-subtitle">Preencha os dados</h6>
+    </div>
+    <button (click)="closeCustomerForm()" type="button" class="btn-close" aria-label="Close"></button>
+
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="floatingCustomerNameInput"
+          placeholder="name@example.com"
+          formControlName="name"
+        />
+        <label for="floatingCustomerNameInput">Nome</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="type"
+          class="form-control"
+          id="floatingCustomerPhoneInput"
+          placeholder="(11) 911111111"
+          formControlName="phone"
+        />
+        <label for="floatingCustomerPhoneInput">Telefone</label>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-floating mb-3">
+        <input
+          type="type"
+          class="form-control"
+          id="floatingCustomerEmailInput"
+          placeholder="Password"
+          formControlName="email"
+        />
+        <label for="floatingCustomerEmailInput">Email (opcional)</label>
+      </div>
+      <div class="form-floating">
+        <input
+          type="type"
+          class="form-control"
+          id="floatingCustomerAddressInput"
+          placeholder="Password"
+          formControlName="address"
+        />
+        <label for="floatingCustomerAddressInput">Endereço (opcional)</label>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end gap-2 mt-3">
+      <button type="button" (click)="closeCustomerForm()" class="btn btn-secondary">Cancelar</button>
+      <button type="button" (click)="submitCustomerForm()"  class="btn btn-warning">
+        @if (isSaving()) {
+          <div class="spinner-border spinner-border-sm" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          Salvando
+        } @else {
+          Salvar
+        }
+      </button>
+    </div>
+  </div>
+</form>

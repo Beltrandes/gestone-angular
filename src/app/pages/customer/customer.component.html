@@ -1,10 +1,46 @@
 <div class="container-fluid bg-white h-100">
   <app-navbar></app-navbar>
-  <app-controller controllerTitle="Clientes" controllerIconText="people" controllerPrimaryButtonText="Adicionar cliente"></app-controller>
-  @if (customers$ | async; as customers) {
-    <app-customer-list [customers]="customers">
-
-    </app-customer-list>
-  }
-
+  <div class="row">
+    <div class="col-10 mx-auto py-3 d-flex flex-column gap-3">
+      <app-controller
+        controllerTitle="Clientes"
+        controllerIconText="people"
+        controllerPrimaryButtonText="Adicionar cliente"
+        (add)="openAddCustomerForm()"
+        (search)="searchCustomer($event)"
+      ></app-controller>
+      @if (isCustomerFormOpened()) {
+      <app-customer-form
+        (close)="closeAddCustomerForm()"
+        (submit)="saveCustomer($event)"
+        [isSaving]="isSaving()"
+        [customer]="editingCustomer"
+      ></app-customer-form>
+      } @if (customers$ | async; as customers) {
+      <app-customer-list
+        [customers]="customers"
+        (delete)="openConfirmationDeleteModal($event)"
+        (edit)="openEditCustomerForm($event)"
+        [searchString]="searchString()"
+      >
+      </app-customer-list>
+      }
+    </div>
+  </div>
 </div>
+@defer (when customerToDelete) {
+<app-modal
+  (confirm)="deleteCustomer()"
+  modalConfirmActionButtonText="Excluir"
+  modalConfirmActionButtonColor="danger"
+>
+  <h5>
+    Quer mesmo excluir o cadastro de
+    <span class="text-danger">{{ customerToDelete.name!! }}</span> ?
+  </h5>
+  <h6 class="text-black">
+    Este cliente pode ter orçamentos, pedidos ou visitas em aberto, todos esses
+    dados serão perdidos
+  </h6>
+</app-modal>
+}
