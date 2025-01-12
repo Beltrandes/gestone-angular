@@ -1,0 +1,101 @@
+<form [formGroup]="quotationForm" class="card px-3 py-2 bg-light">
+  <div
+    class="card-header d-flex align-items-center justify-content-between mb-3"
+  >
+    <div class="form-titles">
+      <h5 class="card-title">Adicionando orçamento</h5>
+      <h6 class="card-subtitle">Preencha os dados</h6>
+    </div>
+    <button
+      (click)="closeQuotationForm()"
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="row g-0 d-flex justify-content-between flex-wrap">
+    <div class="form-floating col-4 mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="floatingNameInput"
+        placeholder="Beltrandes"
+        formControlName="name"
+      />
+      <label for="floatingNameInput">Nome</label>
+    </div>
+    <div class="form-floating col-4 mb-3">
+      <select
+        class="form-select"
+        id="floatingCustomerInput"
+        formControlName="customer"
+      >
+        <option [value]="null" selected>Selecione um cliente</option>
+        @for (customer of customers; track $index) {
+        <option [value]="customer.id">{{ customer.name }}</option>
+        }
+      </select>
+      <label for="floatingCustomerInput">Cliente</label>
+    </div>
+    <div class="form-floating col-3 mb-3">
+      <input
+        type="number"
+        class="form-control"
+        id="floatingDeadlineDaysInput"
+        placeholder="Beltrandes"
+        formControlName="deadlineDays"
+      />
+      <label for="floatingDeadlineDaysInput">Prazo de entrega (dias)</label>
+    </div>
+    <div class="form-floating col-3 mb-3">
+      <input
+        type="number"
+        class="form-control"
+        id="floatingDaysForDueInput"
+        placeholder="Beltrandes"
+        formControlName="daysForDue"
+      />
+      <label for="floatingDaysForDueInput">Data de vencimento (dias)</label>
+    </div>
+    <div class="form-floating col-4 mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="floatingDescriptionInput"
+        placeholder="something"
+        formControlName="details"
+      />
+      <label for="floatingDescriptionInput">Descrição/Detalhes</label>
+    </div>
+    <div class="form-floating col-4 mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="floatingAddressInput"
+        placeholder="something"
+        formControlName="address"
+      />
+      <label for="floatingAddressInput">Endereço</label>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end gap-2 mt-3">
+    <button
+      type="button"
+      (click)="closeQuotationForm()"
+      class="btn btn-secondary"
+    >
+      Cancelar
+    </button>
+    <button
+      type="button"
+      (click)="submitQuotationForm()"
+      class="btn btn-warning"
+    >
+      @if (isSaving()) {
+      <div class="spinner-border spinner-border-sm" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      Salvando } @else { Salvar }
+    </button>
+  </div>
+</form>

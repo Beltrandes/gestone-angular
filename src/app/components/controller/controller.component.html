@@ -1,4 +1,4 @@
-<div class="card text-bg-dark mx-auto">
+<div class="card shadow-sm mx-auto">
   <div class="card-body">
     <h4 class="card-title">
       {{ controllerTitle() }}
@@ -21,8 +21,8 @@
 
         />
       </div>
-      <button (click)="emitAdd()" class="btn btn-warning">
-        <i class="bi bi-plus-lg"></i>
+      <button (click)="emitAdd()" class="btn btn-warning d-flex align-items-center justify-content-center gap-2">
+        <span class="fs-4">+</span>
         {{ controllerPrimaryButtonText() }}
       </button>
     </div>

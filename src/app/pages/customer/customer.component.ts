@@ -38,11 +38,11 @@ export class CustomerComponent {
   searchString = signal<string>('');
   @ViewChild(ModalComponent) modal?: ModalComponent;
   constructor() {
-    this.marbleshopId = this.authService.getMarbleshopId();
     this.loadCustomers();
   }
 
   loadCustomers() {
+    this.marbleshopId = this.authService.getMarbleshopId();
     this.customers$ = this.customerService.getAllCustomersFromMarbleshop(
       this.marbleshopId
     );
