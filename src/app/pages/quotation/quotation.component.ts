@@ -8,6 +8,7 @@ import { QuotationListComponent } from '../../components/quotation-list/quotatio
 import { QuotationService } from '../../services/quotation.service';
 import { AuthService } from '../../services/auth.service';
 import { QuotationFormComponent } from '../../components/quotation-form/quotation-form.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-quotation',
@@ -28,6 +29,8 @@ export class QuotationComponent {
   quotationService = inject(QuotationService);
   authService = inject(AuthService);
   marbleshopId!: string | null;
+  isSaving = signal<boolean>(false)
+  toastr = inject(ToastrService);
   constructor() {
     this.loadQuotations();
   }
@@ -39,7 +42,36 @@ export class QuotationComponent {
     );
   }
 
-  openAddQuotationForm() {
+  openQuotationForm() {
     this.isQuotationFormOpened.set(true)
+  }
+
+  closeQuotationForm() {
+    this.isQuotationFormOpened.set(false);
+  }
+
+  saveQuotation(quotation: Quotation) {
+    this.quotationService.saveQuotation(quotation).subscribe({
+      next: () => {
+        this.isSaving.set(true);
+      },
+      error: () => {
+        this.toastr.error(
+          'Ocorreu um erro, tente novamente mais tarde',
+          'Mensagem do sistema'
+        );
+      },
+      complete: () => {
+        setTimeout(() => {
+          this.closeQuotationForm();
+          this.toastr.success(
+            'Orçamento criado com sucesso!',
+            'Mensagem do sistema'
+          );
+          this.isSaving.set(false);
+          this.loadQuotations();
+        }, 2000);
+      },
+    });
   }
 }

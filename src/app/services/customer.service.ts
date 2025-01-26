@@ -1,5 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Customer } from '../domain/Customer';
@@ -13,7 +13,7 @@ export class CustomerService {
   constructor(
     private readonly http: HttpClient,
     private readonly authService: AuthService
-  ) {}
+  ) { }
 
   getAllCustomersFromMarbleshop(
     marbleshopId: string | null

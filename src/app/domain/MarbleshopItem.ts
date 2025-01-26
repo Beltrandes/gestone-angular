@@ -12,6 +12,7 @@ export interface MarbleshopItem {
   totalValue: number,
   totalArea: number,
   quantity: number,
+  marbleshopItemType: string
   marbleshopMaterial: MarbleshopMaterial
   marbleshopSubItems: MarbleshopSubItem[]
 }

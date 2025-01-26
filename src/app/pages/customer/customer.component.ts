@@ -85,8 +85,6 @@ export class CustomerComponent {
     });
   }
 
-  updateCustomer() {}
-
   deleteCustomer() {
     if (this.customerToDelete) {
       this.customerService

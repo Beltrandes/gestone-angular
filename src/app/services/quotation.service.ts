@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class QuotationService {
   private readonly apiUrl = 'http://localhost:8080/api/v1/quotation';
-  constructor() {}
+  constructor() { }
 
   http = inject(HttpClient);
 
@@ -16,5 +16,26 @@ export class QuotationService {
     marbleshopId: string | null
   ): Observable<Quotation[]> {
     return this.http.get<Quotation[]>(`${this.apiUrl}/${marbleshopId}`);
+  }
+
+  saveQuotation(quotation: Quotation) {
+    if (quotation.id) {
+      return this.updateQuotation(quotation)
+    }
+    return this.createQuotation(quotation)
+  }
+
+  createQuotation(quotation: Quotation) {
+    return this.http.post<Quotation>(`${this.apiUrl}`, quotation)
+  }
+
+  updateQuotation(quotation: Quotation) {
+    return this.http.put<Quotation>(`${this.apiUrl}/${quotation.id}`, quotation)
+  }
+
+  generateQuotationPdf(quotationId: string) {
+    return this.http.get(`${this.apiUrl}/pdf/${quotationId}`, {
+      responseType: 'blob'
+    })
   }
 }

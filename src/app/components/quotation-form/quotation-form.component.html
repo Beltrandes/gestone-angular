@@ -1,18 +1,35 @@
 <form [formGroup]="quotationForm" class="card px-3 py-2 bg-light">
-  <div class="card-header d-flex align-items-center justify-content-between mb-3">
+  <div
+    class="card-header d-flex align-items-center justify-content-between mb-3"
+  >
     <div class="form-titles">
-      <h5 class="card-title">Adicionando orçamento</h5>
+      <h5 class="card-title">Criando orçamento</h5>
       <h6 class="card-subtitle">Preencha os dados</h6>
     </div>
-    <button (click)="closeQuotationForm()" type="button" class="btn-close" aria-label="Close"></button>
+    <button
+      (click)="closeQuotationForm()"
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+    ></button>
   </div>
   <div class="row g-0 d-flex justify-content-between flex-wrap">
     <div class="form-floating col-4 mb-3">
-      <input type="text" class="form-control" id="floatingNameInput" placeholder="Beltrandes" formControlName="name" />
+      <input
+        type="text"
+        class="form-control"
+        id="floatingNameInput"
+        placeholder="Beltrandes"
+        formControlName="name"
+      />
       <label for="floatingNameInput">Nome</label>
     </div>
     <div class="form-floating col-4 mb-3">
-      <select class="form-select" id="floatingCustomerInput" formControlName="customer">
+      <select
+        class="form-select"
+        id="floatingCustomerInput"
+        formControlName="customerId"
+      >
         <option [value]="null" selected>Selecione um cliente</option>
         @for (customer of customers; track $index) {
         <option [value]="customer.id">{{ customer.name }}</option>
@@ -21,75 +38,284 @@
       <label for="floatingCustomerInput">Cliente</label>
     </div>
     <div class="form-floating col-3 mb-3">
-      <input type="number" class="form-control" id="floatingDeadlineDaysInput" placeholder="Beltrandes"
-        formControlName="deadlineDays" />
+      <input
+        type="number"
+        class="form-control"
+        id="floatingDeadlineDaysInput"
+        placeholder="Beltrandes"
+        formControlName="deadlineDays"
+      />
       <label for="floatingDeadlineDaysInput">Prazo de entrega (dias)</label>
     </div>
     <div class="form-floating col-3 mb-3">
-      <input type="number" class="form-control" id="floatingDaysForDueInput" placeholder="Beltrandes"
-        formControlName="daysForDue" />
+      <input
+        type="number"
+        class="form-control"
+        id="floatingDaysForDueInput"
+        placeholder="Beltrandes"
+        formControlName="daysForDue"
+      />
       <label for="floatingDaysForDueInput">Data de vencimento (dias)</label>
     </div>
     <div class="form-floating col-4 mb-3">
-      <input type="text" class="form-control" id="floatingDescriptionInput" placeholder="something"
-        formControlName="details" />
+      <input
+        type="text"
+        class="form-control"
+        id="floatingDescriptionInput"
+        placeholder="something"
+        formControlName="details"
+      />
       <label for="floatingDescriptionInput">Descrição/Detalhes</label>
     </div>
     <div class="form-floating col-4 mb-3">
-      <input type="text" class="form-control" id="floatingAddressInput" placeholder="something"
-        formControlName="address" />
+      <input
+        type="text"
+        class="form-control"
+        id="floatingAddressInput"
+        placeholder="something"
+        formControlName="address"
+      />
       <label for="floatingAddressInput">Endereço</label>
     </div>
   </div>
-  <div>
-    <h6>Itens Principais</h6>
-    <div formArrayName="marbleshopItems" class="d-flex">
-      @for (marbleshopItem of getMarbleshopItemsFormArray(); track $index) {
-      <div [formGroupName]="$index" class="d-flex w-100 justify-content-between flex-wrap">
-        <div class="form-floating col-3 mb-3">
-          <input type="text" class="form-control" id="floatingMarbleshopItemNameInput" formControlName="name"
-            placeholder="Nome" />
+  @defer (when getMarbleshopItemsFormArray().length > 0) {
+  <div class="border rounded p-2 items-background">
+    <h6 class="text-center fw-bold">Itens Principais</h6>
+    <div formArrayName="marbleshopItems" class="col-12">
+      @for (marbleshopItem of getMarbleshopItemsFormArray(); track $index; let i
+      = $index) {
+      <div
+        [formGroupName]="i"
+        class="d-flex w-100 justify-content-between flex-wrap"
+      >
+        <h6
+          class="fw-semibold col-12 d-flex justify-content-between align-items-center"
+        >
+          Item {{ i + 1 }}
+          <button
+            type="button"
+            class="btn text-danger fs-5"
+            (click)="removeMarbleshopItem(i)"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+        </h6>
+        <div class="form-floating col-5 mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingMarbleshopItemNameInput"
+            formControlName="name"
+            placeholder="Nome"
+          />
           <label for="floatingMarbleshopItemNameInput">Nome</label>
         </div>
-        <div class="form-floating col-4 mb-3">
-          <input type="text" class="form-control" id="floatingMarbleshopItemDescriptionInput"
-            formControlName="description" placeholder="Descrição" />
+        <div class="form-floating col-6 mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingMarbleshopItemDescriptionInput"
+            formControlName="description"
+            placeholder="Descrição"
+          />
           <label for="floatingMarbleshopItemDescriptionInput">Descrição</label>
         </div>
         <div class="form-floating col-2 mb-3">
-          <input type="number" class="form-control" id="floatingMarbleshopItemMeasureXInput" formControlName="measureX"
-            placeholder="Medida X" />
+          <input
+            type="number"
+            class="form-control"
+            id="floatingMarbleshopItemMeasureXInput"
+            formControlName="measureX"
+            placeholder="Medida X"
+          />
           <label for="floatingMarbleshopItemMeasureXInput">Medida X</label>
         </div>
         <div class="form-floating col-2 mb-3">
-          <input type="number" class="form-control" id="floatingMarbleshopItemMeasureYInput" formControlName="measureY"
-            placeholder="Medida Y" />
+          <input
+            type="number"
+            class="form-control"
+            id="floatingMarbleshopItemMeasureYInput"
+            formControlName="measureY"
+            placeholder="Medida Y"
+          />
           <label for="floatingMarbleshopItemMeasureYInput">Medida Y</label>
         </div>
-        <div class="form-floating col-2 mb-3">
-          <input type="number" class="form-control" id="floatingMarbleshopItemQuantityInput" formControlName="quantity"
-            placeholder="Quantidade" />
+        <div class="form-floating col-1 mb-3">
+          <input
+            type="number"
+            class="form-control"
+            id="floatingMarbleshopItemQuantityInput"
+            formControlName="quantity"
+            placeholder="Quantidade"
+          />
           <label for="floatingMarbleshopItemQuantityInput">Quantidade</label>
         </div>
+        <div class="form-floating col-3 mb-3">
+          <select
+            class="form-select"
+            id="floatingMarbleshopMaterialInput"
+            formControlName="marbleshopMaterialId"
+          >
+            <option [value]="null" selected>Selecione um material</option>
+            @for (material of marbleshopMaterials; track $index) {
+            <option [value]="material.id">{{ material.name }}</option>
+            }
+          </select>
+          <label for="floatingMarbleshopMaterialInput">Material</label>
+        </div>
+        <div class="form-floating col-3 mb-3">
+          <select
+            class="form-select"
+            id="floatingMarbleshopItemTypeInput"
+            formControlName="marbleshopItemType"
+          >
+            <option [value]="null" selected>Selecione o tipo do item</option>
+            @for (itemType of marbleshopItemTypes; track $index) {
+            <option [value]="itemType.value">{{ itemType.name }}</option>
+            }
+          </select>
+          <label for="floatingMarbleshopItemTypeInput">Tipo de item</label>
+        </div>
+        @defer (when getMarbleshopSubItemsFormArray(i).length > 0) {
+        <div
+          formArrayName="marbleshopSubItems"
+          class="d-flex w-100 col-12 flex-wrap rounded p-2 sub-items-background"
+        >
+          <h6 class="text-center w-100 fw-bold">Sub-Itens</h6>
+          @for (subItem of getMarbleshopSubItemsFormArray($index); track $index;
+          let j = $index) {
+          <div
+            [formGroupName]="j"
+            class="d-flex w-100 justify-content-between flex-wrap"
+          >
+            <h6
+              class="fw-semibold col-12 d-flex align-items-center justify-content-between"
+            >
+              Sub-Item {{ j + 1 }}
+              <button
+                type="button"
+                class="btn text-danger fs-5"
+                (click)="removeMarbleshopSubItem(i, j)"
+              >
+                <i class="bi bi-trash"></i>
+              </button>
+            </h6>
+            <div class="form-floating col-3 mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingMarbleshopSubItemNameInput"
+                formControlName="name"
+                placeholder="Nome"
+              />
+              <label for="floatingMarbleshopSubItemNameInput">Nome</label>
+            </div>
+            <div class="form-floating col-3 mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="floatingMarbleshopSubItemDescriptionInput"
+                formControlName="description"
+                placeholder="Descrição/Detalhe"
+              />
+              <label for="floatingMarbleshopSubItemDescriptionInput"
+                >Descrição/Detalhe</label
+              >
+            </div>
+            <div class="form-floating col-1 mb-3">
+              <input
+                type="number"
+                class="form-control"
+                id="floatingMarbleshopSubItemMeasureXInput"
+                formControlName="measureX"
+                placeholder="Medida X"
+              />
+              <label for="floatingMarbleshopSubItemMeasureXInput"
+                >Medida X</label
+              >
+            </div>
+            <div class="form-floating col-1 mb-3">
+              <input
+                type="number"
+                class="form-control"
+                id="floatingMarbleshopSubItemMeasureYInput"
+                formControlName="measureY"
+                placeholder="Medida Y"
+              />
+              <label for="floatingMarbleshopSubItemMeasureYInput"
+                >Medida Y</label
+              >
+            </div>
+            <div class="form-floating col-1 mb-3">
+              <input
+                type="number"
+                class="form-control"
+                id="floatingMarbleshopSubItemQuantityInput"
+                formControlName="quantity"
+                placeholder="Quantidade"
+              />
+              <label for="floatingMarbleshopSubItemQuantityInput"
+                >Quantidade</label
+              >
+            </div>
+            <div class="form-floating col-2 mb-3">
+              <select
+                class="form-select"
+                id="floatingMarbleshopSubItemTypeInput"
+                formControlName="marbleshopSubItemType"
+              >
+                <option [value]="null" selected>
+                  Selecione o tipo do sub-item
+                </option>
+                @for (subItemType of marbleshopSubItemTypes; track $index) {
+                <option [value]="subItemType.value">
+                  {{ subItemType.name }}
+                </option>
+                }
+              </select>
+              <label for="floatingMarbleshopSubItemTypeInput"
+                >Tipo de item</label
+              >
+            </div>
+          </div>
+          @if (j !== getMarbleshopSubItemsFormArray(i).length - 1) {
+          <hr class="w-100" />
+          } }
+        </div>
+        }
       </div>
-      }
-
+      <div class="d-flex col-12 justify-content-end">
+        <button type="button" class="btn" (click)="addNewMarbleshopSubItem(i)">
+          <i class="bi bi-plus-lg"></i> Sub-Item
+        </button>
+      </div>
+      @if (i !== getMarbleshopItemsFormArray().length - 1) {
+      <hr />
+      } }
     </div>
-
-
   </div>
+  }
   <div class="d-flex justify-content-end gap-2">
-    <button type="button" class="btn" (click)="addNewMarbleshopItem()"><i class="bi bi-plus-lg"></i> Item
-      Principal</button>
-    <button type="button" class="btn" (click)="addNewMiscellaneousItem()"><i class="bi bi-plus-lg"></i> Item
-      Diverso</button>
-
+    <button type="button" class="btn" (click)="addNewMarbleshopItem()">
+      <i class="bi bi-plus-lg"></i> Item Principal
+    </button>
+    <button type="button" class="btn" (click)="addNewMiscellaneousItem()">
+      <i class="bi bi-plus-lg"></i> Item Diverso
+    </button>
   </div>
   <div class="d-flex justify-content-end gap-2 mt-3">
-    <button type="button" (click)="closeQuotationForm()" class="btn btn-secondary">
+    <button
+      type="button"
+      (click)="closeQuotationForm()"
+      class="btn btn-secondary"
+    >
       Cancelar
     </button>
-    <button type="button" (click)="submitQuotationForm()" class="btn btn-warning">
+    <button
+      type="button"
+      (click)="submitQuotationForm()"
+      class="btn btn-warning"
+    >
       @if (isSaving()) {
       <div class="spinner-border spinner-border-sm" role="status">
         <span class="visually-hidden">Loading...</span>

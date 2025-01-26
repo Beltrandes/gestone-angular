@@ -24,7 +24,10 @@
       class="accordion-collapse collapse"
       [attr.data-bs-parent]="'#accordion' + $index"
     >
-      <div class="accordion-body">
+      <div class="accordion-body position-relative">
+        <button type="button" (click)="generatePdfOfQuotation(quotation.id)" class="btn fs-2 position-absolute top-0 end-0">
+          <i class="bi bi-filetype-pdf"></i>
+        </button>
         <h6 class="text-center fw-semibold">Informações Principais</h6>
         <div class="row g-0">
           <div

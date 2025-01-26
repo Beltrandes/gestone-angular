@@ -1,7 +1,8 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { Quotation } from '../../domain/Quotation';
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import { QuotationStatusPipe } from '../../pipes/quotation-status.pipe';
+import { QuotationService } from '../../services/quotation.service';
 
 @Component({
   selector: 'app-quotation-list',
@@ -12,5 +13,15 @@ import { QuotationStatusPipe } from '../../pipes/quotation-status.pipe';
 })
 export class QuotationListComponent {
   quotations = input<Quotation[]>()
+
+  quotationService = inject(QuotationService)
+
+  generatePdfOfQuotation(quotationId: string) {
+    this.quotationService.generateQuotationPdf(quotationId).subscribe((pdf) => {
+      const blob = new Blob([pdf], { type: 'application/pdf' });
+      const url = window.URL.createObjectURL(blob);
+      window.open(url);
+    });
+  }
 
 }

@@ -33,7 +33,7 @@ export class CustomerFormComponent {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['customer'] && changes['customer'].currentValue) {
+    if (changes['customer']?.currentValue) {
       this.customerForm.patchValue({
         id: this.customer()?.id,
         name: this.customer()?.name,

@@ -45,6 +45,14 @@ export class AuthService {
     localStorage.setItem('marbleshopId', marbleshopId);
   }
 
+  saveUserEmail(email: string) {
+    localStorage.setItem('userEmail', email);
+  }
+
+  getUserEmail(): string | null {
+    return localStorage.getItem('userEmail');
+  }
+
   getMarbleshopId(): string | null {
     return this.marbleshopId ?? localStorage.getItem('marbleshopId');
   }
