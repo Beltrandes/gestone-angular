@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input, OnInit, output } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -16,6 +16,7 @@ import { MiscellaneousItem } from '../../domain/MiscellaneousItem';
 import { MaterialService } from '../../services/material.service';
 import { MarbleshopMaterial } from '../../domain/MarbleshopMaterial';
 import { MarbleshopSubItem } from '../../domain/MarbleshopSubItem';
+import { MiscellaneousMaterial } from '../../domain/MiscellaneousMaterial';
 
 @Component({
   selector: 'app-quotation-form',
@@ -24,16 +25,17 @@ import { MarbleshopSubItem } from '../../domain/MarbleshopSubItem';
   templateUrl: './quotation-form.component.html',
   styleUrl: './quotation-form.component.sass',
 })
-export class QuotationFormComponent {
+export class QuotationFormComponent implements OnInit {
   isSaving = input(false);
   customers!: Customer[]
   marbleshopMaterials!: MarbleshopMaterial[]
+  miscellaneousMaterials!: MiscellaneousMaterial[]
   quotationForm: FormGroup;
   authService = inject(AuthService)
   fb = inject(FormBuilder);
   submit = output<Quotation>();
   close = output();
-
+  quotation = input<Quotation>();
   customerService = inject(CustomerService)
   materialService = inject(MaterialService)
   marbleshopItemTypes = [
@@ -49,6 +51,14 @@ export class QuotationFormComponent {
     { name: 'Frontão', value: 'PEDIMENT' },
     { name: 'Saia', value: 'SKIRT' }
   ]
+
+  miscellaneousItemTypes = [
+    { name: 'Cuba', value: 'SINK_BOWL' },
+    { name: 'Cuba Louça', value: 'VANITY_BOWL' },
+    { name: 'Tanque', value: 'TANK_VAT' },
+    { name: 'Apoiador', value: 'HOLDER' },
+    { name: 'Suprimento', value: 'SUPPLIER' }
+  ]
   constructor() {
     this.quotationForm = this.fb.group({
       id: [''],
@@ -62,13 +72,40 @@ export class QuotationFormComponent {
       quotationStatus: [''],
       customerId: [''],
       userEmail: [this.authService.getUserEmail()],
-      marbleshopItemType: [''],
       marbleshopItems: this.fb.array([]),
       miscellaneousItems: this.fb.array([]),
       createdAt: [],
+      paymentCondition: ['']
     });
     this.loadCustomers()
     this.loadMarbleshopMaterials()
+    this.loadMiscellaneousMaterials()
+  }
+
+  ngOnInit() {
+    if (this.quotation()) {
+      const quotation = this.quotation();
+      if (quotation) {
+        this.quotationForm.patchValue({
+          id: [quotation.id],
+          name: [quotation.name],
+          details: [quotation.details],
+          address: [quotation.address],
+          deadlineDays: [quotation.deadlineDays],
+          daysForDue: [quotation.daysForDue],
+          totalValue: [quotation.totalValue],
+          totalArea: [quotation.totalArea],
+          quotationStatus: [quotation.quotationStatus],
+          customerId: [quotation.customer.id],
+          userEmail: [this.authService.getUserEmail()],
+          marbleshopItems: [quotation.marbleshopItems],
+          miscellaneousItems: [quotation.miscellaneousItems],
+          createdAt: [quotation.createdAt],
+          paymentCondition: [quotation.paymentCondition]
+        })
+      }
+
+    }
   }
 
   closeQuotationForm() {
@@ -87,6 +124,12 @@ export class QuotationFormComponent {
   loadMarbleshopMaterials() {
     this.materialService.getAllMarbleshopMaterials().subscribe((data) => {
       this.marbleshopMaterials = data
+    })
+  }
+
+  loadMiscellaneousMaterials() {
+    this.materialService.getAllMiscellaneousMaterials().subscribe((data) => {
+      this.miscellaneousMaterials = data
     })
   }
 
@@ -159,7 +202,7 @@ export class QuotationFormComponent {
     subItems.removeAt(subItemIndex);
   }
 
-  private createMiscellaneousItem(miscellaneousItem: MiscellaneousItem = { id: '', name: '', details: '', quantity: 1, unitValue: 0, totalValue: 0, miscellaneousMaterial: { id: '', name: '', details: '', price: 0, lastPrice: 0, miscellaneousMaterialType: '' } }) {
+  private createMiscellaneousItem(miscellaneousItem: MiscellaneousItem = { id: '', name: '', details: '', quantity: 1, unitValue: 0, totalValue: 0, miscellaneousMaterial: { id: '', name: '', details: '', price: 0, lastPrice: 0, miscellaneousMaterialType: '' }, miscellaneousItemType: '' }) {
     return this.fb.group({
       id: [miscellaneousItem.id],
       name: [miscellaneousItem.name],
@@ -167,7 +210,8 @@ export class QuotationFormComponent {
       quantity: [miscellaneousItem.quantity],
       unitValue: [miscellaneousItem.unitValue],
       totalValue: [miscellaneousItem.totalValue],
-      miscellaneousMaterial: [miscellaneousItem.miscellaneousMaterial]
+      miscellaneousItemType: [miscellaneousItem.miscellaneousItemType],
+      miscellaneousMaterialId: [miscellaneousItem.miscellaneousMaterial.id]
     })
   }
 

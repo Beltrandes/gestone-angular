@@ -18,4 +18,5 @@ export interface Quotation {
   marbleshopItems: MarbleshopItem[]
   miscellaneousItems: MiscellaneousItem[]
   createdAt: Date
+  paymentCondition: string
 }

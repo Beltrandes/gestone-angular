@@ -31,6 +31,7 @@ export class QuotationComponent {
   marbleshopId!: string | null;
   isSaving = signal<boolean>(false)
   toastr = inject(ToastrService);
+  quotation = signal<Quotation | undefined>(undefined);
   constructor() {
     this.loadQuotations();
   }
@@ -73,5 +74,9 @@ export class QuotationComponent {
         }, 2000);
       },
     });
+  }
+
+  editQuotation(quotationId: string) {
+    this.openQuotationForm()
   }
 }

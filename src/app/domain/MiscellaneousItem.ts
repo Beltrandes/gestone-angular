@@ -8,4 +8,5 @@ export interface MiscellaneousItem {
   unitValue: number,
   totalValue: number,
   miscellaneousMaterial: MiscellaneousMaterial
+  miscellaneousItemType: string
 }

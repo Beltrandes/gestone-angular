@@ -18,6 +18,10 @@ export class QuotationService {
     return this.http.get<Quotation[]>(`${this.apiUrl}/${marbleshopId}`);
   }
 
+  getQuotationById(quotationId: string): Observable<Quotation> {
+    return this.http.get<Quotation>(`${this.apiUrl}/${quotationId}`);
+  }
+
   saveQuotation(quotation: Quotation) {
     if (quotation.id) {
       return this.updateQuotation(quotation)

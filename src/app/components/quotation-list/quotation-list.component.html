@@ -10,12 +10,16 @@
         aria-expanded="true"
         [attr.aria-controls]="'#collapse' + $index"
       >
-        <div
-          class="main-infos text-black w-100 d-flex align-items-center justify-content-between pe-3"
-        >
-          <h6>{{ quotation.name }} de {{ quotation.customer.name }}</h6>
-          <span>{{ quotation.totalValue | currency : "BRL" }}</span>
-          <span>{{ quotation.totalArea | number : "1.0-3" }}m²</span>
+        <div class="main-infos text-black w-100 d-flex">
+          <span class="col-9"
+            >{{ quotation.name }} de {{ quotation.customer.name }}</span
+          >
+          <span class="col-2">{{
+            quotation.totalValue | currency : "BRL"
+          }}</span>
+          <span class="col-1"
+            >{{ quotation.totalArea | number : "1.0-3" }}m²</span
+          >
         </div>
       </button>
     </h2>
@@ -25,46 +29,62 @@
       [attr.data-bs-parent]="'#accordion' + $index"
     >
       <div class="accordion-body position-relative">
-        <button type="button" (click)="generatePdfOfQuotation(quotation.id)" class="btn fs-2 position-absolute top-0 end-0">
-          <i class="bi bi-filetype-pdf"></i>
-        </button>
+        <div class="position-absolute top-0 end-0 d-flex p-1 gap-2">
+          <button
+            type="button"
+            (click)="generatePdfOfQuotation(quotation.id)"
+            class="btn fs-2 p-1"
+          >
+            <i class="bi bi-filetype-pdf"></i>
+          </button>
+          <button
+            type="button"
+            (click)="editQuotation(quotation.id)"
+            class="btn fs-4 p-1"
+          >
+            <i class="bi bi-pencil"></i>
+          </button>
+        </div>
         <h6 class="text-center fw-semibold">Informações Principais</h6>
         <div class="row g-0">
-          <div
-            class="col-6 d-flex flex-column align-items-center justify-content-center"
-          >
-            <p class="mb-0">
+          <div class="col-6 d-flex flex-column align-items-center">
+            <p class="mb-0 w-100">
               <strong>Cliente:</strong>
               {{ quotation.customer.name }}
             </p>
-            <p class="mb-0">
+            <p class="mb-0 w-100">
               <strong>Endereço:</strong> {{ quotation.address }}
             </p>
-            <p class="mb-0">
+            <p class="mb-0 w-100">
+              <strong>Descrição:</strong> {{ quotation.details }}
+            </p>
+            <p class="mb-0 w-100">
               <strong>Status:</strong>
               {{ quotation.quotationStatus | quotationStatus }}
             </p>
-            <p class="mb-0"><strong>Área Total:</strong>
-              {{quotation.totalArea | number: '1.0-3'}}m²
+            <p class="mb-0 w-100">
+              <strong>Área Total:</strong>
+              {{ quotation.totalArea | number : "1.0-3" }}m²
             </p>
           </div>
-          <div
-            class="col-6 d-flex flex-column align-items-center justify-content-center"
-          >
-            <p class="mb-0">
+          <div class="col-6 d-flex flex-column align-items-center">
+            <p class="mb-0 w-100">
               <strong>Contato:</strong>
               {{ quotation.customer.phone }}
             </p>
-            <p class="mb-0">
+            <p class="mb-0 w-100">
               <strong>Gerado em:</strong>
               {{ quotation.createdAt | date : "dd/MM/yyyy" }}
             </p>
-            <p class="mb-0">
-              <strong>Prazo:</strong> {{ quotation.deadlineDays }} dias
+            <p class="mb-0 w-100">
+              <strong>Prazo de entrega:</strong>
+              {{ quotation.deadlineDays }} dias
             </p>
-            <p class="mb-0 bg-dark bg-opacity-25 px-2 py-1">
+            <p class="mb-0 w-100 fs-6 d-flex align-items-center">
               <strong>Valor Total:</strong>
-              {{quotation.totalValue | currency: 'BRL'}}
+              <span class="bg-dark ms-2 p-2 fw-semibold text-white">{{
+                quotation.totalValue | currency : "BRL"
+              }}</span>
             </p>
           </div>
         </div>
@@ -84,6 +104,9 @@
                 }}
               </div>
               <p class="mb-0">
+                <strong>Detalhes:</strong> {{ item.description }}
+              </p>
+              <p class="mb-0">
                 <strong>Quantidade:</strong> {{ item.quantity }}
               </p>
               <p class="mb-0">
@@ -100,6 +123,9 @@
             - {{ subItem.name }} - {{ subItem.measureX | number : "1.0-3" }}x{{
               subItem.measureY | number : "1.0-3"
             }}
+            @if (subItem.description != null && subItem.description != "") {
+            <span> - {{ subItem.description }}</span>
+            }
           </div>
           }
           <hr />
@@ -133,7 +159,7 @@
 
         <!-- Itens Diversos -->
         @if (quotation.miscellaneousItems.length > 0) {
-        <h6 class="text-center">Itens Diversos</h6>
+        <h6 class="text-center fw-semibold">Itens Diversos</h6>
         <div class="border rounded overflow-hidden">
           @for (miscellaneousItem of quotation.miscellaneousItems; track $index)
           {
