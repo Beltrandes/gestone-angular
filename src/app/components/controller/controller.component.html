@@ -1,4 +1,4 @@
-<div class="card shadow-sm mx-auto">
+<div class="card rounded-1 border-0 shadow-sm mx-auto">
   <div class="card-body">
     <h4 class="card-title">
       {{ controllerTitle() }}
@@ -15,13 +15,13 @@
         #searchString
         (keyup)="emitSearchString(searchString.value)"
           type="text"
-          class="form-control custom-input"
+          class="form-control custom-input rounded-1"
           placeholder="Pesquisar"
           aria-describedby="search"
 
         />
       </div>
-      <button (click)="emitAdd()" class="btn btn-warning d-flex align-items-center justify-content-center gap-2">
+      <button (click)="emitAdd()" class="btn btn-warning rounded-1 d-flex align-items-center justify-content-center gap-2">
         <span class="fs-4">+</span>
         {{ controllerPrimaryButtonText() }}
       </button>

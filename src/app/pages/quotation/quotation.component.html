@@ -9,7 +9,7 @@
         (add)="openQuotationForm()"
       ></app-controller>
       @if (isQuotationFormOpened()) {
-      <app-quotation-form (submit)="saveQuotation($event)" (close)="closeQuotationForm()" [isSaving]="isSaving()" [quotation]="quotation()"></app-quotation-form>
+      <app-quotation-form (submit)="saveQuotation($event)" (close)="closeQuotationForm()" [isSaving]="isSaving()" [quotation]="quotation"></app-quotation-form>
       } @if (quotations$ | async; as quotations) {
       <app-quotation-list [quotations]="quotations" (edit)="editQuotation($event)"></app-quotation-list>
       }

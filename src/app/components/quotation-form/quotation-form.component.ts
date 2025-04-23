@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, output } from '@angular/core';
+import { Component, inject, input, OnChanges, OnInit, output, SimpleChanges } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -83,30 +83,29 @@ export class QuotationFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.quotation()) {
-      const quotation = this.quotation();
-      if (quotation) {
-        this.quotationForm.patchValue({
-          id: [quotation.id],
-          name: [quotation.name],
-          details: [quotation.details],
-          address: [quotation.address],
-          deadlineDays: [quotation.deadlineDays],
-          daysForDue: [quotation.daysForDue],
-          totalValue: [quotation.totalValue],
-          totalArea: [quotation.totalArea],
-          quotationStatus: [quotation.quotationStatus],
-          customerId: [quotation.customer.id],
-          userEmail: [this.authService.getUserEmail()],
-          marbleshopItems: [quotation.marbleshopItems],
-          miscellaneousItems: [quotation.miscellaneousItems],
-          createdAt: [quotation.createdAt],
-          paymentCondition: [quotation.paymentCondition]
-        })
-      }
+    if (this.quotation) {
+      this.quotationForm.patchValue({
+        id: this.quotation()?.id,
+        name: this.quotation()?.name,
+        details: this.quotation()?.details,
+        address: this.quotation()?.address,
+        deadlineDays: this.quotation()?.deadlineDays,
+        daysForDue: this.quotation()?.daysForDue,
+        totalValue: this.quotation()?.totalValue,
+        totalArea: this.quotation()?.totalArea,
+        quotationStatus: this.quotation()?.quotationStatus,
+        customerId: this.quotation()?.customer.id,
+        userEmail: this.authService.getUserEmail(),
+        createdAt: this.quotation()?.createdAt,
+        paymentCondition: this.quotation()?.paymentCondition,
+      })
+      this.quotationForm.setControl('marbleshopItems', this.fb.array(this.retrieveMarbleshopItems(this.quotation())))
+      this.quotationForm.setControl('miscellaneousItems', this.fb.array(this.retrieveMiscellaneousItems(this.quotation())))
 
     }
   }
+
+
 
   closeQuotationForm() {
     this.close.emit()
@@ -133,57 +132,82 @@ export class QuotationFormComponent implements OnInit {
     })
   }
 
-  private retrieveMarbleshopItems(quotation: Quotation) {
-    const marbleshopItems = []
-    if (quotation.marbleshopItems.length) {
-      quotation.marbleshopItems.forEach(marbleshopItem => marbleshopItems.push(this.createMarbleshopItem(marbleshopItem)))
+  private retrieveMarbleshopItems(quotation: Quotation | undefined): FormGroup[] {
+    const marbleshopItems: FormGroup[] = [];
+    if (quotation?.marbleshopItems?.length) {
+      quotation.marbleshopItems.forEach(marbleshopItem => {
+        const itemForm = this.createMarbleshopItem(marbleshopItem);
+        if (marbleshopItem.marbleshopSubItems.length > 0) {
+          itemForm.setControl(
+            'marbleshopSubItems',
+            this.fb.array(this.retrieveMarbleshopSubItems(marbleshopItem))
+          );
+        }
+
+        marbleshopItems.push(itemForm);
+      });
     } else {
-      marbleshopItems.push(this.createMarbleshopItem())
+      marbleshopItems.push(this.createMarbleshopItem());
     }
-    return marbleshopItems
+    return marbleshopItems;
   }
 
-  private retrieveMiscellaneousItems(quotation: Quotation) {
-    const miscellaneousItems = []
-    if (quotation.miscellaneousItems.length) {
-      quotation.miscellaneousItems.forEach(miscellaneousItem => this.createMiscellaneousItem(miscellaneousItem))
+
+
+  private retrieveMarbleshopSubItems(marbleshopItem: MarbleshopItem | undefined): FormGroup[] {
+    const marbleshopSubItems: FormGroup[] = [];
+    if (marbleshopItem?.marbleshopSubItems?.length) {
+      marbleshopItem.marbleshopSubItems.forEach(subItem => {
+        marbleshopSubItems.push(this.createMarbleshopSubItem(subItem));
+      });
     } else {
-      miscellaneousItems.push(this.createMiscellaneousItem())
+      marbleshopSubItems.push(this.createMarbleshopSubItem());
     }
-    return miscellaneousItems
+    return marbleshopSubItems;
   }
+
+
+  private retrieveMiscellaneousItems(quotation: Quotation | undefined): FormGroup[] {
+    if (quotation?.miscellaneousItems.length) {
+      return quotation.miscellaneousItems.map(miscellaneousItem => this.createMiscellaneousItem(miscellaneousItem));
+    }
+    return [];
+  }
+
 
   private createMarbleshopItem(marbleshopItem: MarbleshopItem = { id: '', name: '', description: '', measureX: 0, measureY: 0, quantity: 1, unitValue: 0, unitArea: 0, totalValue: 0, totalArea: 0, marbleshopMaterial: { id: '', name: '', details: '', price: 0, lastPrice: 0, materialType: '' }, marbleshopItemType: '', marbleshopSubItems: [] }) {
     return this.fb.group({
-      id: [marbleshopItem.id],
-      name: [marbleshopItem.name, Validators.required],
-      description: [marbleshopItem.description],
-      measureX: [marbleshopItem.measureX],
-      measureY: [marbleshopItem.measureY],
-      quantity: [marbleshopItem.quantity],
-      unitValue: [marbleshopItem.unitValue],
-      unitArea: [marbleshopItem.unitArea],
-      totalValue: [marbleshopItem.totalValue],
-      totalArea: [marbleshopItem.totalArea],
-      marbleshopItemType: [marbleshopItem.marbleshopItemType],
-      marbleshopMaterialId: [marbleshopItem.marbleshopMaterial.id],
-      marbleshopSubItems: this.fb.array(marbleshopItem.marbleshopSubItems.map(subItem => this.createMarbleshopSubItem(subItem)))
+      id: marbleshopItem.id,
+      name: marbleshopItem.name,
+      description: marbleshopItem.description,
+      measureX: marbleshopItem.measureX,
+      measureY: marbleshopItem.measureY,
+      quantity: marbleshopItem.quantity,
+      unitValue: marbleshopItem.unitValue,
+      unitArea: marbleshopItem.unitArea,
+      totalValue: marbleshopItem.totalValue,
+      totalArea: marbleshopItem.totalArea,
+      marbleshopItemType: marbleshopItem.marbleshopItemType,
+      marbleshopMaterialId: marbleshopItem.marbleshopMaterial.id,
+      marbleshopSubItems: this.fb.array(
+        marbleshopItem.marbleshopSubItems.map(subItem => this.createMarbleshopSubItem(subItem))
+      )
     })
   }
 
   private createMarbleshopSubItem(marbleshopSubItem: MarbleshopSubItem = { id: '', name: '', description: '', measureX: 0, measureY: 0, quantity: 1, value: 0, area: 0, totalValue: 0, totalArea: 0, marbleshopSubItemType: '' }) {
     return this.fb.group({
-      id: [marbleshopSubItem.id],
-      name: [marbleshopSubItem.name],
-      description: [marbleshopSubItem.description],
-      measureX: [marbleshopSubItem.measureX],
-      measureY: [marbleshopSubItem.measureY],
-      quantity: [marbleshopSubItem.quantity],
-      value: [marbleshopSubItem.value],
-      area: [marbleshopSubItem.area],
-      totalValue: [marbleshopSubItem.totalValue],
-      totalArea: [marbleshopSubItem.totalArea],
-      marbleshopSubItemType: [marbleshopSubItem.marbleshopSubItemType]
+      id: marbleshopSubItem.id,
+      name: marbleshopSubItem.name,
+      description: marbleshopSubItem.description,
+      measureX: marbleshopSubItem.measureX,
+      measureY: marbleshopSubItem.measureY,
+      quantity: marbleshopSubItem.quantity,
+      value: marbleshopSubItem.value,
+      area: marbleshopSubItem.area,
+      totalValue: marbleshopSubItem.totalValue,
+      totalArea: marbleshopSubItem.totalArea,
+      marbleshopSubItemType: marbleshopSubItem.marbleshopSubItemType
     })
   }
 

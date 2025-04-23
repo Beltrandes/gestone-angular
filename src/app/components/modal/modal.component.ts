@@ -1,10 +1,8 @@
 import {
   Component,
-  ElementRef,
   input,
   output,
   signal,
-  ViewChild,
 } from '@angular/core';
 @Component({
   selector: 'app-modal',

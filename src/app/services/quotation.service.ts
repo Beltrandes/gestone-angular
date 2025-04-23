@@ -19,7 +19,7 @@ export class QuotationService {
   }
 
   getQuotationById(quotationId: string): Observable<Quotation> {
-    return this.http.get<Quotation>(`${this.apiUrl}/${quotationId}`);
+    return this.http.get<Quotation>(`${this.apiUrl}/id/${quotationId}`);
   }
 
   saveQuotation(quotation: Quotation) {

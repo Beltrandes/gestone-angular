@@ -60,8 +60,8 @@ export class CustomerComponent {
     this.openAddCustomerForm();
   }
 
-  saveCustomer(Customer: Customer) {
-    this.customerService.saveCustomer(Customer).subscribe({
+  saveCustomer(customer: Customer) {
+    this.customerService.saveCustomer(customer).subscribe({
       next: () => {
         this.isSaving.set(true);
       },

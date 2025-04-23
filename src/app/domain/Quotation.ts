@@ -14,7 +14,8 @@ export interface Quotation {
   totalArea: number,
   quotationStatus: string,
   customer: Customer,
-  marbleshopUser: MarbleshopUser
+  userEmail: string,
+  user: MarbleshopUser
   marbleshopItems: MarbleshopItem[]
   miscellaneousItems: MiscellaneousItem[]
   createdAt: Date

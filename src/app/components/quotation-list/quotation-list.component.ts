@@ -16,7 +16,7 @@ export class QuotationListComponent {
 
   quotationService = inject(QuotationService)
 
-  edit = output<string>()
+  edit = output<Quotation>()
 
   generatePdfOfQuotation(quotationId: string) {
     this.quotationService.generateQuotationPdf(quotationId).subscribe((pdf) => {
@@ -26,8 +26,9 @@ export class QuotationListComponent {
     });
   }
 
-  editQuotation(quotationId: string) {
-    this.edit.emit(quotationId);
+  editQuotation(quotation: Quotation) {
+    this.edit.emit(quotation);
+    console.log(quotation.marbleshopItems[0].id)
   }
 
 }
