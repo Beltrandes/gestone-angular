@@ -1,15 +1,25 @@
 @for (material of marbleshopMaterials(); track $index) {
-<div class="card mb-2 border-0 text-bg-white rounded-1">
+<div class="card mb-2 border-0 text-bg-white rounded-1 position-relative">
+  <div class="dropdown position-absolute top-0 end-0">
+    <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-three-dots-vertical"></i>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" type="button" (click)="editMarbleshopMaterial(material)"><i class="bi bi-pencil me-2"></i>Editar</a></li>
+      <li><a class="dropdown-item" type="button" (click)="deleteMarbleshopMaterial(material)"><i class="bi bi-trash me-2"></i>Excluir</a></li>
+    </ul>
+  </div>
   <div class="card-body d-flex justify-content-between">
     <div class="col-2">
       <h5 class="mb-0">{{ material.name }}</h5>
-      <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+        <button (click)="openUpdateMarbleshopMaterialPriceModal(material)" class="btn btn-sm btn-dark fs-6">
+          <i class="bi bi-pencil"></i>
+        </button>
         <h5 class="mb-0 lh-1 fs-5">
           {{ material.price | currency : "BRL" }}
         </h5>
-        <button (click)="openUpdateMaterialPriceModal(material.id)" class="btn btn-sm btn-dark fs-6">
-          <i class="bi bi-pencil"></i>
-        </button>
+        
       </div>
     </div>
     <div class="col-5">
@@ -18,7 +28,7 @@
     </div>
     <div class="col-2">
       <span class="fw-semibold">Último preço:</span>
-      {{ material.lastPrice }}
+      {{ material.lastPrice | currency : "BRL"  }}
     </div>
     <div class="col-2">
       <span class="fw-semibold">Tipo:</span>

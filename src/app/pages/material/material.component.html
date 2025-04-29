@@ -2,67 +2,70 @@
   <app-navbar></app-navbar>
   <div class="row">
     <div class="col-10 mx-auto py-3 d-flex flex-column">
-      <app-controller
-        controllerTitle="Materiais"
-        controllerIconText="back"
-        controllerPrimaryButtonText="Adicionar material"
-        (add)="openModal('materialType')"
-      ></app-controller>
-      @if (isMaterialFormOpened()) {
-      <app-material-form
-        (close)="closeAddMaterialForm()"
-        (submit)="saveMaterial($event)"
-        [isSaving]="isSaving()"
-        [material]="editingMaterial"
-        [formType]="materialType()"
-      ></app-material-form>
+      <app-controller controllerTitle="Materiais" controllerIconText="back" class="mb-3"
+        controllerPrimaryButtonText="Adicionar material" (add)="openModal('materialType')"></app-controller>
+      @if (isMarbleshopMaterialFormOpened()) {
+      <app-marbleshop-material-form (close)="closeMarbleshopMaterialForm()" (submit)="saveMarbleshopMaterial($event)"
+        [isSaving]="isSaving()" [marbleshopMaterial]="editingMarbleshopMaterial"></app-marbleshop-material-form>
       }
-      <h3 class="mt-3 text-center">Pedras</h3>
-      @if (marbleshopMaterials$ | async; as marbleshopMaterials) {
-      <app-marbleshop-material-list
-        [marbleshopMaterials]="marbleshopMaterials"
-        (openModel)="openModal('updatePrice')"
-      ></app-marbleshop-material-list>
-      }
-      <hr class="w-100" />
-      <h3 class="text-center">Outros Materiais</h3>
-      @if (miscellaneousMaterials$ | async; as miscellaneousMaterials) {
-      <app-miscellaneous-material-list
-        [miscellaneousMaterials]="miscellaneousMaterials"
-      ></app-miscellaneous-material-list>
+      @if (isMiscellaneousMaterialFormOpened()) {
+      <app-miscellaneous-material-form (close)="closeMiscellaneousMaterialForm()"
+        (submit)="saveMiscellaneousMaterial($event)" [isSaving]="isSaving()"
+        [miscellaneousMaterial]="editingMiscellaneousMaterial"></app-miscellaneous-material-form>
       }
     </div>
+
+    @if (marbleshopMaterials$ | async; as marbleshopMaterials) {
+    <div class="col-10 mx-auto">
+      <h3 class="text-center">Pedras</h3>
+      <app-marbleshop-material-list [marbleshopMaterials]="marbleshopMaterials"
+        (openModal)="openModal('updatePrice', $event.id, $event.price, 'marbleshop')"
+        (edit)="editMarbleshopMaterial($event)"
+        (delete)="openDeleteMarbleshopMaterialModal($event)"></app-marbleshop-material-list>
+    </div>
+    }
+    <hr class="w-50 mx-auto mt-3 mb-3" />
+
+    @if (miscellaneousMaterials$ | async; as miscellaneousMaterials) {
+    <div class="col-10 mx-auto">
+      <h3 class="text-center">Outros Materiais</h3>
+      <app-miscellaneous-material-list [miscellaneousMaterials]="miscellaneousMaterials"
+        (openModal)="openModal('updatePrice', $event.id, $event.price, 'miscellaneous')"
+        (edit)="editMiscellaneousMaterial($event)"
+        ></app-miscellaneous-material-list>
+    </div>
+    }
   </div>
 </div>
-
-<app-modal
-  (confirm)="confirmModal()"
-  modalConfirmActionButtonText="Confirmar"
-  modalConfirmActionButtonColor="info"
->
+<app-modal (confirm)="confirmModal()"  modalConfirmActionButtonText="Confirmar"  [modalConfirmActionButtonColor]="modalConfirmActionButtonColor()">
   @if (modalType() === 'materialType') {
   <h5>Que tipo de material quer adicionar ?</h5>
   <div class="d-flex align-items-center justify-content-center gap-3">
-    <button
-      (click)="selectType('marbleshop')"
-      type="button"
-      class="btn bg-light w-25"
-      [ngClass]="materialType() === 'marbleshop' ? 'active' : 'inactive'"
-    >
+    <button (click)="selectType('marbleshop')" type="button" class="btn bg-light w-25"
+      [ngClass]="materialType() === 'marbleshop' ? 'active' : 'inactive'">
       Pedras @if (materialType() === 'marbleshop') {
       <i class="bi bi-check-lg"></i>
       }
     </button>
-    <button
-      (click)="selectType('miscellaneous')"
-      type="button"
-      class="btn bg-light w-25"
-      [ngClass]="materialType() === 'miscellaneous' ? 'active' : 'inactive'"
-    >
+    <button (click)="selectType('miscellaneous')" type="button" class="btn bg-light w-25"
+      [ngClass]="materialType() === 'miscellaneous' ? 'active' : 'inactive'">
       Diversos @if (materialType() === 'miscellaneous') {
       <i class="bi bi-check-lg"></i>
       }
     </button>
   </div>
   }
+  @if (modalType() === 'updatePrice') {
+  <h5 class="text-center">Qual será o novo preço?</h5>
+  <div class="d-flex align-items-center justify-content-center">
+    <div class="form-floating w-50">
+      <input type="number" class="form-control" [(ngModel)]="price" id="materialPriceInput">
+      <label for="materialPriceInput">Preço</label>
+    </div>
+  </div>
+  }
+  @if (modalType() === 'delete') {
+    <h5 class="text-center">Confirme a ação</h5>
+    <p class="mb-0 fs-5">Deseja mesmo excluir o material <strong class="text-danger"> {{ editingMarbleshopMaterial.name}}</strong>?</p>
+    }
 </app-modal>

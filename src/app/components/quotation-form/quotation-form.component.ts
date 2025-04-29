@@ -13,10 +13,11 @@ import { Customer } from '../../domain/Customer';
 import { Quotation } from '../../domain/Quotation';
 import { MarbleshopItem } from '../../domain/MarbleshopItem';
 import { MiscellaneousItem } from '../../domain/MiscellaneousItem';
-import { MaterialService } from '../../services/material.service';
+import { MarbleshopMaterialService } from '../../services/marbleshop-material.service';
 import { MarbleshopMaterial } from '../../domain/MarbleshopMaterial';
 import { MarbleshopSubItem } from '../../domain/MarbleshopSubItem';
 import { MiscellaneousMaterial } from '../../domain/MiscellaneousMaterial';
+import { MiscellaneousMaterialService } from '../../services/miscellaneous-material.service';
 
 @Component({
   selector: 'app-quotation-form',
@@ -37,7 +38,8 @@ export class QuotationFormComponent implements OnInit {
   close = output();
   quotation = input<Quotation>();
   customerService = inject(CustomerService)
-  materialService = inject(MaterialService)
+  marbleshopMaterialService = inject(MarbleshopMaterialService)
+  miscellaneousMaterialService = inject(MiscellaneousMaterialService)
   marbleshopItemTypes = [
     { name: 'Bancada', value: 'WORKTOP' },
     { name: 'Ilha', value: 'ISLAND_TOP' },
@@ -121,13 +123,13 @@ export class QuotationFormComponent implements OnInit {
   }
 
   loadMarbleshopMaterials() {
-    this.materialService.getAllMarbleshopMaterials().subscribe((data) => {
+    this.marbleshopMaterialService.getAllMarbleshopMaterials().subscribe((data) => {
       this.marbleshopMaterials = data
     })
   }
 
   loadMiscellaneousMaterials() {
-    this.materialService.getAllMiscellaneousMaterials().subscribe((data) => {
+    this.miscellaneousMaterialService.getAllMiscellaneousMaterials().subscribe((data) => {
       this.miscellaneousMaterials = data
     })
   }

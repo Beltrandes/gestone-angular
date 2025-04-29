@@ -8,13 +8,22 @@ import { MarbleshopMaterialTypePipe } from '../../pipes/marbleshop-material-type
   standalone: true,
   imports: [CurrencyPipe, MarbleshopMaterialTypePipe],
   templateUrl: './marbleshop-material-list.component.html',
-  styleUrl: './marbleshop-material-list.component.sass'
 })
 export class MarbleshopMaterialListComponent {
 
   marbleshopMaterials = input<MarbleshopMaterial[]>()
-  openModel = output<boolean>()
-  openUpdateMaterialPriceModal(materialId: string) {
-    this.openModel.emit(true)
+  openModal = output<MarbleshopMaterial>()
+  edit = output<MarbleshopMaterial>()
+  delete = output<MarbleshopMaterial>()
+  openUpdateMarbleshopMaterialPriceModal(marbleshopMaterial: MarbleshopMaterial) {
+    this.openModal.emit(marbleshopMaterial)
+  }
+
+  editMarbleshopMaterial(marbleshopMaterial: MarbleshopMaterial) {
+    this.edit.emit(marbleshopMaterial)
+  }
+
+  deleteMarbleshopMaterial(marbleshopMaterial: MarbleshopMaterial) {
+    this.delete.emit(marbleshopMaterial)
   }
 }

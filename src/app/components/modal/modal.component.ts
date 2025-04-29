@@ -17,7 +17,7 @@ export class ModalComponent {
   modalConfirmActionButtonColor = input('primary');
 
   confirm = output();
-
+  close = output();
   openModal(modalTitle: string) {
     const modal = document.getElementById('modal');
     if (modal != null) {

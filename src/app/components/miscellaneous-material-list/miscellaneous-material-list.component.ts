@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { MiscellaneousMaterial } from '../../domain/MiscellaneousMaterial';
 import { CurrencyPipe } from '@angular/common';
 import { MiscellaneousMaterialTypePipe } from '../../pipes/miscellaneous-material-type.pipe';
@@ -8,8 +8,21 @@ import { MiscellaneousMaterialTypePipe } from '../../pipes/miscellaneous-materia
   standalone: true,
   imports: [CurrencyPipe, MiscellaneousMaterialTypePipe],
   templateUrl: './miscellaneous-material-list.component.html',
-  styleUrl: './miscellaneous-material-list.component.sass'
 })
 export class MiscellaneousMaterialListComponent {
   miscellaneousMaterials = input<MiscellaneousMaterial[]>()
+  openModal = output<MiscellaneousMaterial>()
+  edit = output<MiscellaneousMaterial>()
+  delete = output<MiscellaneousMaterial>()
+  openUpdateMiscellaneousMaterialPrice(miscellaneousMaterial: MiscellaneousMaterial) {
+    this.openModal.emit(miscellaneousMaterial)
+  }
+
+  editMiscellaneousMaterial(miscellaneousMaterial: MiscellaneousMaterial) {
+    this.edit.emit(miscellaneousMaterial)
+  }
+
+  deleteMiscellaneousMaterial(miscellaneousMaterial: MiscellaneousMaterial) {
+    this.delete.emit(miscellaneousMaterial)
+  }
 }
