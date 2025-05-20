@@ -81,7 +81,6 @@ export class QuotationComponent {
     this.closeQuotationForm()
     this.quotation = quotation;
     this.openQuotationForm()
-    console.log(quotation)
-
+    console.log('editando: ' + quotation.id)
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject, NgModule, signal, ViewChild } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { ControllerComponent } from '../../components/controller/controller.component';
 import { map, Observable } from 'rxjs';
@@ -80,7 +80,7 @@ export class MaterialComponent {
     }
 
     if (this.modalType() === 'updatePrice' && this.materialType() === 'marbleshop') {
-      this.marbleshopMaterialService.updateMarbleshopMaterialPrice({ materialId: this.materialId!!, price: this.price!! }).subscribe({
+      this.marbleshopMaterialService.updateMarbleshopMaterialPrice({ materialId: this.materialId!, price: this.price! }).subscribe({
         next: () => {
           this.loadMarbleshopMaterials()
         },
@@ -88,7 +88,7 @@ export class MaterialComponent {
       })
     }
     if (this.modalType() === 'updatePrice' && this.materialType() === 'miscellaneous') {
-      this.miscellaneousMaterialService.updateMiscellaneousMaterialPrice({ materialId: this.materialId!!, price: this.price!! }).subscribe({
+      this.miscellaneousMaterialService.updateMiscellaneousMaterialPrice({ materialId: this.materialId!, price: this.price! }).subscribe({
         next: () => {
           this.loadMiscellaneousMaterials()
         },
@@ -96,7 +96,7 @@ export class MaterialComponent {
       })
     }
     if (this.modalType() === 'delete' && this.materialType() === 'marbleshop') {
-      this.marbleshopMaterialService.deleteMarbleshopMaterial(this.materialId!!).subscribe({
+      this.marbleshopMaterialService.deleteMarbleshopMaterial(this.materialId!).subscribe({
         next: () => {
           this.loadMarbleshopMaterials()
         },
@@ -104,7 +104,7 @@ export class MaterialComponent {
       })
     }
     if (this.modalType() === 'delete' && this.materialType() === 'miscellaneous') {
-      this.miscellaneousMaterialService.deleteMiscellaneousMaterial(this.materialId!!).subscribe({
+      this.miscellaneousMaterialService.deleteMiscellaneousMaterial(this.materialId!).subscribe({
         next: () => {
           this.loadMiscellaneousMaterials()
         },
@@ -176,10 +176,10 @@ export class MaterialComponent {
 
       this.modal?.openModal('Preencha o campo')
     }
-    this.selectType(materialType!!)
+    this.selectType(materialType!)
     if (modalType === 'delete' && this.materialType() === 'marbleshop') {
       this.modalType.set(modalType)
-      this.materialId = this.editingMarbleshopMaterial.id!!
+      this.materialId = this.editingMarbleshopMaterial.id!
       this.modalConfirmActionButtonColor.set('danger')
       this.modal?.openModal('Deseja realmente excluir?')
     }

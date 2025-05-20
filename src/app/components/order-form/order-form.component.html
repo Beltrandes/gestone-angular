@@ -1,0 +1,148 @@
+<form [formGroup]="orderForm" class="card px-3 py-2 bg-light">
+  <div
+    class="card-header d-flex align-items-center justify-content-between mb-3"
+  >
+    <div class="form-titles">
+      <h5 class="card-title">Gerando pedido</h5>
+      <h6 class="card-subtitle">Preencha os dados</h6>
+    </div>
+    <button
+      (click)="closeOrderForm()"
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="d-flex gap-2">
+    <div class="form-floating mb-3 col-3">
+      <input
+        type="text"
+        class="form-control"
+        id="floatingWorkAddressInput"
+        placeholder="name@example.com"
+        formControlName="workAddress"
+      />
+      <label for="floatingWorkAddressInput">Endereço da obra</label>
+    </div>
+    <div class="form-floating col-3">
+      <input
+        type="number"
+        class="form-control"
+        id="floatingDiscountInput"
+        placeholder=""
+        formControlName="discount"
+      />
+      <label for="floatingDiscountInput">Desconto</label>
+    </div>
+    <div class="form-floating mb-3 col-2">
+      <input
+        type="text"
+        class="form-control"
+        id="floatingNotesInput"
+        placeholder=""
+        formControlName="notes"
+      />
+      <label for="floatingNotesInput">Notas</label>
+    </div>
+    <div class="form-floating col-3">
+      <select
+        type="type"
+        class="form-select"
+        id="floatingQuotationInput"
+        placeholder="Selecione uma cotação"
+        formControlName="quotationId"
+      >
+      <option [value]="null" selected>
+              Selecione uma cotação
+            </option>
+        @for(quotation of quotations(); track $index) {
+        <option [value]="quotation.id">
+          {{ quotation.name }} de {{ quotation.customer.name }}
+        </option>
+        }
+      </select>
+      <label for="floatingQuotationInput">Cotação</label>
+    </div>
+  </div>
+  @defer (when getPaymentsFormArray().length > 0) {
+  <div class="border rounded p-2 items-background">
+    <h6 class="text-center fw-bold">Pagamentos</h6>
+    <div formArrayName="payments" class="col-12">
+      @for (payment of getPaymentsFormArray(); track $index; let i = $index) {
+      <div
+        [formGroupName]="i"
+        class="d-flex w-100 justify-content-between flex-wrap"
+      >
+        <h6
+          class="fw-semibold col-12 d-flex justify-content-between align-items-center"
+        >
+          Pagamento {{ i + 1 }}
+          <button
+            type="button"
+            class="btn text-danger fs-5"
+            (click)="removePayment(i)"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+        </h6>
+        <div class="form-floating col-2 mb-3">
+          <input
+            type="number"
+            class="form-control"
+            id="floatingPaymentPayedValueInput"
+            formControlName="payedValue"
+            placeholder="Nome"
+          />
+          <label for="floatingPaymentPayedValueInput">Valor Pago</label>
+        </div>
+        <div class="form-floating col-6 mb-3">
+          <input
+            type="text"
+            class="form-control"
+            id="floatingPaymentDetailsInput"
+            formControlName="details"
+            placeholder="Descrição"
+          />
+          <label for="floatingPaymentDetailsInput">Detalhes</label>
+        </div>
+        <div class="form-floating col-3 mb-3">
+          <select
+            class="form-select"
+            id="floatingQuotationInput"
+            formControlName="paymentType"
+          >
+            <option [value]="null" selected>
+              Selecione um tipo de pagamento
+            </option>
+            @for (paymentType of paymentTypes; track $index) {
+            <option [value]="paymentType.value">{{ paymentType.name }}</option>
+            }
+          </select>
+          <label for="floatingQuotationInput">Tipo de pagamento</label>
+        </div>
+      </div>
+
+      @if (i !== getPaymentsFormArray().length - 1) {
+      <hr />
+      } }
+    </div>
+  </div>
+  }
+  <div class="d-flex col-12 justify-content-end">
+    <button type="button" class="btn" (click)="addNewPayment()">
+      <i class="bi bi-plus-lg"></i> Pagamento
+    </button>
+  </div>
+  <div class="d-flex justify-content-end gap-2 mt-3">
+    <button type="button" (click)="closeOrderForm()" class="btn btn-secondary">
+      Cancelar
+    </button>
+    <button type="button" (click)="submitOrderForm()" class="btn btn-warning">
+      @if (isSaving()) {
+      <div class="spinner-border spinner-border-sm" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      Salvando } @else { Salvar }
+    </button>
+  </div>
+</form>

@@ -1,0 +1,18 @@
+<div class="container-fluid bg-white h-100">
+  <app-navbar></app-navbar>
+  <div class="row">
+    <div class="col-10 mx-auto py-3 d-flex flex-column gap-3">
+      <app-controller
+        controllerTitle="Pedidos"
+        controllerIconText="clipboard2"
+        controllerPrimaryButtonText="Gerar pedido"
+        (add)="openOrderForm()"
+      ></app-controller>
+      @if (isFormOpened()) {
+      <app-order-form (close)="closeOrderForm()" (submit)="saveOrder($event)"></app-order-form>
+      } @if (orders$ | async; as orders) {
+      <app-order-list [orders]="orders"></app-order-list>
+      }
+    </div>
+  </div>
+</div>

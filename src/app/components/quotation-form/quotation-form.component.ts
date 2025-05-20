@@ -151,6 +151,7 @@ export class QuotationFormComponent implements OnInit {
     } else {
       marbleshopItems.push(this.createMarbleshopItem());
     }
+    console.log(marbleshopItems.forEach(item => console.log(item.value)))
     return marbleshopItems;
   }
 
@@ -271,6 +272,7 @@ export class QuotationFormComponent implements OnInit {
 
   removeMarbleshopItem(index: number) {
     const marbleshopItems = this.quotationForm.get('marbleshopItems') as UntypedFormArray
+    console.log(index)
     marbleshopItems.removeAt(index)
   }
 
