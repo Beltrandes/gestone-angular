@@ -12,6 +12,7 @@ export class AuthService {
   private readonly apiUrl = 'http://localhost:8080/api/v1/auth';
   private readonly token: string | null = null;
   private readonly marbleshopId: string | null = null;
+  private readonly marbleshopName: string | null = null;
 
   constructor(private readonly http: HttpClient) {}
 
@@ -35,6 +36,7 @@ export class AuthService {
   logout() {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('marbleshopId');
+    localStorage.removeItem('marbleshopName')
   }
 
   saveToken(token: string) {
@@ -43,6 +45,10 @@ export class AuthService {
 
   saveMarbleshopId(marbleshopId: string) {
     localStorage.setItem('marbleshopId', marbleshopId);
+  }
+
+  saveMarbleshopName(marbleshopName: string) {
+    localStorage.setItem('marbleshopName', marbleshopName);
   }
 
   saveUserEmail(email: string) {
@@ -59,5 +65,9 @@ export class AuthService {
 
   getToken(): string | null {
     return this.token ?? localStorage.getItem('jwtToken');
+  }
+
+  getMarbleshopName(): string | null {
+    return this.marbleshopName ?? localStorage.getItem('marbleshopName')
   }
 }

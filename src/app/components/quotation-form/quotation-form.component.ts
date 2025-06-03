@@ -1,11 +1,10 @@
-import { Component, inject, input, OnChanges, OnInit, output, SimpleChanges } from '@angular/core';
+import { Component, ElementRef, inject, input, OnChanges, OnInit, output, QueryList, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   UntypedFormArray,
-  Validators,
 } from '@angular/forms';
 import { CustomerService } from '../../services/customer.service';
 import { AuthService } from '../../services/auth.service';
@@ -40,6 +39,7 @@ export class QuotationFormComponent implements OnInit {
   customerService = inject(CustomerService)
   marbleshopMaterialService = inject(MarbleshopMaterialService)
   miscellaneousMaterialService = inject(MiscellaneousMaterialService)
+  @ViewChildren('subItemMeasureYInputs') subItemMeasureYInputs?: QueryList<ElementRef>
   marbleshopItemTypes = [
     { name: 'Bancada', value: 'WORKTOP' },
     { name: 'Ilha', value: 'ISLAND_TOP' },
@@ -51,7 +51,9 @@ export class QuotationFormComponent implements OnInit {
   ]
   marbleshopSubItemTypes = [
     { name: 'Frontão', value: 'PEDIMENT' },
-    { name: 'Saia', value: 'SKIRT' }
+    { name: 'Saia', value: 'SKIRT' },
+    { name: 'Pé', value: 'FEET'},
+    { name: 'Outro', value: 'OTHER'}
   ]
 
   miscellaneousItemTypes = [
@@ -198,7 +200,7 @@ export class QuotationFormComponent implements OnInit {
     })
   }
 
-  private createMarbleshopSubItem(marbleshopSubItem: MarbleshopSubItem = { id: '', name: '', description: '', measureX: 0, measureY: 0, quantity: 1, value: 0, area: 0, totalValue: 0, totalArea: 0, marbleshopSubItemType: '' }) {
+  createMarbleshopSubItem(marbleshopSubItem: MarbleshopSubItem = { id: '', name: '', description: '', measureX: 0, measureY: 0, quantity: 1, value: 0, area: 0, totalValue: 0, totalArea: 0, marbleshopSubItemType: '' }) {
     return this.fb.group({
       id: marbleshopSubItem.id,
       name: marbleshopSubItem.name,
@@ -219,6 +221,48 @@ export class QuotationFormComponent implements OnInit {
     const marbleshopItem = marbleshopItems.at(itemIndex) as FormGroup;
     const subItems = marbleshopItem.get('marbleshopSubItems') as FormArray;
     subItems.push(this.createMarbleshopSubItem());
+  }
+
+  addNewMarbleshopItemPediment(itemIndex: number, direction: string) {
+    const marbleshopItems = this.quotationForm.get('marbleshopItems') as FormArray;
+    const marbleshopItem = marbleshopItems.at(itemIndex) as FormGroup;
+    const subItems = marbleshopItem.get('marbleshopSubItems') as FormArray;
+    if (direction == 'front') {
+      subItems.push(this.createMarbleshopSubItem({ id: '', name: 'Frontão Frontal', description: '', measureX: marbleshopItem.get('measureX')?.value as number, measureY: 0, quantity: 1, value: 0, area: 0, totalValue: 0, totalArea: 0, marbleshopSubItemType: this.marbleshopSubItemTypes.at(0)?.value! }));
+    }
+    if (direction == 'side') {
+      subItems.push(this.createMarbleshopSubItem({ id: '', name: 'Frontão Lateral', description: '', measureX: marbleshopItem.get('measureY')?.value as number, measureY: 0, quantity: 1, value: 0, area: 0, totalValue: 0, totalArea: 0, marbleshopSubItemType: this.marbleshopSubItemTypes.at(0)?.value! }));
+    }
+
+    setTimeout(() => {
+      if (this.subItemMeasureYInputs && this.subItemMeasureYInputs.length > 0) {
+        const lastInput = this.subItemMeasureYInputs.last;
+        if (lastInput) {
+          lastInput.nativeElement.focus();
+        }
+      }
+    })
+  }
+
+  addNewMarbleshopItemSkirt(itemIndex: number, direction: string) {
+    const marbleshopItems = this.quotationForm.get('marbleshopItems') as FormArray;
+    const marbleshopItem = marbleshopItems.at(itemIndex) as FormGroup;
+    const subItems = marbleshopItem.get('marbleshopSubItems') as FormArray;
+    if (direction == 'front') {
+      subItems.push(this.createMarbleshopSubItem({ id: '', name: 'Saia Frontal', description: '', measureX: marbleshopItem.get('measureX')?.value as number, measureY: 0, quantity: 1, value: 0, area: 0, totalValue: 0, totalArea: 0, marbleshopSubItemType: this.marbleshopSubItemTypes.at(1)?.value! }));
+    }
+    if (direction == 'side') {
+      subItems.push(this.createMarbleshopSubItem({ id: '', name: 'Saia Lateral', description: '', measureX: marbleshopItem.get('measureY')?.value as number, measureY: 0, quantity: 1, value: 0, area: 0, totalValue: 0, totalArea: 0, marbleshopSubItemType: this.marbleshopSubItemTypes.at(1)?.value! }));
+    }
+
+    setTimeout(() => {
+      if (this.subItemMeasureYInputs && this.subItemMeasureYInputs.length > 0) {
+        const lastInput = this.subItemMeasureYInputs.last;
+        if (lastInput) {
+          lastInput.nativeElement.focus();
+        }
+      }
+    })
   }
 
   removeMarbleshopSubItem(itemIndex: number, subItemIndex: number) {

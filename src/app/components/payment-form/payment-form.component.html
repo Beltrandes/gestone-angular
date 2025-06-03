@@ -1,0 +1,80 @@
+<form [formGroup]="paymentForm" class="card px-3 py-2 bg-light">
+  <div
+    class="card-header d-flex align-items-center justify-content-between mb-3"
+  >
+    <div class="form-titles">
+      <h5 class="card-title">Registrando pagamento</h5>
+      <h6 class="card-subtitle">Preencha os dados</h6>
+    </div>
+    <button
+      (click)="closePaymentForm()"
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="d-flex gap-2">
+    <div class="form-floating col-2 mb-3">
+      <input
+        type="number"
+        class="form-control"
+        id="floatingPaymentPayedValueInput"
+        formControlName="payedValue"
+        placeholder="Nome"
+      />
+      <label for="floatingPaymentPayedValueInput">Valor Pago</label>
+    </div>
+    <div class="form-floating col-3 mb-3">
+      <input
+        type="text"
+        class="form-control"
+        id="floatingPaymentDetailsInput"
+        formControlName="details"
+        placeholder="Descrição"
+      />
+      <label for="floatingPaymentDetailsInput">Detalhes</label>
+    </div>
+    <div class="form-floating col-2 mb-3">
+      <select
+        class="form-select"
+        id="floatingPaymentTypeSelect"
+        formControlName="paymentType"
+      >
+        <option [value]="null" selected>Selecione um tipo de pagamento</option>
+        @for (paymentType of paymentTypes; track $index) {
+        <option [value]="paymentType.value">{{ paymentType.name }}</option>
+        }
+      </select>
+      <label for="floatingPaymentTypeSelect">Tipo de pagamento</label>
+    </div>
+    <div class="form-floating mb-3">
+      <select
+        class="form-select"
+        id="floatingQuotationInput"
+        formControlName="marbleshopOrderId"
+      >
+        <option [value]="null" selected>Selecione o pedido do pagamento</option>
+        @for (order of orders(); track $index) {
+        <option [value]="order.id">Pedido {{order.localId}} de {{ order.customer.name }}</option>
+        }
+      </select>
+      <label for="floatingQuotationInput">Pedido</label>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end gap-2 mt-3">
+    <button
+      type="button"
+      (click)="closePaymentForm()"
+      class="btn btn-secondary"
+    >
+      Cancelar
+    </button>
+    <button type="button" (click)="submitPaymentForm()" class="btn btn-warning">
+      @if (isSaving()) {
+      <div class="spinner-border spinner-border-sm" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      Salvando } @else { Salvar }
+    </button>
+  </div>
+</form>

@@ -14,15 +14,18 @@
           <span class="col-9"
             >{{ quotation.name }} de {{ quotation.customer.name }}</span
           >
+
           <span class="col-2">{{
             quotation.totalValue | currency : "BRL"
           }}</span>
+
           <span class="col-1"
             >{{ quotation.totalArea | number : "1.0-3" }}m²</span
           >
         </div>
       </button>
     </h2>
+
     <div
       id="collapse{{ $index }}"
       class="accordion-collapse collapse"
@@ -32,11 +35,20 @@
         <div class="position-absolute top-0 end-0 d-flex p-1 gap-2">
           <button
             type="button"
+            (click)="copyQuotation(quotation)"
+            class="btn fs-2 p-1"
+          >
+            <i class="bi bi-copy"></i>
+          </button>
+
+          <button
+            type="button"
             (click)="generatePdfOfQuotation(quotation.id)"
             class="btn fs-2 p-1"
           >
             <i class="bi bi-filetype-pdf"></i>
           </button>
+
           <button
             type="button"
             (click)="editQuotation(quotation)"
@@ -45,41 +57,52 @@
             <i class="bi bi-pencil"></i>
           </button>
         </div>
+
         <h6 class="text-center fw-semibold">Informações Principais</h6>
+
         <div class="row g-0">
           <div class="col-6 d-flex flex-column align-items-center">
             <p class="mb-0 w-100">
               <strong>Cliente:</strong>
               {{ quotation.customer.name }}
             </p>
+
             <p class="mb-0 w-100">
               <strong>Endereço:</strong> {{ quotation.address }}
             </p>
+
             <p class="mb-0 w-100">
-              <strong>Descrição:</strong> {{ quotation.details }}
+              <strong>Descrição:</strong>
+              {{ quotation.details }}
             </p>
+
             <p class="mb-0 w-100">
               <strong>Status:</strong>
               {{ quotation.quotationStatus | quotationStatus }}
             </p>
+
             <p class="mb-0 w-100">
               <strong>Área Total:</strong>
               {{ quotation.totalArea | number : "1.0-3" }}m²
             </p>
           </div>
+
           <div class="col-6 d-flex flex-column align-items-center">
             <p class="mb-0 w-100">
               <strong>Contato:</strong>
               {{ quotation.customer.phone }}
             </p>
+
             <p class="mb-0 w-100">
               <strong>Gerado em:</strong>
               {{ quotation.createdAt | date : "dd/MM/yyyy" }}
             </p>
+
             <p class="mb-0 w-100">
               <strong>Prazo de entrega:</strong>
               {{ quotation.deadlineDays }} dias
             </p>
+
             <p class="mb-0 w-100 fs-6 d-flex align-items-center">
               <strong>Valor Total:</strong>
               <span class="bg-dark ms-2 p-2 fw-semibold text-white">{{
@@ -88,6 +111,7 @@
             </p>
           </div>
         </div>
+
         <hr />
 
         <h6 class="text-center fw-semibold">Itens Principais</h6>
@@ -96,6 +120,7 @@
         <div class="mb-2 border rounded overflow-hidden">
           <div class="px-2 py-1 bg-dark bg-opacity-10 mb-2">
             <h6>Item {{ $index + 1 }}</h6>
+
             <div class="d-flex justify-content-between align-content-center">
               <div>
                 <strong>{{ item.name }}</strong>
@@ -103,14 +128,20 @@
                   item.measureY | number : "1.0-3"
                 }}
               </div>
+
               <p class="mb-0">
-                <strong>Detalhes:</strong> {{ item.description }}
+                <strong>Detalhes:</strong>
+                {{ item.description }}
               </p>
+
               <p class="mb-0">
-                <strong>Quantidade:</strong> {{ item.quantity }}
+                <strong>Quantidade:</strong>
+                {{ item.quantity }}
               </p>
+
               <p class="mb-0">
-                <strong>Material:</strong> {{ item.marbleshopMaterial.name }}
+                <strong>Material:</strong>
+                {{ item.marbleshopMaterial.name }}
               </p>
             </div>
           </div>
@@ -118,9 +149,10 @@
           @if (item.marbleshopSubItems.length > 0) {
           <h6 class="text-center">Complementos/Acabamentos</h6>
           @for (subItem of item.marbleshopSubItems; track $index) {
+
           <div class="px-2 py-1">
-            <strong>{{ subItem.quantity }}</strong>
-            - {{ subItem.name }} - {{ subItem.measureX | number : "1.0-3" }}x{{
+            <strong>{{ subItem.quantity }}</strong> - {{ subItem.name }} -
+            {{ subItem.measureX | number : "1.0-3" }}x{{
               subItem.measureY | number : "1.0-3"
             }}
             @if (subItem.description != null && subItem.description != "") {
@@ -138,13 +170,17 @@
               <strong>Área:</strong>
               {{ item.unitArea | number : "1.0-3" }}m²
             </p>
+
             <p class="fw-semibold">
-              Área Total: {{ item.totalArea | number : "1.0-3" }}m²
+              Área Total:
+              {{ item.totalArea | number : "1.0-3" }}m²
             </p>
+
             <p>
               <strong>Valor:</strong>
               {{ item.unitValue | currency : "BRL" }}
             </p>
+
             <p class="fw-semibold">
               Valor Total:
               {{ item.totalValue | currency : "BRL" }}
@@ -154,23 +190,25 @@
         } } @else {
         <p class="text-muted">Nenhum item de marmoraria registrado.</p>
         }
-
         <hr />
 
         <!-- Itens Diversos -->
         @if (quotation.miscellaneousItems.length > 0) {
         <h6 class="text-center fw-semibold">Itens Diversos</h6>
+
         <div class="border rounded overflow-hidden">
           @for (miscellaneousItem of quotation.miscellaneousItems; track $index)
           {
-
           <div class="px-2 py-1 bg-dark bg-opacity-10 mb-2">
             <h6>Item {{ $index + 1 }}</h6>
+
             <div class="d-flex align-content-center justify-content-between">
               <strong>{{ miscellaneousItem.name }}</strong>
+
               <p class="mb-0">
                 <strong>Quantidade: </strong>{{ miscellaneousItem.quantity }}
               </p>
+
               <p class="mb-0">
                 <strong>Material:</strong>
                 {{ miscellaneousItem.miscellaneousMaterial.name }} -
@@ -178,6 +216,7 @@
               </p>
             </div>
           </div>
+
           <div
             class="d-flex px-2 py-1 justify-content-between align-items-center"
           >
@@ -185,8 +224,10 @@
               <strong>Valor:</strong>
               {{ miscellaneousItem.unitValue | currency : "BRL" }}
             </p>
+
             <p class="fw-semibold">
-              Valor Total: {{ miscellaneousItem.totalValue | currency : "BRL" }}
+              Valor Total:
+              {{ miscellaneousItem.totalValue | currency : "BRL" }}
             </p>
           </div>
           }

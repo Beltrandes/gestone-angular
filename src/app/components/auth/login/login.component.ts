@@ -43,6 +43,7 @@ export class LoginComponent {
         this.authService.saveToken(response.token)
         this.authService.saveMarbleshopId(response.marbleshopId)
         this.authService.saveUserEmail(response.email)
+        this.authService.saveMarbleshopName(response.marbleshopName)
         this.showSuccessToast('Você entrou', 'Sucesso!')
       },
       error: (err) => {

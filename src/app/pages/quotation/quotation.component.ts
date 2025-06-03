@@ -14,7 +14,6 @@ import { ToastrService } from 'ngx-toastr';
   selector: 'app-quotation',
   standalone: true,
   imports: [
-    NavbarComponent,
     ControllerComponent,
     AsyncPipe,
     QuotationListComponent,
@@ -81,6 +80,11 @@ export class QuotationComponent {
     this.closeQuotationForm()
     this.quotation = quotation;
     this.openQuotationForm()
-    console.log('editando: ' + quotation.id)
+  }
+  copyQuotation(quotation: Quotation) {
+    this.closeQuotationForm()
+    quotation.id = ''
+    this.quotation = quotation
+    this.openQuotationForm()
   }
 }

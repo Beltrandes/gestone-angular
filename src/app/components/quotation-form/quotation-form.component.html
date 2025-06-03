@@ -97,7 +97,7 @@
         i = $index) {
         <div
           [formGroupName]="i"
-          class="d-flex w-100 justify-content-between flex-wrap"
+          class="d-flex w-100 justify-content-between flex-wrap mb-2"
         >
           <h6
             class="fw-semibold col-12 d-flex justify-content-between align-items-center"
@@ -189,6 +189,7 @@
             </select>
             <label for="floatingMarbleshopItemTypeInput">Tipo de item</label>
           </div>
+
           @defer (when getMarbleshopSubItemsFormArray(i).length > 0) {
           <div
             formArrayName="marbleshopSubItems"
@@ -252,6 +253,7 @@
                   type="number"
                   class="form-control"
                   id="floatingMarbleshopSubItemMeasureYInput"
+                  #subItemMeasureYInputs
                   formControlName="measureY"
                   placeholder="Medida Y"
                 />
@@ -296,6 +298,30 @@
             } }
           </div>
           }
+        </div>
+        <div class="d-flex gap-2">
+          <button
+            (click)="addNewMarbleshopItemPediment(i, 'front')"
+            type="button"
+            class="btn btn-light"
+          >
+            <i class="bi bi-plus-lg"></i>
+            Frontão Frontal
+          </button>
+          <button
+            (click)="addNewMarbleshopItemPediment(i, 'side')"
+            type="button"
+            class="btn btn-light"
+          >
+            <i class="bi bi-plus-lg"></i>
+            Frontão Lateral
+          </button>
+          <button (click)="addNewMarbleshopItemSkirt(i, 'front')" type="button" class="btn btn-light">
+            <i class="bi bi-plus-lg"></i> Saia Frontal
+          </button>
+          <button (click)="addNewMarbleshopItemSkirt(i, 'side')" type="button" class="btn btn-light">
+            <i class="bi bi-plus-lg"></i> Saia Lateral
+          </button>
         </div>
         <div class="d-flex col-12 justify-content-end">
           <button

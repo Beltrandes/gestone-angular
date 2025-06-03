@@ -1,0 +1,59 @@
+<div id="bills-accordion-group">
+  @for(bill of bills(); track $index; let i = $index) {
+  <div class="accordion mb-2" id="bill-accordion-item-{{ i }}">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button bg-danger bg-opacity-10 collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          [attr.data-bs-target]="'#bill-collapse-' + i"
+          aria-expanded="true"
+          [attr.aria-controls]="'bill-collapse-' + i"
+        >
+          <div class="main-infos text-black w-100 d-flex">
+            <span class="col-9 fs-5 text-danger"
+              >- {{ bill.paidValue | currency : "BRL" }}</span
+            >
+
+            <span class="col-2 fs-5">{{
+              bill.createdAt | date : "dd/MM/yyyy"
+            }}</span>
+          </div>
+        </button>
+      </h2>
+      <div
+        id="bill-collapse-{{ i }}"
+        class="accordion-collapse collapse"
+        [attr.data-bs-parent]="'#bills-accordion-group'"
+      >
+        <div class="accordion-body position-relative">
+          <h6 class="mb-2 text-center fw-semibold">Detalhes</h6>
+          <p class="mb-0">
+            <strong>Descrição: </strong>
+            <span>{{ bill.description }}</span>
+          </p>
+          <p class="mb-0">
+            <strong>Categoria: </strong>
+            <span>{{ bill.category | billCategory }}</span>
+          </p>
+          <p class="mb-0">
+            <strong>Observações: </strong>
+            <span>{{ bill.notes }}</span>
+          </p>
+          <p class="mb-0">
+            <strong>Valor Total: </strong>
+            <span>{{ bill.totalValue | currency : "BRL" }}</span>
+          </p>
+          <p class="mb-0">
+            <strong>Status: </strong>
+            <span [ngClass]="getBillStatusClass(bill.status)">{{
+              bill.status | billStatus
+            }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

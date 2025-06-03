@@ -1,5 +1,4 @@
 import { Component, inject, signal, ViewChild } from '@angular/core';
-import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { ControllerComponent } from '../../components/controller/controller.component';
 import { map, Observable } from 'rxjs';
 import { MarbleshopMaterial } from '../../domain/MarbleshopMaterial';
@@ -18,7 +17,7 @@ import { MiscellaneousMaterialService } from '../../services/miscellaneous-mater
 @Component({
   selector: 'app-material',
   standalone: true,
-  imports: [NavbarComponent, ControllerComponent, MarbleshopMaterialListComponent, AsyncPipe, MiscellaneousMaterialListComponent, MarbleshopMaterialForm, ModalComponent, NgClass, FormsModule, MiscellaneousMaterialFormComponent],
+  imports: [ControllerComponent, MarbleshopMaterialListComponent, AsyncPipe, MiscellaneousMaterialListComponent, MarbleshopMaterialForm, ModalComponent, NgClass, FormsModule, MiscellaneousMaterialFormComponent],
   templateUrl: './material.component.html',
   styleUrl: './material.component.sass'
 })

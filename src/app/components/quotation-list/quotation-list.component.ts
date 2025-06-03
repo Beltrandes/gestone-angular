@@ -3,11 +3,13 @@ import { Quotation } from '../../domain/Quotation';
 import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import { QuotationStatusPipe } from '../../pipes/quotation-status.pipe';
 import { QuotationService } from '../../services/quotation.service';
-
+import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
 @Component({
   selector: 'app-quotation-list',
   standalone: true,
-  imports: [CurrencyPipe, DecimalPipe, DatePipe, QuotationStatusPipe],
+  imports: [CurrencyPipe, DecimalPipe, DatePipe, QuotationStatusPipe, MatAccordion, MatExpansionModule, MatIconModule, MatDividerModule],
   templateUrl: './quotation-list.component.html',
   styleUrl: './quotation-list.component.sass'
 })
@@ -17,6 +19,8 @@ export class QuotationListComponent {
   quotationService = inject(QuotationService)
 
   edit = output<Quotation>()
+
+  copy = output<Quotation>()
 
   generatePdfOfQuotation(quotationId: string) {
     this.quotationService.generateQuotationPdf(quotationId).subscribe((pdf) => {
@@ -28,7 +32,9 @@ export class QuotationListComponent {
 
   editQuotation(quotation: Quotation) {
     this.edit.emit(quotation);
-    console.log(quotation.marbleshopItems[0].id)
   }
 
+  copyQuotation(quotation: Quotation) {
+    this.copy.emit(quotation);
+  }
 }

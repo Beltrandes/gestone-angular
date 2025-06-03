@@ -1,0 +1,20 @@
+<div class="d-flex gap-2">
+  <div class="card bg-light flex-grow-1">
+    <div class="card-body">
+      <h6>Resumo Financeiro</h6>
+      <h4 [class.text-danger]="calculateBalance() < 0" [class.text-success]="calculateBalance() > 0">{{ calculateBalance() | currency : "BRL" }}</h4>
+    </div>
+  </div>
+  <div class="card bg-success bg-opacity-25">
+    <div class="card-body">
+      <h6>Total Recebido</h6>
+      <h4 class="text-success">{{ totalPayments() | currency : "BRL" }}</h4>
+    </div>
+  </div>
+  <div class="card bg-danger bg-opacity-25">
+    <div class="card-body">
+      <h6>Total Pago</h6>
+      <h4 class="text-danger">{{ totalBills() | currency : "BRL" }}</h4>
+    </div>
+  </div>
+</div>

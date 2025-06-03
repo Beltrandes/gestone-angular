@@ -1,97 +1,144 @@
-<nav class="navbar navbar-expand-lg bg-body-white">
-  <div class="container-fluid">
-    <a class="navbar-brand fs-4" href="#">
-      <img src="img/gestone-dashboard-logo.png" width="60px" alt="" />
-      {{ marbleshopName() }}
+<mat-toolbar color="primary" class="app-navbar-material">
+  <div class="navbar-content-wrapper">
+    <a mat-button class="navbar-brand-material" href="#">
+      <img src="img/gestone-dashboard-logo.png" width="60px" alt="Logo" />
+      <span>{{ marbleshopName }}</span>
     </a>
+
     <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
+      mat-icon-button
+      class="navbar-toggler-material"
+      [matMenuTriggerFor]="mobileMenu"
     >
-      <span class="navbar-toggler-icon"></span>
+      <mat-icon fontIcon="menu"></mat-icon>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex gap-2">
-        <li class="nav-item btn btn-light">
-          <a class="nav-link" aria-current="page" href="#">
-            <i class="bi bi-columns-gap me-1"></i>
-            Painel
+
+    <div class="navbar-links-desktop">
+      <ul class="navbar-nav-material">
+        <li class="nav-item-material">
+          <a mat-button class="nav-link-material" aria-current="page" href="#">
+            <mat-icon fontIcon="dashboard"></mat-icon> <span>Painel</span>
           </a>
         </li>
-        <li class="nav-item dropdown btn btn-light">
+
+        <li class="nav-item-material">
+          <button mat-button [matMenuTriggerFor]="clientesMenu">
+            <mat-icon>people</mat-icon> Clientes
+          </button>
+          <mat-menu #clientesMenu="matMenu">
+            <button mat-menu-item [routerLink]="['/', marbleshopId, 'pedidos']">
+              Pedidos
+            </button>
+            <button
+              mat-menu-item
+              [routerLink]="['/', marbleshopId, 'orcamentos']"
+            >
+              Orçamentos
+            </button>
+            <button mat-menu-item>Visitas</button>
+            <mat-divider></mat-divider>
+            <button
+              mat-menu-item
+              [routerLink]="['/', marbleshopId, 'clientes']"
+            >
+              Ver Clientes
+            </button>
+          </mat-menu>
+        </li>
+
+        <li class="nav-item-material">
+          <button mat-button [matMenuTriggerFor]="estoquesMenu">
+            <mat-icon>inventory_2</mat-icon> Estoques
+          </button>
+          <mat-menu #estoquesMenu="matMenu">
+            <button mat-menu-item>Produção</button>
+            <button mat-menu-item>Colocação</button>
+            <button mat-menu-item>Chapas</button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item>Ver Estoques</button>
+          </mat-menu>
+        </li>
+
+        <li class="nav-item-material">
+          <a mat-button class="nav-link-material" aria-current="page" href="#">
+            <mat-icon>assignment</mat-icon> Produção
+          </a>
+        </li>
+
+        <li class="nav-item-material">
+          <a mat-button class="nav-link-material" aria-current="page" href="#">
+            <mat-icon>assignment_turned_in</mat-icon> Colocação
+          </a>
+        </li>
+
+        <li class="nav-item-material">
           <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+            mat-button
+            class="nav-link-material"
+            aria-current="page"
+            [routerLink]="['/', marbleshopId, 'financas']"
           >
-            <i class="bi bi-people me-1"></i>
-            Clientes
+            <mat-icon>account_balance</mat-icon> Financeiro
           </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" type="button" [routerLink]="['/', marbleshopId, 'pedidos']">Pedidos</a></li>
-            <li><a class="dropdown-item" type="button" [routerLink]="['/', marbleshopId, 'orcamentos']">Orçamentos</a></li>
-            <li><a class="dropdown-item" href="#">Visitas</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li>
-              <a
-                class="dropdown-item"
-                [routerLink]="['/', marbleshopId, 'clientes']"
-                >Ver Clientes</a
-              >
-            </li>
-          </ul>
         </li>
-        <li class="nav-item dropdown btn btn-light">
+
+        <li class="nav-item-material">
           <a
-            class="nav-link dropdown-toggle"
-            href="#"
-            role="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
+            mat-button
+            class="nav-link-material"
+            aria-current="page"
+            routerLink="/materiais"
           >
-            <i class="bi bi-boxes me-1"></i>
-            Estoques
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Produção</a></li>
-            <li><a class="dropdown-item" href="#">Colocação</a></li>
-            <li><a class="dropdown-item" href="#">Chapas</a></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" href="#">Ver Estoques</a></li>
-          </ul>
-        </li>
-        <li class="nav-item btn btn-light">
-          <a class="nav-link" aria-current="page" href="#">
-            <i class="bi bi-clipboard2"></i>
-            Produção
-          </a>
-        </li>
-        <li class="nav-item btn btn-light">
-          <a class="nav-link" aria-current="page" href="#">
-            <i class="bi bi-clipboard2-check"></i>
-            Colocação
-          </a>
-        </li>
-        <li class="nav-item btn btn-light">
-          <a class="nav-link" aria-current="page" href="#">
-            <i class="bi bi-bank"></i>
-            Financeiro
-          </a>
-        </li>
-        <li class="nav-item btn btn-light">
-          <a class="nav-link" aria-current="page" routerLink="/materiais">
-            <i class="bi bi-back"></i>
-            Materiais
+            <mat-icon>category</mat-icon> Materiais
           </a>
         </li>
       </ul>
     </div>
+
+    <mat-menu #mobileMenu="matMenu">
+      <button mat-menu-item href="#">
+        <mat-icon>dashboard</mat-icon> Painel
+      </button>
+      <button mat-menu-item [matMenuTriggerFor]="clientesMenuMobile">
+        <mat-icon>people</mat-icon> Clientes
+      </button>
+      <mat-menu #clientesMenuMobile="matMenu">
+        <button mat-menu-item [routerLink]="['/', marbleshopId, 'pedidos']">
+          Pedidos
+        </button>
+        <button mat-menu-item [routerLink]="['/', marbleshopId, 'orcamentos']">
+          Orçamentos
+        </button>
+        <button mat-menu-item>Visitas</button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item [routerLink]="['/', marbleshopId, 'clientes']">
+          Ver Clientes
+        </button>
+      </mat-menu>
+
+      <button mat-menu-item [matMenuTriggerFor]="estoquesMenuMobile">
+        <mat-icon>inventory_2</mat-icon> Estoques
+      </button>
+      <mat-menu #estoquesMenuMobile="matMenu">
+        <button mat-menu-item>Produção</button>
+        <button mat-menu-item>Colocação</button>
+        <button mat-menu-item>Chapas</button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item>Ver Estoques</button>
+      </mat-menu>
+
+      <button mat-menu-item href="#">
+        <mat-icon>assignment</mat-icon> Produção
+      </button>
+      <button mat-menu-item href="#">
+        <mat-icon>assignment_turned_in</mat-icon> Colocação
+      </button>
+      <button mat-menu-item [routerLink]="['/', marbleshopId, 'financas']">
+        <mat-icon>account_balance</mat-icon> Financeiro
+      </button>
+      <button mat-menu-item routerLink="/materiais">
+        <mat-icon>category</mat-icon> Materiais
+      </button>
+    </mat-menu>
   </div>
-</nav>
+</mat-toolbar>

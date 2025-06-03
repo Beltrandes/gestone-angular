@@ -1,0 +1,57 @@
+<div id="payments-accordion-group">
+  @for(payment of payments(); track $index; let j = $index) {
+  <div class="accordion mb-2" id="payment-accordion-item-{{ j }}">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button
+          class="accordion-button bg-success bg-opacity-10 collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          [attr.data-bs-target]="'#payment-collapse-' + j"
+          aria-expanded="true"
+          [attr.aria-controls]="'payment-collapse-' + j"
+        >
+          <div class="main-infos text-black w-100 d-flex">
+            <span class="col-9 fs-5 text-success"
+              >+ {{ payment.payedValue | currency : "BRL" }}</span
+            >
+
+            <span class="col-2 fs-5">{{
+              payment.createdAt | date : "dd/MM/yyyy"
+            }}</span>
+          </div>
+        </button>
+      </h2>
+      <div
+        id="payment-collapse-{{ j }}"
+        class="accordion-collapse collapse"
+        [attr.data-bs-parent]="'#payments-accordion-group'"
+      >
+        <div class="accordion-body position-relative">
+          <h6 class="mb-2 text-center fw-semibold">Detalhes</h6>
+          <p class="mb-0">
+            <strong>Cliente: </strong>
+            <span>{{ payment.customer?.name }}</span>
+          </p>
+          <p class="mb-0">
+            <strong>Observações: </strong>
+            <span>{{ payment.details }}</span>
+          </p>
+          <p class="mb-0">
+            <strong>Tipo: </strong>
+            <span>{{ payment.paymentType | paymentType }}</span>
+          </p>
+          <p class="mb-0">
+            <strong>Valor Total: </strong>
+            <span>{{ payment.orderFinalValue | currency : "BRL" }}</span>
+          </p>
+          <p class="mb-0">
+            <strong>Status: </strong>
+            <span [ngClass]="getOrderPaymentStatusClass(payment.orderPaymentStatus!!)">{{ payment.orderPaymentStatus!! | paymentStatus }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

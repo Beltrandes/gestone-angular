@@ -1,12 +1,10 @@
-import { Customer } from './../../domain/Customer';
-import { Component, inject, OnInit, output, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, UntypedFormArray } from '@angular/forms';
 import { Quotation } from '../../domain/Quotation';
 import { Order } from '../../domain/Order';
 import { Payment } from '../../domain/Payment';
 import { QuotationService } from '../../services/quotation.service';
 import { AuthService } from '../../services/auth.service';
-import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-order-form',
