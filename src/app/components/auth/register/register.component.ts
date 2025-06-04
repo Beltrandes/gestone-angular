@@ -2,7 +2,7 @@ import { MasterRegisterDTO } from './../../../dtos/MasterRegisterDTO';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-import { NgIf } from '@angular/common';
+
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
