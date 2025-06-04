@@ -6,10 +6,11 @@ import { QuotationService } from '../../services/quotation.service';
 import {MatAccordion, MatExpansionModule} from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-quotation-list',
   standalone: true,
-  imports: [CurrencyPipe, DecimalPipe, DatePipe, QuotationStatusPipe, MatAccordion, MatExpansionModule, MatIconModule, MatDividerModule],
+  imports: [CurrencyPipe, DecimalPipe, DatePipe, QuotationStatusPipe, MatAccordion, MatExpansionModule, MatIconModule, MatDividerModule, MatButtonModule],
   templateUrl: './quotation-list.component.html',
   styleUrl: './quotation-list.component.sass'
 })

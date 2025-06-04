@@ -1,10 +1,142 @@
-.items-background
-  background-color: #f1f2f3
+@use '@angular/material' as mat
 
-.sub-items-background
-  background-color: darken(#f1f2f3, 5%)
+$form-field-gap: 16px
+$form-section-padding: 16px
+$items-background-color: #f9f9f9
+$sub-items-background-color: #f0f0f0
+$border-color: #dee2e6
 
-input, select
-  &:focus
-    border: 1px solid #ffc107
-    box-shadow: 0 0 2px #ffc107
+.quotation-form-card
+  padding: $form-section-padding
+  margin-bottom: $form-section-padding
+
+.form-header
+  display: flex
+  margin-bottom: 20px
+  button
+    margin-left: auto
+  .form-titles
+    mat-card-title
+      font-size: 1.25rem
+      margin-bottom: 0.25rem
+      mat-card-subtitle
+        font-size: 1rem
+        color: #6c757d
+
+.form-row
+  display: flex
+  flex-wrap: wrap
+  gap: $form-field-gap
+  margin-bottom: $form-field-gap
+
+.form-field
+  flex-grow: 1
+  &.col-1
+    flex-basis: calc(8.333% - $form-field-gap)
+  &.col-2
+    flex-basis: calc(16.666% - $form-field-gap)
+  &.col-3
+    flex-basis: calc(25% - $form-field-gap)
+  &.col-4
+    flex-basis: calc(33.333% - $form-field-gap)
+  &.col-5
+    flex-basis: calc(41.666% - $form-field-gap)
+  &.col-6
+    flex-basis: calc(50% - $form-field-gap)
+
+
+.items-section
+  border: 1px solid $border-color
+  border-radius: 0.25rem
+  padding: $form-section-padding
+  margin-bottom: $form-section-padding
+  background-color: $items-background-color
+
+  .section-title
+    text-align: center
+    font-weight: bold
+    margin-bottom: $form-section-padding
+    font-size: 1.1rem
+
+.item-group
+  margin-bottom: $form-section-padding
+
+.item-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: calc($form-field-gap) / 2
+  width: 100%
+
+  h4, h5
+    font-weight: 600
+    margin: 0
+
+.sub-items-section
+  border: 1px solid darken($border-color, 5%)
+  border-radius: 0.25rem
+  padding: calc($form-section-padding)
+  margin-top: $form-field-gap
+  margin-bottom: $form-field-gap
+  background-color: $sub-items-background-color
+
+  .sub-section-title
+    text-align: center
+    font-weight: bold
+    font-size: 1rem
+    margin-bottom: calc($form-section-padding) / 2
+
+.sub-item-group
+  margin-bottom: calc($form-field-gap) / 2
+
+.item-actions
+  display: flex
+  flex-wrap: wrap
+  gap: 8px
+  margin-top: $form-field-gap
+  margin-bottom: $form-field-gap
+
+  .add-subitem-button
+    margin-left: auto
+
+.add-item-container
+  display: flex
+  justify-content: flex-end
+  gap: 8px
+  margin-top: $form-field-gap
+  margin-bottom: $form-section-padding
+
+// Divisores
+.item-divider
+  margin-top: calc($form-field-gap) / 2
+  margin-bottom: $form-field-gap
+
+.section-divider
+  margin-top: $form-section-padding
+  margin-bottom: $form-section-padding
+
+.form-actions
+  display: flex
+  justify-content: flex-end
+  gap: 8px
+  margin-top: $form-section-padding
+  padding: 0
+
+.button-spinner
+  margin-right: 8px
+  display: inline-block
+  vertical-align: middle
+
+@media (max-width: 768px)
+  .form-row
+    flex-direction: column
+    gap: 0
+
+  .form-field
+    flex-basis: 100% !important
+    margin-bottom: $form-field-gap
+
+  .item-actions
+    flex-direction: column
+    .add-subitem-button
+      margin-left: 0

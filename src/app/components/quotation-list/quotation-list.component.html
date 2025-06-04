@@ -1,244 +1,105 @@
-@for(quotation of quotations(); track $index) {
-<div class="accordion mb-2" id="accordion{{ $index }}">
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button
-        class="accordion-button bg-light collapsed"
-        type="button"
-        data-bs-toggle="collapse"
-        [attr.data-bs-target]="'#collapse' + $index"
-        aria-expanded="true"
-        [attr.aria-controls]="'#collapse' + $index"
-      >
-        <div class="main-infos text-black w-100 d-flex">
-          <span class="col-9"
-            >{{ quotation.name }} de {{ quotation.customer.name }}</span
-          >
+<mat-accordion>
+  @for (quotation of quotations(); track $index) {
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ quotation.name }} de {{ quotation.customer.name }}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{ quotation.totalValue | currency : 'BRL' }} -
+          {{ quotation.totalArea | number : '1.0-3' }}m²
+        </mat-panel-description>
+      </mat-expansion-panel-header>
 
-          <span class="col-2">{{
-            quotation.totalValue | currency : "BRL"
-          }}</span>
+      <div class="action-buttons">
+        <button mat-icon-button (click)="copyQuotation(quotation)">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+        <button mat-icon-button (click)="generatePdfOfQuotation(quotation.id)">
+          <mat-icon>picture_as_pdf</mat-icon>
+        </button>
+        <button mat-icon-button (click)="editQuotation(quotation)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
 
-          <span class="col-1"
-            >{{ quotation.totalArea | number : "1.0-3" }}m²</span
-          >
-        </div>
-      </button>
-    </h2>
-
-    <div
-      id="collapse{{ $index }}"
-      class="accordion-collapse collapse"
-      [attr.data-bs-parent]="'#accordion' + $index"
-    >
-      <div class="accordion-body position-relative">
-        <div class="position-absolute top-0 end-0 d-flex p-1 gap-2">
-          <button
-            type="button"
-            (click)="copyQuotation(quotation)"
-            class="btn fs-2 p-1"
-          >
-            <i class="bi bi-copy"></i>
-          </button>
-
-          <button
-            type="button"
-            (click)="generatePdfOfQuotation(quotation.id)"
-            class="btn fs-2 p-1"
-          >
-            <i class="bi bi-filetype-pdf"></i>
-          </button>
-
-          <button
-            type="button"
-            (click)="editQuotation(quotation)"
-            class="btn fs-4 p-1"
-          >
-            <i class="bi bi-pencil"></i>
-          </button>
+      <h6 class="info-header">Informações Principais</h6>
+      <div class="info-section">
+        <div>
+          <p><strong>Cliente:</strong> {{ quotation.customer.name }}</p>
+          <p><strong>Endereço:</strong> {{ quotation.address }}</p>
+          <p><strong>Descrição:</strong> {{ quotation.details }}</p>
+          <p><strong>Status:</strong> {{ quotation.quotationStatus | quotationStatus }}</p>
+          <p><strong>Área Total:</strong> {{ quotation.totalArea | number : '1.0-3' }}m²</p>
         </div>
 
-        <h6 class="text-center fw-semibold">Informações Principais</h6>
-
-        <div class="row g-0">
-          <div class="col-6 d-flex flex-column align-items-center">
-            <p class="mb-0 w-100">
-              <strong>Cliente:</strong>
-              {{ quotation.customer.name }}
-            </p>
-
-            <p class="mb-0 w-100">
-              <strong>Endereço:</strong> {{ quotation.address }}
-            </p>
-
-            <p class="mb-0 w-100">
-              <strong>Descrição:</strong>
-              {{ quotation.details }}
-            </p>
-
-            <p class="mb-0 w-100">
-              <strong>Status:</strong>
-              {{ quotation.quotationStatus | quotationStatus }}
-            </p>
-
-            <p class="mb-0 w-100">
-              <strong>Área Total:</strong>
-              {{ quotation.totalArea | number : "1.0-3" }}m²
-            </p>
-          </div>
-
-          <div class="col-6 d-flex flex-column align-items-center">
-            <p class="mb-0 w-100">
-              <strong>Contato:</strong>
-              {{ quotation.customer.phone }}
-            </p>
-
-            <p class="mb-0 w-100">
-              <strong>Gerado em:</strong>
-              {{ quotation.createdAt | date : "dd/MM/yyyy" }}
-            </p>
-
-            <p class="mb-0 w-100">
-              <strong>Prazo de entrega:</strong>
-              {{ quotation.deadlineDays }} dias
-            </p>
-
-            <p class="mb-0 w-100 fs-6 d-flex align-items-center">
-              <strong>Valor Total:</strong>
-              <span class="bg-dark ms-2 p-2 fw-semibold text-white">{{
-                quotation.totalValue | currency : "BRL"
-              }}</span>
-            </p>
-          </div>
+        <div>
+          <p><strong>Contato:</strong> {{ quotation.customer.phone }}</p>
+          <p><strong>Gerado em:</strong> {{ quotation.createdAt | date : 'dd/MM/yyyy' }}</p>
+          <p><strong>Prazo de entrega:</strong> {{ quotation.deadlineDays }} dias</p>
+          <p><strong>Valor Total:</strong> {{ quotation.totalValue | currency : 'BRL' }}</p>
         </div>
+      </div>
+      <mat-divider></mat-divider>
+      <h6 class="items-header">Itens Principais</h6>
+      @if (quotation.marbleshopItems.length > 0) {
+        @for (item of quotation.marbleshopItems; track $index) {
+          <div class="item-card">
+            <h6 class="item-header">Item {{ $index + 1 }}</h6>
+            <div class="item-details">
+              <p><strong>{{ item.name }}</strong> - {{ item.measureX | number : '1.0-3' }}x{{ item.measureY | number : '1.0-3' }}</p>
+              <p><strong>Detalhes:</strong> {{ item.description }}</p>
+              <p><strong>Quantidade:</strong> {{ item.quantity }}</p>
+              <p><strong>Material:</strong> {{ item.marbleshopMaterial.name }}</p>
+            </div>
 
-        <hr />
+            @if (item.marbleshopSubItems.length > 0) {
+              <h6 class="items-header">Complementos/Acabamentos</h6>
+              @for (subItem of item.marbleshopSubItems; track $index) {
+                <p>
+                  <strong>{{ subItem.quantity }}</strong> - {{ subItem.name }} -
+                  {{ subItem.measureX | number : '1.0-3' }}x{{ subItem.measureY | number : '1.0-3' }}
+                  @if (subItem.description != null && subItem.description != '') {
+                    <span> - {{ subItem.description }}</span>
+                  }
+                </p>
+              }
+            }
 
-        <h6 class="text-center fw-semibold">Itens Principais</h6>
-        @if (quotation.marbleshopItems.length > 0) { @for (item of
-        quotation.marbleshopItems; track $index) {
-        <div class="mb-2 border rounded overflow-hidden">
-          <div class="px-2 py-1 bg-dark bg-opacity-10 mb-2">
-            <h6>Item {{ $index + 1 }}</h6>
-
-            <div class="d-flex justify-content-between align-content-center">
-              <div>
-                <strong>{{ item.name }}</strong>
-                - {{ item.measureX | number : "1.0-3" }}x{{
-                  item.measureY | number : "1.0-3"
-                }}
-              </div>
-
-              <p class="mb-0">
-                <strong>Detalhes:</strong>
-                {{ item.description }}
-              </p>
-
-              <p class="mb-0">
-                <strong>Quantidade:</strong>
-                {{ item.quantity }}
-              </p>
-
-              <p class="mb-0">
-                <strong>Material:</strong>
-                {{ item.marbleshopMaterial.name }}
-              </p>
+            <div class="item-summary">
+              <p><strong>Área:</strong> {{ item.unitArea | number : '1.0-3' }}m²</p>
+              <p><strong>Área Total:</strong> {{ item.totalArea | number : '1.0-3' }}m²</p>
+              <p><strong>Valor:</strong> {{ item.unitValue | currency : 'BRL' }}</p>
+              <p><strong>Valor Total:</strong> {{ item.totalValue | currency : 'BRL' }}</p>
             </div>
           </div>
-
-          @if (item.marbleshopSubItems.length > 0) {
-          <h6 class="text-center">Complementos/Acabamentos</h6>
-          @for (subItem of item.marbleshopSubItems; track $index) {
-
-          <div class="px-2 py-1">
-            <strong>{{ subItem.quantity }}</strong> - {{ subItem.name }} -
-            {{ subItem.measureX | number : "1.0-3" }}x{{
-              subItem.measureY | number : "1.0-3"
-            }}
-            @if (subItem.description != null && subItem.description != "") {
-            <span> - {{ subItem.description }}</span>
-            }
-          </div>
-          }
-          <hr />
-
-          }
-          <div
-            class="d-flex px-2 py-1 justify-content-between align-items-center"
-          >
-            <p>
-              <strong>Área:</strong>
-              {{ item.unitArea | number : "1.0-3" }}m²
-            </p>
-
-            <p class="fw-semibold">
-              Área Total:
-              {{ item.totalArea | number : "1.0-3" }}m²
-            </p>
-
-            <p>
-              <strong>Valor:</strong>
-              {{ item.unitValue | currency : "BRL" }}
-            </p>
-
-            <p class="fw-semibold">
-              Valor Total:
-              {{ item.totalValue | currency : "BRL" }}
-            </p>
-          </div>
-        </div>
-        } } @else {
-        <p class="text-muted">Nenhum item de marmoraria registrado.</p>
         }
-        <hr />
+      } @else {
+        <p class="text-muted">Nenhum item de marmoraria registrado.</p>
+      }
 
-        <!-- Itens Diversos -->
-        @if (quotation.miscellaneousItems.length > 0) {
-        <h6 class="text-center fw-semibold">Itens Diversos</h6>
-
-        <div class="border rounded overflow-hidden">
-          @for (miscellaneousItem of quotation.miscellaneousItems; track $index)
-          {
-          <div class="px-2 py-1 bg-dark bg-opacity-10 mb-2">
+      <h6>Itens Diversos</h6>
+      @if (quotation.miscellaneousItems.length > 0) {
+        @for (miscellaneousItem of quotation.miscellaneousItems; track $index) {
+          <div class="item-card">
             <h6>Item {{ $index + 1 }}</h6>
-
-            <div class="d-flex align-content-center justify-content-between">
-              <strong>{{ miscellaneousItem.name }}</strong>
-
-              <p class="mb-0">
-                <strong>Quantidade: </strong>{{ miscellaneousItem.quantity }}
-              </p>
-
-              <p class="mb-0">
-                <strong>Material:</strong>
-                {{ miscellaneousItem.miscellaneousMaterial.name }} -
+            <div class="item-details">
+              <p><strong>{{ miscellaneousItem.name }}</strong></p>
+              <p><strong>Quantidade:</strong> {{ miscellaneousItem.quantity }}</p>
+              <p>
+                <strong>Material:</strong> {{ miscellaneousItem.miscellaneousMaterial.name }} -
                 {{ miscellaneousItem.miscellaneousMaterial.details }}
               </p>
             </div>
+            <div class="item-summary">
+              <p><strong>Valor:</strong> {{ miscellaneousItem.unitValue | currency : 'BRL' }}</p>
+              <p><strong>Valor Total:</strong> {{ miscellaneousItem.totalValue | currency : 'BRL' }}</p>
+            </div>
           </div>
-
-          <div
-            class="d-flex px-2 py-1 justify-content-between align-items-center"
-          >
-            <p>
-              <strong>Valor:</strong>
-              {{ miscellaneousItem.unitValue | currency : "BRL" }}
-            </p>
-
-            <p class="fw-semibold">
-              Valor Total:
-              {{ miscellaneousItem.totalValue | currency : "BRL" }}
-            </p>
-          </div>
-          }
-        </div>
-
-        } @else {
-        <p class="text-muted">Nenhum item diverso registrado.</p>
         }
-        <hr />
-      </div>
-    </div>
-  </div>
-</div>
-}
+      } @else {
+        <p class="text-muted">Nenhum item diverso registrado.</p>
+      }
+    </mat-expansion-panel>
+  }
+</mat-accordion>

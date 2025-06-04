@@ -17,11 +17,20 @@ import { MarbleshopMaterial } from '../../domain/MarbleshopMaterial';
 import { MarbleshopSubItem } from '../../domain/MarbleshopSubItem';
 import { MiscellaneousMaterial } from '../../domain/MiscellaneousMaterial';
 import { MiscellaneousMaterialService } from '../../services/miscellaneous-material.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
+import { MatOptionModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
+import {MatSelectModule} from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-quotation-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatIconModule, MatOptionModule, MatDividerModule, MatSelectModule, MatButtonModule],
   templateUrl: './quotation-form.component.html',
   styleUrl: './quotation-form.component.sass',
 })

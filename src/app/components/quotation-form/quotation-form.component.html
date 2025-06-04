@@ -1,463 +1,267 @@
-<form [formGroup]="quotationForm" class="card px-3 py-2 bg-light">
-  <div
-    class="card-header d-flex align-items-center justify-content-between mb-3"
-  >
-    <div class="form-titles">
-      <h5 class="card-title">Criando orçamento</h5>
-      <h6 class="card-subtitle">Preencha os dados</h6>
-    </div>
-    <button
-      (click)="closeQuotationForm()"
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-    ></button>
-  </div>
-  <div class="row g-0 d-flex justify-content-between flex-wrap">
-    <div class="form-floating col-4 mb-3">
-      <input
-        type="text"
-        class="form-control"
-        id="floatingNameInput"
-        placeholder="Beltrandes"
-        formControlName="name"
-      />
-      <label for="floatingNameInput">Nome</label>
-    </div>
-    <div class="form-floating col-4 mb-3">
-      <select
-        class="form-select"
-        id="floatingCustomerInput"
-        formControlName="customerId"
-      >
-        <option [value]="null" selected>Selecione um cliente</option>
-        @for (customer of customers; track $index) {
-        <option [value]="customer.id">{{ customer.name }}</option>
-        }
-      </select>
-      <label for="floatingCustomerInput">Cliente</label>
-    </div>
-    <div class="form-floating col-3 mb-3">
-      <input
-        type="number"
-        class="form-control"
-        id="floatingDeadlineDaysInput"
-        placeholder="Beltrandes"
-        formControlName="deadlineDays"
-      />
-      <label for="floatingDeadlineDaysInput">Prazo de entrega (dias)</label>
-    </div>
-    <div class="form-floating col-3 mb-3">
-      <input
-        type="number"
-        class="form-control"
-        id="floatingDaysForDueInput"
-        placeholder="Beltrandes"
-        formControlName="daysForDue"
-      />
-      <label for="floatingDaysForDueInput">Data de vencimento (dias)</label>
-    </div>
-    <div class="form-floating col-4 mb-3">
-      <input
-        type="text"
-        class="form-control"
-        id="floatingDescriptionInput"
-        placeholder="something"
-        formControlName="details"
-      />
-      <label for="floatingDescriptionInput">Descrição</label>
-    </div>
-    <div class="form-floating col-4 mb-3">
-      <input
-        type="text"
-        class="form-control"
-        id="floatingAddressInput"
-        placeholder="something"
-        formControlName="address"
-      />
-      <label for="floatingAddressInput">Endereço</label>
-    </div>
-    <div class="form-floating col-4 mb-3">
-      <input
-        type="text"
-        class="form-control"
-        id="floatingPaymentConditionInput"
-        placeholder="something"
-        formControlName="paymentCondition"
-      />
-      <label for="floatingPaymentConditionInput">Condições de Pagamento</label>
-    </div>
-  </div>
-  <div>
-    @defer (when getMarbleshopItemsFormArray().length > 0) {
-    <div class="border rounded p-2 items-background">
-      <h6 class="text-center fw-bold">Itens Principais</h6>
-      <div formArrayName="marbleshopItems" class="col-12">
-        @for (marbleshopItem of getMarbleshopItemsFormArray(); track $index; let
-        i = $index) {
-        <div
-          [formGroupName]="i"
-          class="d-flex w-100 justify-content-between flex-wrap mb-2"
-        >
-          <h6
-            class="fw-semibold col-12 d-flex justify-content-between align-items-center"
-          >
-            Item {{ i + 1 }}
-            <button
-              type="button"
-              class="btn text-danger fs-5"
-              (click)="removeMarbleshopItem(i)"
-            >
-              <i class="bi bi-trash"></i>
-            </button>
-          </h6>
-          <div class="form-floating col-5 mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="floatingMarbleshopItemNameInput"
-              formControlName="name"
-              placeholder="Nome"
-            />
-            <label for="floatingMarbleshopItemNameInput">Nome</label>
-          </div>
-          <div class="form-floating col-6 mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="floatingMarbleshopItemDescriptionInput"
-              formControlName="description"
-              placeholder="Descrição"
-            />
-            <label for="floatingMarbleshopItemDescriptionInput"
-              >Descrição</label
-            >
-          </div>
-          <div class="form-floating col-2 mb-3">
-            <input
-              type="number"
-              class="form-control"
-              id="floatingMarbleshopItemMeasureXInput"
-              formControlName="measureX"
-              placeholder="Medida X"
-            />
-            <label for="floatingMarbleshopItemMeasureXInput">Medida X</label>
-          </div>
-          <div class="form-floating col-2 mb-3">
-            <input
-              type="number"
-              class="form-control"
-              id="floatingMarbleshopItemMeasureYInput"
-              formControlName="measureY"
-              placeholder="Medida Y"
-            />
-            <label for="floatingMarbleshopItemMeasureYInput">Medida Y</label>
-          </div>
-          <div class="form-floating col-1 mb-3">
-            <input
-              type="number"
-              class="form-control"
-              id="floatingMarbleshopItemQuantityInput"
-              formControlName="quantity"
-              placeholder="Quantidade"
-            />
-            <label for="floatingMarbleshopItemQuantityInput">Quantidade</label>
-          </div>
-          <div class="form-floating col-3 mb-3">
-            <select
-              class="form-select"
-              id="floatingMarbleshopMaterialInput"
-              formControlName="marbleshopMaterialId"
-            >
-              <option [value]="null" selected>Selecione um material</option>
-              @for (material of marbleshopMaterials; track $index) {
-              <option [value]="material.id">{{ material.name }}</option>
-              }
-            </select>
-            <label for="floatingMarbleshopMaterialInput">Material</label>
-          </div>
-          <div class="form-floating col-3 mb-3">
-            <select
-              class="form-select"
-              id="floatingMarbleshopItemTypeInput"
-              formControlName="marbleshopItemType"
-            >
-              <option [value]="null" selected>Selecione o tipo do item</option>
-              @for (itemType of marbleshopItemTypes; track $index) {
-              <option [value]="itemType.value">{{ itemType.name }}</option>
-              }
-            </select>
-            <label for="floatingMarbleshopItemTypeInput">Tipo de item</label>
-          </div>
+<mat-card class="quotation-form-card">
+  <form [formGroup]="quotationForm">
+    <mat-card-header class="form-header">
+      <div class="form-titles">
+        <mat-card-title>Criando orçamento</mat-card-title>
+        <mat-card-subtitle>Preencha os dados</mat-card-subtitle>
+      </div>
+      <button mat-icon-button (click)="closeQuotationForm()" aria-label="Fechar formulário">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-card-header>
 
-          @defer (when getMarbleshopSubItemsFormArray(i).length > 0) {
-          <div
-            formArrayName="marbleshopSubItems"
-            class="d-flex w-100 col-12 flex-wrap rounded p-2 sub-items-background"
-          >
-            <h6 class="text-center w-100 fw-bold">Sub-Itens</h6>
-            @for (subItem of getMarbleshopSubItemsFormArray($index); track
-            $index; let j = $index) {
-            <div
-              [formGroupName]="j"
-              class="d-flex w-100 justify-content-between flex-wrap"
-            >
-              <h6
-                class="fw-semibold col-12 d-flex align-items-center justify-content-between"
-              >
-                Sub-Item {{ j + 1 }}
-                <button
-                  type="button"
-                  class="btn text-danger fs-5"
-                  (click)="removeMarbleshopSubItem(i, j)"
-                >
-                  <i class="bi bi-trash"></i>
-                </button>
-              </h6>
-              <div class="form-floating col-3 mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="floatingMarbleshopSubItemNameInput"
-                  formControlName="name"
-                  placeholder="Nome"
-                />
-                <label for="floatingMarbleshopSubItemNameInput">Nome</label>
-              </div>
-              <div class="form-floating col-3 mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="floatingMarbleshopSubItemDescriptionInput"
-                  formControlName="description"
-                  placeholder="Descrição/Detalhe"
-                />
-                <label for="floatingMarbleshopSubItemDescriptionInput"
-                  >Descrição/Detalhe</label
-                >
-              </div>
-              <div class="form-floating col-1 mb-3">
-                <input
-                  type="number"
-                  class="form-control"
-                  id="floatingMarbleshopSubItemMeasureXInput"
-                  formControlName="measureX"
-                  placeholder="Medida X"
-                />
-                <label for="floatingMarbleshopSubItemMeasureXInput"
-                  >Medida X</label
-                >
-              </div>
-              <div class="form-floating col-1 mb-3">
-                <input
-                  type="number"
-                  class="form-control"
-                  id="floatingMarbleshopSubItemMeasureYInput"
-                  #subItemMeasureYInputs
-                  formControlName="measureY"
-                  placeholder="Medida Y"
-                />
-                <label for="floatingMarbleshopSubItemMeasureYInput"
-                  >Medida Y</label
-                >
-              </div>
-              <div class="form-floating col-1 mb-3">
-                <input
-                  type="number"
-                  class="form-control"
-                  id="floatingMarbleshopSubItemQuantityInput"
-                  formControlName="quantity"
-                  placeholder="Quantidade"
-                />
-                <label for="floatingMarbleshopSubItemQuantityInput"
-                  >Quantidade</label
-                >
-              </div>
-              <div class="form-floating col-2 mb-3">
-                <select
-                  class="form-select"
-                  id="floatingMarbleshopSubItemTypeInput"
-                  formControlName="marbleshopSubItemType"
-                >
-                  <option [value]="null" selected>
-                    Selecione o tipo do sub-item
-                  </option>
-                  @for (subItemType of marbleshopSubItemTypes; track $index) {
-                  <option [value]="subItemType.value">
-                    {{ subItemType.name }}
-                  </option>
-                  }
-                </select>
-                <label for="floatingMarbleshopSubItemTypeInput"
-                  >Tipo de item</label
-                >
-              </div>
+    <mat-card-content>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field col-4">
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="Beltrandes" formControlName="name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field col-4">
+          <mat-label>Cliente</mat-label>
+          <mat-select formControlName="customerId">
+            <mat-option [value]="null">Selecione um cliente</mat-option>
+            @for (customer of customers; track customer.id) {
+            <mat-option [value]="customer.id">{{ customer.name }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field col-3">
+          <mat-label>Prazo de entrega (dias)</mat-label>
+          <input matInput type="number" placeholder="Ex: 15" formControlName="deadlineDays" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field col-3">
+          <mat-label>Data de vencimento (dias)</mat-label>
+          <input matInput type="number" placeholder="Ex: 30" formControlName="daysForDue" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field col-4">
+          <mat-label>Descrição</mat-label>
+          <input matInput placeholder="Detalhes do orçamento" formControlName="details" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field col-4">
+          <mat-label>Endereço</mat-label>
+          <input matInput placeholder="Endereço de entrega/serviço" formControlName="address" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field col-4">
+          <mat-label>Condições de Pagamento</mat-label>
+          <input matInput placeholder="Ex: 50% adiantado, 50% na entrega" formControlName="paymentCondition" />
+        </mat-form-field>
+      </div>
+
+      @defer (when getMarbleshopItemsFormArray().length > 0) {
+      <section class="items-section">
+        <h3 class="section-title">Itens Principais</h3>
+        <div formArrayName="marbleshopItems">
+          @for (marbleshopItem of getMarbleshopItemsFormArray(); track $index; let i = $index) {
+          <div [formGroupName]="i" class="item-group">
+            <div class="item-header">
+              <h4>Item {{ i + 1 }}</h4>
+              <button mat-icon-button color="warn" type="button" (click)="removeMarbleshopItem(i)" aria-label="Remover Item Principal">
+                <mat-icon>delete</mat-icon>
+              </button>
             </div>
-            @if (j !== getMarbleshopSubItemsFormArray(i).length - 1) {
-            <hr class="w-100" />
-            } }
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field col-5">
+                <mat-label>Nome</mat-label>
+                <input matInput formControlName="name" placeholder="Nome do item" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="form-field col-6">
+                <mat-label>Descrição</mat-label>
+                <input matInput formControlName="description" placeholder="Descrição do item" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="form-field col-2">
+                <mat-label>Medida X</mat-label>
+                <input matInput type="number" formControlName="measureX" placeholder="0.00" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="form-field col-2">
+                <mat-label>Medida Y</mat-label>
+                <input matInput type="number" formControlName="measureY" placeholder="0.00" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="form-field col-1">
+                <mat-label>Qtd.</mat-label>
+                <input matInput type="number" formControlName="quantity" placeholder="1" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="form-field col-3">
+                <mat-label>Material</mat-label>
+                <mat-select formControlName="marbleshopMaterialId">
+                  <mat-option [value]="null">Selecione um material</mat-option>
+                  @for (material of marbleshopMaterials; track material.id) {
+                  <mat-option [value]="material.id">{{ material.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="form-field col-3">
+                <mat-label>Tipo de item</mat-label>
+                <mat-select formControlName="marbleshopItemType">
+                  <mat-option [value]="null">Selecione o tipo</mat-option>
+                  @for (itemType of marbleshopItemTypes; track itemType.value) {
+                  <mat-option [value]="itemType.value">{{ itemType.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            @defer (when getMarbleshopSubItemsFormArray(i).length > 0) {
+            <section formArrayName="marbleshopSubItems" class="sub-items-section">
+              <h4 class="sub-section-title">Sub-Itens</h4>
+              @for (subItem of getMarbleshopSubItemsFormArray(i); track $index; let j = $index) {
+              <div [formGroupName]="j" class="sub-item-group">
+                <div class="item-header">
+                  <h5>Sub-Item {{ j + 1 }}</h5>
+                  <button mat-icon-button color="warn" type="button" (click)="removeMarbleshopSubItem(i, j)" aria-label="Remover Sub-Item">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+                <div class="form-row">
+                  <mat-form-field appearance="outline" class="form-field col-3">
+                    <mat-label>Nome</mat-label>
+                    <input matInput formControlName="name" placeholder="Nome do sub-item" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="form-field col-3">
+                    <mat-label>Descrição/Detalhe</mat-label>
+                    <input matInput formControlName="description" placeholder="Detalhes" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="form-field col-1">
+                    <mat-label>Med. X</mat-label>
+                    <input matInput type="number" formControlName="measureX" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="form-field col-1">
+                    <mat-label>Med. Y</mat-label>
+                    <input matInput type="number" formControlName="measureY" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="form-field col-1">
+                    <mat-label>Qtd.</mat-label>
+                    <input matInput type="number" formControlName="quantity" />
+                  </mat-form-field>
+                  <mat-form-field appearance="outline" class="form-field col-2">
+                    <mat-label>Tipo de sub-item</mat-label>
+                    <mat-select formControlName="marbleshopSubItemType">
+                      <mat-option [value]="null">Selecione o tipo</mat-option>
+                      @for (subItemType of marbleshopSubItemTypes; track subItemType.value) {
+                      <mat-option [value]="subItemType.value">{{ subItemType.name }}</mat-option>
+                      }
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                 @if (j !== getMarbleshopSubItemsFormArray(i).length - 1) {
+                  <mat-divider class="item-divider"></mat-divider>
+                }
+              </div>
+              }
+            </section>
+            }
+
+            <div class="item-actions">
+                <button mat-stroked-button type="button" (click)="addNewMarbleshopItemPediment(i, 'front')">
+                    <mat-icon>add</mat-icon> Frontão Frontal
+                </button>
+                <button mat-stroked-button type="button" (click)="addNewMarbleshopItemPediment(i, 'side')">
+                    <mat-icon>add</mat-icon> Frontão Lateral
+                </button>
+                <button mat-stroked-button type="button" (click)="addNewMarbleshopItemSkirt(i, 'front')">
+                    <mat-icon>add</mat-icon> Saia Frontal
+                </button>
+                <button mat-stroked-button type="button" (click)="addNewMarbleshopItemSkirt(i, 'side')">
+                    <mat-icon>add</mat-icon> Saia Lateral
+                </button>
+                 <button mat-stroked-button color="primary" type="button" (click)="addNewMarbleshopSubItem(i)" class="add-subitem-button">
+                    <mat-icon>add</mat-icon> Sub-Item
+                </button>
+            </div>
+
+            @if (i !== getMarbleshopItemsFormArray().length - 1) {
+            <mat-divider class="section-divider"></mat-divider>
+            }
           </div>
           }
         </div>
-        <div class="d-flex gap-2">
-          <button
-            (click)="addNewMarbleshopItemPediment(i, 'front')"
-            type="button"
-            class="btn btn-light"
-          >
-            <i class="bi bi-plus-lg"></i>
-            Frontão Frontal
-          </button>
-          <button
-            (click)="addNewMarbleshopItemPediment(i, 'side')"
-            type="button"
-            class="btn btn-light"
-          >
-            <i class="bi bi-plus-lg"></i>
-            Frontão Lateral
-          </button>
-          <button (click)="addNewMarbleshopItemSkirt(i, 'front')" type="button" class="btn btn-light">
-            <i class="bi bi-plus-lg"></i> Saia Frontal
-          </button>
-          <button (click)="addNewMarbleshopItemSkirt(i, 'side')" type="button" class="btn btn-light">
-            <i class="bi bi-plus-lg"></i> Saia Lateral
-          </button>
-        </div>
-        <div class="d-flex col-12 justify-content-end">
-          <button
-            type="button"
-            class="btn"
-            (click)="addNewMarbleshopSubItem(i)"
-          >
-            <i class="bi bi-plus-lg"></i> Sub-Item
-          </button>
-        </div>
-        @if (i !== getMarbleshopItemsFormArray().length - 1) {
-        <hr />
-        } }
+      </section>
+      }
+      <div class="add-item-container">
+        <button mat-stroked-button color="primary" type="button" (click)="addNewMarbleshopItem()">
+          <mat-icon>add</mat-icon> Item Principal
+        </button>
       </div>
-    </div>
-    }
-    <div class="d-flex justify-content-end gap-2">
-      <button type="button" class="btn" (click)="addNewMarbleshopItem()">
-        <i class="bi bi-plus-lg"></i> Item Principal
+
+
+      @defer (when getMiscellaneousItemsFormArray().length > 0) {
+      <section class="items-section">
+        <h3 class="section-title">Itens Diversos</h3>
+        <div formArrayName="miscellaneousItems">
+          @for (miscellaneousItem of getMiscellaneousItemsFormArray(); track $index; let k = $index) {
+          <div [formGroupName]="k" class="item-group">
+            <div class="item-header">
+              <h4>Item {{ k + 1 }}</h4>
+              <button mat-icon-button color="warn" type="button" (click)="removeMiscellaneousItem(k)" aria-label="Remover Item Diverso">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field col-5">
+                <mat-label>Nome</mat-label>
+                <input matInput formControlName="name" placeholder="Nome do item diverso" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="form-field col-5">
+                <mat-label>Descrição</mat-label>
+                <input matInput formControlName="details" placeholder="Detalhes do item" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="form-field col-1">
+                <mat-label>Qtd.</mat-label>
+                <input matInput type="number" formControlName="quantity" placeholder="1" />
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="form-field col-3">
+                <mat-label>Material</mat-label>
+                <mat-select formControlName="miscellaneousMaterialId">
+                  <mat-option [value]="null">Selecione um material</mat-option>
+                  @for (material of miscellaneousMaterials; track material.id) {
+                  <mat-option [value]="material.id">{{ material.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="form-field col-3">
+                <mat-label>Tipo de item</mat-label>
+                <mat-select formControlName="miscellaneousItemType">
+                  <mat-option [value]="null">Selecione o tipo</mat-option>
+                  @for (itemType of miscellaneousItemTypes; track itemType.value) {
+                  <mat-option [value]="itemType.value">{{ itemType.name }}</mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+            </div>
+            @if (k !== getMiscellaneousItemsFormArray().length - 1) {
+            <mat-divider class="item-divider"></mat-divider>
+            }
+          </div>
+          }
+        </div>
+      </section>
+      }
+      <div class="add-item-container">
+        <button mat-stroked-button color="accent" type="button" (click)="addNewMiscellaneousItem()">
+          <mat-icon>add</mat-icon> Item Diverso
+        </button>
+      </div>
+
+    </mat-card-content>
+
+    <mat-card-actions class="form-actions">
+      <button mat-stroked-button type="button" (click)="closeQuotationForm()">
+        Cancelar
       </button>
-    </div>
-  </div>
-  <div>
-    @defer (when getMiscellaneousItemsFormArray().length > 0) {
-    <div class="border rounded p-2 items-background">
-      <h6 class="text-center fw-bold">Itens Diversos</h6>
-      <div formArrayName="miscellaneousItems" class="col-12">
-        @for (miscellaneousItem of getMiscellaneousItemsFormArray(); track
-        $index; let k = $index) {
-        <div
-          [formGroupName]="k"
-          class="d-flex w-100 justify-content-between flex-wrap"
-        >
-          <h6
-            class="fw-semibold col-12 d-flex justify-content-between align-items-center"
-          >
-            Item {{ k + 1 }}
-            <button
-              type="button"
-              class="btn text-danger fs-5"
-              (click)="removeMiscellaneousItem(k)"
-            >
-              <i class="bi bi-trash"></i>
-            </button>
-          </h6>
-          <div class="form-floating col-5 mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="floatingMiscellaneousItemNameInput"
-              formControlName="name"
-              placeholder="Nome"
-            />
-            <label for="floatingMiscellaneousItemNameInput">Nome</label>
-          </div>
-          <div class="form-floating col-5 mb-3">
-            <input
-              type="text"
-              class="form-control"
-              id="floatingMiscellaneousItemDetailsInput"
-              formControlName="details"
-              placeholder="Descrição"
-            />
-            <label for="floatingMiscellaneousItemDetailsInput">Descrição</label>
-          </div>
-          <div class="form-floating col-1 mb-3">
-            <input
-              type="number"
-              class="form-control"
-              id="floatingMiscellaneousItemQuantityInput"
-              formControlName="quantity"
-              placeholder="Quantidade"
-            />
-            <label for="floatingMiscellaneousItemQuantityInput"
-              >Quantidade</label
-            >
-          </div>
-          <div class="form-floating col-3 mb-3">
-            <select
-              class="form-select"
-              id="floatingMiscellaneousMaterialInput"
-              formControlName="miscellaneousMaterialId"
-            >
-              <option [value]="null" selected>Selecione um material</option>
-              @for (material of miscellaneousMaterials; track $index) {
-              <option [value]="material.id">{{ material.name }}</option>
-              }
-            </select>
-            <label for="floatingMiscellaneousMaterialInput">Material</label>
-          </div>
-          <div class="form-floating col-3 mb-3">
-            <select
-              class="form-select"
-              id="floatingmMiscellaneousItemTypeInput"
-              formControlName="miscellaneousItemType"
-            >
-              <option [value]="null" selected>Selecione o tipo do item</option>
-              @for (itemType of miscellaneousItemTypes; track $index) {
-              <option [value]="itemType.value">{{ itemType.name }}</option>
-              }
-            </select>
-            <label for="floatingmMiscellaneousItemTypeInput"
-              >Tipo de item</label
-            >
-          </div>
-        </div>
-        @if (k !== getMiscellaneousItemsFormArray().length - 1) {
-        <hr />
-        } }
-      </div>
-    </div>
-    }
-    <div class="d-flex justify-content-end gap-2">
-      <button type="button" class="btn" (click)="addNewMiscellaneousItem()">
-        <i class="bi bi-plus-lg"></i> Item Diverso
+      <button mat-raised-button color="primary" type="button" (click)="submitQuotationForm()" [disabled]="isSaving()">
+        @if (isSaving()) {
+        <mat-spinner diameter="20" class="button-spinner"></mat-spinner>
+        <span>Salvando...</span>
+        } @else {
+        <span>Salvar</span>
+        }
       </button>
-    </div>
-  </div>
-  <div class="d-flex justify-content-end gap-2 mt-3">
-    <button
-      type="button"
-      (click)="closeQuotationForm()"
-      class="btn btn-secondary"
-    >
-      Cancelar
-    </button>
-    <button
-      type="button"
-      (click)="submitQuotationForm()"
-      class="btn btn-warning"
-    >
-      @if (isSaving()) {
-      <div class="spinner-border spinner-border-sm" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      Salvando } @else { Salvar }
-    </button>
-  </div>
-</form>
+    </mat-card-actions>
+  </form>
+</mat-card>
