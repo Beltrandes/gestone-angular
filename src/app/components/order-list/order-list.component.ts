@@ -6,11 +6,10 @@ import { PaymentStatusPipe } from '../../pipes/payment-status.pipe';
 import { PaymentTypePipe } from '../../pipes/payment-type.pipe';
 
 @Component({
-  selector: 'app-order-list',
-  standalone: true,
-  imports: [CurrencyPipe, DatePipe, DecimalPipe, OrderStatusPipe, PaymentStatusPipe, PaymentTypePipe, NgClass],
-  templateUrl: './order-list.component.html',
-  styleUrl: './order-list.component.sass'
+    selector: 'app-order-list',
+    imports: [CurrencyPipe, DatePipe, DecimalPipe, OrderStatusPipe, PaymentStatusPipe, PaymentTypePipe, NgClass],
+    templateUrl: './order-list.component.html',
+    styleUrl: './order-list.component.sass'
 })
 export class OrderListComponent {
 

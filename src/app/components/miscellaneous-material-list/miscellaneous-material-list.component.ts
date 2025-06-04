@@ -4,10 +4,9 @@ import { CurrencyPipe } from '@angular/common';
 import { MiscellaneousMaterialTypePipe } from '../../pipes/miscellaneous-material-type.pipe';
 
 @Component({
-  selector: 'app-miscellaneous-material-list',
-  standalone: true,
-  imports: [CurrencyPipe, MiscellaneousMaterialTypePipe],
-  templateUrl: './miscellaneous-material-list.component.html',
+    selector: 'app-miscellaneous-material-list',
+    imports: [CurrencyPipe, MiscellaneousMaterialTypePipe],
+    templateUrl: './miscellaneous-material-list.component.html'
 })
 export class MiscellaneousMaterialListComponent {
   miscellaneousMaterials = input<MiscellaneousMaterial[]>()

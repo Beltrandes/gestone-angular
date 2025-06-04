@@ -6,11 +6,10 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 
 @Component({
-  selector: 'app-controller',
-  standalone: true,
-  imports: [MatCardModule, MatFormFieldModule, MatIconModule, MatButtonModule, MatInputModule],
-  templateUrl: './controller.component.html',
-  styleUrl: './controller.component.sass'
+    selector: 'app-controller',
+    imports: [MatCardModule, MatFormFieldModule, MatIconModule, MatButtonModule, MatInputModule],
+    templateUrl: './controller.component.html',
+    styleUrl: './controller.component.sass'
 })
 export class ControllerComponent {
   controllerTitle = input()

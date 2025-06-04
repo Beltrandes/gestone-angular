@@ -7,11 +7,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-customer-list',
-  standalone: true,
-  imports: [MatMenuModule, MatCardModule, MatIconModule, MatDividerModule, MatButtonModule],
-  templateUrl: './customer-list.component.html',
-  styleUrl: './customer-list.component.sass',
+    selector: 'app-customer-list',
+    imports: [MatMenuModule, MatCardModule, MatIconModule, MatDividerModule, MatButtonModule],
+    templateUrl: './customer-list.component.html',
+    styleUrl: './customer-list.component.sass'
 })
 export class CustomerListComponent {
   customers = input<Customer[]>();

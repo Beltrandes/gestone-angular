@@ -4,10 +4,9 @@ import { CurrencyPipe } from '@angular/common';
 import { MarbleshopMaterialTypePipe } from '../../pipes/marbleshop-material-type.pipe';
 
 @Component({
-  selector: 'app-marbleshop-material-list',
-  standalone: true,
-  imports: [CurrencyPipe, MarbleshopMaterialTypePipe],
-  templateUrl: './marbleshop-material-list.component.html',
+    selector: 'app-marbleshop-material-list',
+    imports: [CurrencyPipe, MarbleshopMaterialTypePipe],
+    templateUrl: './marbleshop-material-list.component.html'
 })
 export class MarbleshopMaterialListComponent {
 

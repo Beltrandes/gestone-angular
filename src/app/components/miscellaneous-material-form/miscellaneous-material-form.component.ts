@@ -4,10 +4,9 @@ import { MiscellaneousMaterial } from '../../domain/MiscellaneousMaterial';
 import { MiscellaneousMaterialType } from '../../domain/MiscellaneousMaterialType';
 
 @Component({
-  selector: 'app-miscellaneous-material-form',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './miscellaneous-material-form.component.html',
+    selector: 'app-miscellaneous-material-form',
+    imports: [ReactiveFormsModule],
+    templateUrl: './miscellaneous-material-form.component.html'
 })
 export class MiscellaneousMaterialFormComponent {
   miscellaneousMaterialForm!: FormGroup

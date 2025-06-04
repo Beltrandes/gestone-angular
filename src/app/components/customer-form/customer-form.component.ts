@@ -14,11 +14,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-customer-form',
-  standalone: true,
-  imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatIconModule, MatProgressSpinnerModule, MatInputModule, MatButtonModule],
-  templateUrl: './customer-form.component.html',
-  styleUrl: './customer-form.component.sass',
+    selector: 'app-customer-form',
+    imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatIconModule, MatProgressSpinnerModule, MatInputModule, MatButtonModule],
+    templateUrl: './customer-form.component.html',
+    styleUrl: './customer-form.component.sass'
 })
 export class CustomerFormComponent {
   customerForm: FormGroup;

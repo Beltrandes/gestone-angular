@@ -12,18 +12,17 @@ import { ToastrService } from 'ngx-toastr';
 import { ModalComponent } from '../../components/modal/modal.component';
 
 @Component({
-  selector: 'app-customer',
-  standalone: true,
-  imports: [
-    NavbarComponent,
-    ControllerComponent,
-    CustomerListComponent,
-    AsyncPipe,
-    CustomerFormComponent,
-    ModalComponent,
-  ],
-  templateUrl: './customer.component.html',
-  styleUrl: './customer.component.sass',
+    selector: 'app-customer',
+    imports: [
+        NavbarComponent,
+        ControllerComponent,
+        CustomerListComponent,
+        AsyncPipe,
+        CustomerFormComponent,
+        ModalComponent,
+    ],
+    templateUrl: './customer.component.html',
+    styleUrl: './customer.component.sass'
 })
 export class CustomerComponent {
   customers$!: Observable<Customer[]>;

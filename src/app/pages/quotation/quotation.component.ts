@@ -11,16 +11,15 @@ import { QuotationFormComponent } from '../../components/quotation-form/quotatio
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-quotation',
-  standalone: true,
-  imports: [
-    ControllerComponent,
-    AsyncPipe,
-    QuotationListComponent,
-    QuotationFormComponent
-  ],
-  templateUrl: './quotation.component.html',
-  styleUrl: './quotation.component.sass',
+    selector: 'app-quotation',
+    imports: [
+        ControllerComponent,
+        AsyncPipe,
+        QuotationListComponent,
+        QuotationFormComponent
+    ],
+    templateUrl: './quotation.component.html',
+    styleUrl: './quotation.component.sass'
 })
 export class QuotationComponent {
   quotations$!: Observable<Quotation[]>;

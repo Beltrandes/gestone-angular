@@ -15,11 +15,10 @@ import { MiscellaneousMaterialFormComponent } from '../../components/miscellaneo
 import { MiscellaneousMaterialService } from '../../services/miscellaneous-material.service';
 
 @Component({
-  selector: 'app-material',
-  standalone: true,
-  imports: [ControllerComponent, MarbleshopMaterialListComponent, AsyncPipe, MiscellaneousMaterialListComponent, MarbleshopMaterialForm, ModalComponent, NgClass, FormsModule, MiscellaneousMaterialFormComponent],
-  templateUrl: './material.component.html',
-  styleUrl: './material.component.sass'
+    selector: 'app-material',
+    imports: [ControllerComponent, MarbleshopMaterialListComponent, AsyncPipe, MiscellaneousMaterialListComponent, MarbleshopMaterialForm, ModalComponent, NgClass, FormsModule, MiscellaneousMaterialFormComponent],
+    templateUrl: './material.component.html',
+    styleUrl: './material.component.sass'
 })
 export class MaterialComponent {
   marbleshopMaterials$!: Observable<MarbleshopMaterial[]>

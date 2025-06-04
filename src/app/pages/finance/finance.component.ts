@@ -16,11 +16,10 @@ import { Order } from '../../domain/Order';
 import { OrderService } from '../../services/order.service';
 
 @Component({
-  selector: 'app-finance',
-  standalone: true,
-  imports: [ControllerComponent, PaymentListComponent, AsyncPipe, BillListComponent, FinancialBalanceComponent, ModalComponent, PaymentFormComponent, NgClass],
-  templateUrl: './finance.component.html',
-  styleUrl: './finance.component.sass'
+    selector: 'app-finance',
+    imports: [ControllerComponent, PaymentListComponent, AsyncPipe, BillListComponent, FinancialBalanceComponent, ModalComponent, PaymentFormComponent, NgClass],
+    templateUrl: './finance.component.html',
+    styleUrl: './finance.component.sass'
 })
 export class FinanceComponent implements OnInit {
   modalConfirmActionButtonColor = signal('info');

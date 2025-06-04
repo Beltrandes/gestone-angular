@@ -5,11 +5,10 @@ import { PaymentTypePipe } from '../../pipes/payment-type.pipe';
 import { PaymentStatusPipe } from "../../pipes/payment-status.pipe";
 
 @Component({
-  selector: 'app-payment-list',
-  standalone: true,
-  imports: [CurrencyPipe, DatePipe, PaymentTypePipe, PaymentStatusPipe, NgClass],
-  templateUrl: './payment-list.component.html',
-  styleUrl: './payment-list.component.sass'
+    selector: 'app-payment-list',
+    imports: [CurrencyPipe, DatePipe, PaymentTypePipe, PaymentStatusPipe, NgClass],
+    templateUrl: './payment-list.component.html',
+    styleUrl: './payment-list.component.sass'
 })
 export class PaymentListComponent {
   payments = input<Payment[]>()

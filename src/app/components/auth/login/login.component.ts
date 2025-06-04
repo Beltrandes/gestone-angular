@@ -6,11 +6,10 @@ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [DefaultAuthComponent, ReactiveFormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.sass'
+    selector: 'app-login',
+    imports: [DefaultAuthComponent, ReactiveFormsModule],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.sass'
 })
 export class LoginComponent {
 

@@ -7,11 +7,10 @@ import { QuotationService } from '../../services/quotation.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
-  selector: 'app-order-form',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './order-form.component.html',
-  styleUrl: './order-form.component.sass'
+    selector: 'app-order-form',
+    imports: [ReactiveFormsModule],
+    templateUrl: './order-form.component.html',
+    styleUrl: './order-form.component.sass'
 })
 export class OrderFormComponent {
 

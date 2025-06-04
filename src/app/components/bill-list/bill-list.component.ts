@@ -5,11 +5,10 @@ import { BillCategoryPipe } from '../../pipes/bill-category.pipe';
 import { BillStatusPipe } from "../../pipes/bill-status.pipe";
 
 @Component({
-  selector: 'app-bill-list',
-  standalone: true,
-  imports: [CurrencyPipe, DatePipe, BillCategoryPipe, BillStatusPipe, NgClass],
-  templateUrl: './bill-list.component.html',
-  styleUrl: './bill-list.component.sass'
+    selector: 'app-bill-list',
+    imports: [CurrencyPipe, DatePipe, BillCategoryPipe, BillStatusPipe, NgClass],
+    templateUrl: './bill-list.component.html',
+    styleUrl: './bill-list.component.sass'
 })
 export class BillListComponent {
   bills = input<Bill[]>()

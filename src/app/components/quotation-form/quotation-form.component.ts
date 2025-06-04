@@ -28,11 +28,10 @@ import {MatSelectModule} from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-quotation-form',
-  standalone: true,
-  imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatIconModule, MatOptionModule, MatDividerModule, MatSelectModule, MatButtonModule],
-  templateUrl: './quotation-form.component.html',
-  styleUrl: './quotation-form.component.sass',
+    selector: 'app-quotation-form',
+    imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatIconModule, MatOptionModule, MatDividerModule, MatSelectModule, MatButtonModule],
+    templateUrl: './quotation-form.component.html',
+    styleUrl: './quotation-form.component.sass'
 })
 export class QuotationFormComponent implements OnInit {
   isSaving = input(false);

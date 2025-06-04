@@ -5,11 +5,10 @@ import {
   signal,
 } from '@angular/core';
 @Component({
-  selector: 'app-modal',
-  standalone: true,
-  imports: [],
-  templateUrl: './modal.component.html',
-  styleUrl: './modal.component.sass',
+    selector: 'app-modal',
+    imports: [],
+    templateUrl: './modal.component.html',
+    styleUrl: './modal.component.sass'
 })
 export class ModalComponent {
   modalTitle = signal('');

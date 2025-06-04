@@ -8,11 +8,10 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatDividerModule} from '@angular/material/divider';
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [RouterLink, MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, MatDividerModule],
-  templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.sass'
+    selector: 'app-navbar',
+    imports: [RouterLink, MatToolbarModule, MatButtonModule, MatIconModule, MatMenuModule, MatDividerModule],
+    templateUrl: './navbar.component.html',
+    styleUrl: './navbar.component.sass'
 })
 export class NavbarComponent {
   marbleshopName: string | null = null

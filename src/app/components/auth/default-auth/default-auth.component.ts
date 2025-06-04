@@ -1,11 +1,10 @@
 import { Component, EventEmitter, input, output } from '@angular/core';
 
 @Component({
-  selector: 'app-default-auth',
-  standalone: true,
-  imports: [],
-  templateUrl: './default-auth.component.html',
-  styleUrl: './default-auth.component.sass'
+    selector: 'app-default-auth',
+    imports: [],
+    templateUrl: './default-auth.component.html',
+    styleUrl: './default-auth.component.sass'
 })
 export class DefaultAuthComponent {
 

@@ -6,11 +6,10 @@ import { NgIf } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.sass'
+    selector: 'app-register',
+    imports: [ReactiveFormsModule],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.sass'
 })
 export class RegisterComponent {
   registerForm: FormGroup

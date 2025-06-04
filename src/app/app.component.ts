@@ -6,11 +6,10 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet, NavbarComponent, NgClass],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.sass'
+    selector: 'app-root',
+    imports: [RouterOutlet, NavbarComponent, NgClass],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.sass'
 })
 export class AppComponent {
   showNavbar = true;

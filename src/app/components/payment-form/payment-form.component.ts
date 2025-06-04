@@ -4,11 +4,10 @@ import { Payment } from '../../domain/Payment';
 import { Order } from '../../domain/Order';
 
 @Component({
-  selector: 'app-payment-form',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './payment-form.component.html',
-  styleUrl: './payment-form.component.sass'
+    selector: 'app-payment-form',
+    imports: [ReactiveFormsModule],
+    templateUrl: './payment-form.component.html',
+    styleUrl: './payment-form.component.sass'
 })
 export class PaymentFormComponent {
 

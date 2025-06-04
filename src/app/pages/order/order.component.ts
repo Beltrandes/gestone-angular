@@ -11,11 +11,10 @@ import { OrderFormComponent } from "../../components/order-form/order-form.compo
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-order',
-  standalone: true,
-  imports: [NavbarComponent, ControllerComponent, OrderListComponent, OrderFormComponent, AsyncPipe],
-  templateUrl: './order.component.html',
-  styleUrl: './order.component.sass'
+    selector: 'app-order',
+    imports: [NavbarComponent, ControllerComponent, OrderListComponent, OrderFormComponent, AsyncPipe],
+    templateUrl: './order.component.html',
+    styleUrl: './order.component.sass'
 })
 export class OrderComponent implements OnInit {
 

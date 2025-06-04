@@ -6,10 +6,9 @@ import { MarbleshopMaterialType } from '../../domain/MarbleshopMaterialType';
 import { MiscellaneousMaterialType } from '../../domain/MiscellaneousMaterialType';
 
 @Component({
-  selector: 'app-marbleshop-material-form',
-  standalone: true,
-  imports: [ReactiveFormsModule],
-  templateUrl: './marbleshop-material-form.component.html',
+    selector: 'app-marbleshop-material-form',
+    imports: [ReactiveFormsModule],
+    templateUrl: './marbleshop-material-form.component.html'
 })
 export class MarbleshopMaterialForm implements OnInit {
   marbleshopMaterialForm!: FormGroup
