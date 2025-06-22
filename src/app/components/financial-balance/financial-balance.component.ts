@@ -1,11 +1,12 @@
-import { CurrencyPipe, NgClass } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
 import { Component, input } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
-    selector: 'app-financial-balance',
-    imports: [CurrencyPipe, NgClass],
-    templateUrl: './financial-balance.component.html',
-    styleUrl: './financial-balance.component.sass'
+  selector: 'app-financial-balance',
+  imports: [CurrencyPipe, MatCardModule],
+  templateUrl: './financial-balance.component.html',
+  styleUrl: './financial-balance.component.sass'
 })
 export class FinancialBalanceComponent {
   totalPayments = input<number>(0)

@@ -1,0 +1,86 @@
+<mat-card [formGroup]="expenseForm" class="expense-form-card">
+  <mat-card-header class="expense-form-header">
+    <div class="form-titles">
+      <mat-card-title>Registrando despesa</mat-card-title>
+      <mat-card-subtitle>Preencha os dados</mat-card-subtitle>
+    </div>
+    <button
+      mat-icon-button
+      (click)="closeExpenseForm()"
+      class="close-button"
+      aria-label="Fechar formulário"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-card-header>
+
+  <mat-card-content class="expense-form-content">
+    <div class="form-fields-grid">
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Valor Pago</mat-label>
+        <input
+          cdkFocusInitial
+          matInput
+          type="number"
+          formControlName="paidValue"
+          placeholder="Ex: 100.00"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Detalhes</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="details"
+          placeholder="Descrição"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Tipo de pagamento</mat-label>
+        <mat-select formControlName="paymentType">
+          <mat-option [value]="null">Selecione um tipo de pagamento</mat-option>
+          @for (paymentType of paymentTypes; track $index) {
+          <mat-option [value]="paymentType.value">{{
+            paymentType.name
+          }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Conta</mat-label>
+        <mat-select formControlName="billId">
+          <mat-option [value]="null">Selecione a categoria</mat-option>
+          @for (bill of bills(); track $index) {
+          <mat-option [value]="bill.id"
+            >{{ bill.name }}({{ bill.category | billCategory }})</mat-option
+          >
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Data de pagamento</mat-label>
+        <input
+          formControlName="paymentDate"
+          matInput
+          [matDatepicker]="paymentDatePicker"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="paymentDatePicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #paymentDatePicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions class="expense-form-actions">
+    <button mat-stroked-button (click)="closeExpenseForm()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="submitExpenseForm()">
+      @if (isSaving()) {
+      <mat-spinner diameter="20"></mat-spinner>
+      <span>Salvando</span> } @else { <span>Salvar</span> }
+    </button>
+  </mat-card-actions>
+</mat-card>

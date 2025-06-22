@@ -1,63 +1,33 @@
-<div class="container-fluid h-100">
-  <div class="row">
-    <div class="col-10 mx-auto py-3 d-flex flex-column gap-3">
-      <app-controller
-        controllerTitle="Finanças"
-        controllerIconText="cash"
-        controllerPrimaryButtonText="Registrar transação"
-        (add)="openModal()"
-      ></app-controller>
-      @if (orders$ | async; as orders) { @if (isPaymentFormOpened()) {
-      <app-payment-form
-        (close)="closePaymentForm()"
-        [orders]="orders"
-      ></app-payment-form>
-      } }
-      <app-financial-balance
-        [totalBills]="totalBills"
-        [totalPayments]="totalPayments"
-      ></app-financial-balance>
-      <div class="d-flex gap-2">
-        @if (payments$ | async; as payments) {
-        <app-payment-list
-          class="col-6"
-          [payments]="payments"
-        ></app-payment-list>
-        } @if (bills$ | async; as bills) {
-        <app-bill-list class="col-6" [bills]="bills"></app-bill-list>
-        }
-      </div>
-    </div>
+<div class="finance-container container-80">
+  <app-controller
+    controllerTitle="Finanças"
+    controllerIconText="account_balance"
+    controllerPrimaryButtonText="Registrar transação"
+    (add)="openModal('transactionType')"
+  ></app-controller>
+  @if (orders$ | async; as orders) { @if (isPaymentFormOpened()) {
+  <app-payment-form
+    (close)="closePaymentForm()"
+    (submit)="submitPaymentForm($event)"
+    [orders]="orders"
+  ></app-payment-form>
+  } } @if (bills$ | async; as bills) { @if (isExpenseFormOpened()) {
+  <app-expense-form
+    [bills]="bills"
+    (close)="closeExpenseForm()"
+    (submit)="submitExpenseForm($event)"
+  >
+  </app-expense-form>
+  } }
+  <app-financial-balance
+    [totalBills]="totalExpenses"
+    [totalPayments]="totalPayments"
+  ></app-financial-balance>
+  <div class="d-flex gap-2">
+    @if (payments$ | async; as payments) {
+    <app-payment-list class="col-6" [payments]="payments"></app-payment-list>
+    } @if (expenses$ | async; as expenses) {
+    <app-expense-list class="col-6" [expenses]="expenses"></app-expense-list>
+    }
   </div>
 </div>
-<app-modal
-  (confirm)="confirmModal()"
-  modalConfirmActionButtonText="Confirmar"
-  [modalConfirmActionButtonColor]="modalConfirmActionButtonColor()"
->
-  @if (modalType() === 'transactionType') {
-  <h5>Qual o tipo de transação quer registrar ?</h5>
-  <div class="d-flex align-items-center justify-content-center gap-3">
-    <button
-      (click)="selectTransactionType('payment')"
-      type="button"
-      class="btn bg-light w-25 text-nowrap"
-      [ngClass]="transactionType() === 'payment' ? 'active' : 'inactive'"
-    >
-      Pagamento @if (transactionType() === 'payment') {
-      <i class="bi bi-check-lg"></i>
-      }
-    </button>
-    <button
-      (click)="selectTransactionType('bill')"
-      type="button"
-      class="btn bg-light w-25"
-      [ngClass]="transactionType() === 'bill' ? 'active' : 'inactive'"
-    >
-      Despesa @if (transactionType() === 'bill') {
-      <i class="bi bi-check-lg"></i>
-      }
-    </button>
-  </div>
-  }</app-modal
->

@@ -1,17 +1,39 @@
 @use '@angular/material' as mat
+@use 'sass:color'
+@import '../theme.css'
 
+$navbar-background-color: #d19217
+$title-color: #d19217
 
 *
-  box-sizing: border-box
+  font-family: 'Roboto', sans-serif
   margin: 0
   padding: 0
-  font-size: 16px
+  box-sizing: border-box
+:root
+  @include mat.toolbar-overrides((
+    container-background-color: color.adjust($navbar-background-color, $lightness: 5%),
+    container-text-color: red,
+    title-text-font: blue
+  ))
 
-html, body
-  height: 100vh
+.lemon-curry-title-color
+  color: $title-color
 
-.bg-lemon-curry
-  background-color: #d19217
+.container-80
+  width: 80%
+  margin: 0 auto
 
-.text-lemon-curry
-  color: #d19217
+.bg-success
+  background-color: #198754
+.bg-warn
+  background-color: #ffc107
+.bg-danger
+  background-color: #dc3545
+
+.text-success
+  color: #198754
+.text-warn
+  color: #ffc107
+.text-danger
+  color: #dc3545

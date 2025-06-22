@@ -16,7 +16,7 @@ private readonly apiUrl = 'http://localhost:8080/api/v1/payment'
     return this.http.get<Payment[]>(`${this.apiUrl}/${marbleshopId}`)
   }
 
-  saveOrder(payment: Payment) {
+  savePayment(payment: Payment) {
     if (payment.id) {
       return this.updatePayment(payment)
     } else {

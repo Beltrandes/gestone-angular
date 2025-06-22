@@ -33,4 +33,10 @@ export class OrderService {
     return this.http.put<Order>(`${this.apiUrl}/${order.id}`, order)
   }
 
+  generateOrderPdf(orderId: string) {
+    return this.http.get(`${this.apiUrl}/pdf/${orderId}`, {
+      responseType: 'blob'
+    })
+  }
+
 }

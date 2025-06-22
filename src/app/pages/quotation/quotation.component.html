@@ -1,16 +1,17 @@
-<div class="container-fluid bg-white h-100">
+<div class="container-80">
   <div class="row">
     <div class="col-10 mx-auto py-3 d-flex flex-column gap-3">
       <app-controller
         controllerTitle="Orçamentos"
-        controllerIconText="clipboard2"
+        controllerIconText="request_quote"
         controllerPrimaryButtonText="Criar orçamento"
         (add)="openQuotationForm()"
+        (search)="searchQuotation($event)"
       ></app-controller>
       @if (isQuotationFormOpened()) {
       <app-quotation-form (submit)="saveQuotation($event)" (close)="closeQuotationForm()" [isSaving]="isSaving()" [quotation]="quotation"></app-quotation-form>
       } @if (quotations$ | async; as quotations) {
-      <app-quotation-list [quotations]="quotations" (edit)="editQuotation($event)" (copy)="copyQuotation($event)"></app-quotation-list>
+      <app-quotation-list [searchString]="searchString()" [quotations]="quotations" (edit)="editQuotation($event)" (copy)="copyQuotation($event)" (order)="openGenerateOrderDialog($event)" (pdf)="generatePdfOfQuotation($event)"></app-quotation-list>
       }
     </div>
   </div>

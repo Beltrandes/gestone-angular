@@ -11,5 +11,6 @@ export interface Payment {
   marbleshopOrder?: Order,
   orderFinalValue?: number,
   orderPaymentStatus?: string,
+  paymentDate?: Date,
   createdAt: Date
 }

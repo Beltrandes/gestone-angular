@@ -4,11 +4,19 @@ import { MarbleshopMaterial } from '../../domain/MarbleshopMaterial';
 import { MiscellaneousMaterial } from '../../domain/MiscellaneousMaterial';
 import { MarbleshopMaterialType } from '../../domain/MarbleshopMaterialType';
 import { MiscellaneousMaterialType } from '../../domain/MiscellaneousMaterialType';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'app-marbleshop-material-form',
-    imports: [ReactiveFormsModule],
-    templateUrl: './marbleshop-material-form.component.html'
+    imports: [ReactiveFormsModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatIconModule, MatSelectModule, MatProgressSpinner],
+    templateUrl: './marbleshop-material-form.component.html',
+    styleUrls: ['./marbleshop-material-form.sass'],
 })
 export class MarbleshopMaterialForm implements OnInit {
   marbleshopMaterialForm!: FormGroup

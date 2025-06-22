@@ -1,5 +1,8 @@
+import { Expense } from "./Expense";
+
 export interface Bill {
   id: string;
+  name: string;
   description: string;
   totalValue: number;
   paidValue: number;
@@ -10,4 +13,5 @@ export interface Bill {
   notes: string;
   createdAt: Date;
   updatedAt: Date;
+  expenses: Expense[]
 }

@@ -1,38 +1,24 @@
 import {
   Component,
+  inject,
   input,
   output,
   signal,
 } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 @Component({
-    selector: 'app-modal',
-    imports: [],
-    templateUrl: './modal.component.html',
-    styleUrl: './modal.component.sass'
+  selector: 'app-modal',
+  imports: [MatDialogModule],
+  templateUrl: './modal.component.html',
+  styleUrl: './modal.component.sass'
 })
 export class ModalComponent {
   modalTitle = signal('');
   modalConfirmActionButtonText = input('');
   modalConfirmActionButtonColor = input('primary');
+  data = inject(MAT_DIALOG_DATA)
 
   confirm = output();
   close = output();
-  openModal(modalTitle: string) {
-    const modal = document.getElementById('modal');
-    if (modal != null) {
-      modal.style.display = 'block';
-      this.modalTitle.set(modalTitle);
-    }
-  }
 
-  closeModal() {
-    const modal = document.getElementById('modal');
-    if (modal != null) {
-      modal.style.display = 'none';
-    }
-  }
-
-  confirmAction() {
-    this.confirm.emit();
-  }
 }

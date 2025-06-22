@@ -1,0 +1,33 @@
+<div class="container-80">
+  <div class="row">
+    <div class="col-10 mx-auto py-3 d-flex flex-column">
+      <app-controller
+        controllerTitle="Contas"
+        controllerIconText="receipt_long"
+        class="mb-3"
+        controllerPrimaryButtonText="Conta"
+        (add)="openBillForm()"
+      ></app-controller>
+
+      @if (isBillFormOpened()) {
+        <app-bill-form
+          (close)="closeBillForm()"
+          (submit)="submitBillForm($event)"
+          [isSaving]="isSaving()"
+          [bill]="editingBill()"
+        ></app-bill-form>
+      }
+    </div>
+
+    @if (bills$ | async; as bills) {
+      <div class="col-10 mx-auto">
+        <app-bill-list
+          [bills]="bills"
+          (edit)="editBill($event)"
+          (delete)="openDeleteBillModal($event)"
+          (add)="openAddExpenseDialog($event)"
+        ></app-bill-list>
+      </div>
+    }
+  </div>
+</div>

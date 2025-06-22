@@ -1,4 +1,4 @@
-<div class="container-fluid h-100">
+<div class="container-80">
   <div class="row">
     <div class="col-10 mx-auto py-3 d-flex flex-column gap-3">
       <app-controller
@@ -10,7 +10,7 @@
       @if (isFormOpened()) {
       <app-order-form (close)="closeOrderForm()" (submit)="saveOrder($event)"></app-order-form>
       } @if (orders$ | async; as orders) {
-      <app-order-list [orders]="orders"></app-order-list>
+      <app-order-list (pdf)="generatePdfOfOrder($event)" [orders]="orders" (add)="openAddPaymentDialog($event)"></app-order-list>
       }
     </div>
   </div>

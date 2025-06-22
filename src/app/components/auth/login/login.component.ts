@@ -4,12 +4,14 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
-    selector: 'app-login',
-    imports: [DefaultAuthComponent, ReactiveFormsModule],
-    templateUrl: './login.component.html',
-    styleUrl: './login.component.sass'
+  selector: 'app-login',
+  imports: [DefaultAuthComponent, ReactiveFormsModule, MatFormFieldModule, MatInputModule],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.sass'
 })
 export class LoginComponent {
 
@@ -22,8 +24,8 @@ export class LoginComponent {
 
   constructor() {
     this.loginForm = this.fb.group({
-      email: ['', Validators.email],
-      password: ['', Validators.minLength(6)]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
     })
   }
 

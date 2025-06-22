@@ -7,6 +7,7 @@ import { QuotationComponent } from './pages/quotation/quotation.component';
 import { MaterialComponent } from './pages/material/material.component';
 import { OrderComponent } from './pages/order/order.component';
 import { FinanceComponent } from './pages/finance/finance.component';
+import { BillComponent } from './pages/bill/bill.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -16,6 +17,7 @@ export const routes: Routes = [
   { path: ':marbleshopId/orcamentos', component: QuotationComponent },
   {path: ':marbleshopId/pedidos', component: OrderComponent},
   {path: ':marbleshopId/financas', component: FinanceComponent},
+  {path: ':marbleshopId/contas', component: BillComponent, },
   {path: 'materiais', component: MaterialComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' },

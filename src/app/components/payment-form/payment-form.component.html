@@ -1,80 +1,81 @@
-<form [formGroup]="paymentForm" class="card px-3 py-2 bg-light">
-  <div
-    class="card-header d-flex align-items-center justify-content-between mb-3"
-  >
+<mat-card [formGroup]="paymentForm" class="payment-form-card">
+  <mat-card-header class="payment-form-header">
     <div class="form-titles">
-      <h5 class="card-title">Registrando pagamento</h5>
-      <h6 class="card-subtitle">Preencha os dados</h6>
+      <mat-card-title>Registrando pagamento</mat-card-title>
+      <mat-card-subtitle>Preencha os dados</mat-card-subtitle>
     </div>
     <button
+      mat-icon-button
       (click)="closePaymentForm()"
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-    ></button>
-  </div>
-  <div class="d-flex gap-2">
-    <div class="form-floating col-2 mb-3">
-      <input
-        type="number"
-        class="form-control"
-        id="floatingPaymentPayedValueInput"
-        formControlName="payedValue"
-        placeholder="Nome"
-      />
-      <label for="floatingPaymentPayedValueInput">Valor Pago</label>
-    </div>
-    <div class="form-floating col-3 mb-3">
-      <input
-        type="text"
-        class="form-control"
-        id="floatingPaymentDetailsInput"
-        formControlName="details"
-        placeholder="Descrição"
-      />
-      <label for="floatingPaymentDetailsInput">Detalhes</label>
-    </div>
-    <div class="form-floating col-2 mb-3">
-      <select
-        class="form-select"
-        id="floatingPaymentTypeSelect"
-        formControlName="paymentType"
-      >
-        <option [value]="null" selected>Selecione um tipo de pagamento</option>
-        @for (paymentType of paymentTypes; track $index) {
-        <option [value]="paymentType.value">{{ paymentType.name }}</option>
-        }
-      </select>
-      <label for="floatingPaymentTypeSelect">Tipo de pagamento</label>
-    </div>
-    <div class="form-floating mb-3">
-      <select
-        class="form-select"
-        id="floatingQuotationInput"
-        formControlName="marbleshopOrderId"
-      >
-        <option [value]="null" selected>Selecione o pedido do pagamento</option>
-        @for (order of orders(); track $index) {
-        <option [value]="order.id">Pedido {{order.localId}} de {{ order.customer.name }}</option>
-        }
-      </select>
-      <label for="floatingQuotationInput">Pedido</label>
-    </div>
-  </div>
-  <div class="d-flex justify-content-end gap-2 mt-3">
-    <button
-      type="button"
-      (click)="closePaymentForm()"
-      class="btn btn-secondary"
+      class="close-button"
+      aria-label="Fechar formulário"
     >
-      Cancelar
+      <mat-icon>close</mat-icon>
     </button>
-    <button type="button" (click)="submitPaymentForm()" class="btn btn-warning">
+  </mat-card-header>
+
+  <mat-card-content class="payment-form-content">
+    <div class="form-fields-grid">
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Valor Pago</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="payedValue"
+          placeholder="Valor Pago"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Detalhes</mat-label>
+        <input
+          matInput
+          type="text"
+          formControlName="details"
+          placeholder="Descrição"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Tipo de pagamento</mat-label>
+        <mat-select formControlName="paymentType">
+          <mat-option [value]="null">Selecione um tipo de pagamento</mat-option>
+          @for (paymentType of paymentTypes; track $index) {
+          <mat-option [value]="paymentType.value">{{
+            paymentType.name
+          }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Pedido</mat-label>
+        <mat-select formControlName="marbleshopOrderId">
+          <mat-option [value]="null"
+            >Selecione o pedido do pagamento</mat-option
+          >
+          @for (order of orders(); track $index) {
+          <mat-option [value]="order.id"
+            >Pedido {{ order.localId }} de {{ order.customer.name }}</mat-option
+          >
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Data de pagamento</mat-label>
+        <input formControlName="paymentDate" matInput [matDatepicker]="picker" />
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions class="payment-form-actions">
+    <button mat-stroked-button (click)="closePaymentForm()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="submitPaymentForm()">
       @if (isSaving()) {
-      <div class="spinner-border spinner-border-sm" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      Salvando } @else { Salvar }
+      <mat-spinner diameter="20"></mat-spinner>
+      <span>Salvando</span> } @else { <span>Salvar</span> }
     </button>
-  </div>
-</form>
+  </mat-card-actions>
+</mat-card>

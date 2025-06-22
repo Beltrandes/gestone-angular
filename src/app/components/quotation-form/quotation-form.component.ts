@@ -26,10 +26,11 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatSelectModule} from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
+import {A11yModule} from '@angular/cdk/a11y';
 
 @Component({
     selector: 'app-quotation-form',
-    imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatIconModule, MatOptionModule, MatDividerModule, MatSelectModule, MatButtonModule],
+    imports: [ReactiveFormsModule, MatCardModule, MatFormFieldModule, MatInputModule, MatProgressSpinnerModule, MatIconModule, MatOptionModule, MatDividerModule, MatSelectModule, MatButtonModule, A11yModule],
     templateUrl: './quotation-form.component.html',
     styleUrl: './quotation-form.component.sass'
 })

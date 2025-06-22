@@ -1,148 +1,116 @@
-<form [formGroup]="orderForm" class="card px-3 py-2 bg-light">
-  <div
-    class="card-header d-flex align-items-center justify-content-between mb-3"
-  >
+<mat-card [formGroup]="orderForm" class="order-form-card">
+  <mat-card-header class="order-form-header">
     <div class="form-titles">
-      <h5 class="card-title">Gerando pedido</h5>
-      <h6 class="card-subtitle">Preencha os dados</h6>
+      <mat-card-title>Gerando pedido</mat-card-title>
+      <mat-card-subtitle>Preencha os dados</mat-card-subtitle>
     </div>
     <button
+      class="close-button"
+      mat-icon-button
       (click)="closeOrderForm()"
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-    ></button>
-  </div>
-  <div class="d-flex gap-2">
-    <div class="form-floating mb-3 col-3">
-      <input
-        type="text"
-        class="form-control"
-        id="floatingWorkAddressInput"
-        placeholder="name@example.com"
-        formControlName="workAddress"
-      />
-      <label for="floatingWorkAddressInput">Endereço da obra</label>
-    </div>
-    <div class="form-floating col-3">
-      <input
-        type="number"
-        class="form-control"
-        id="floatingDiscountInput"
-        placeholder=""
-        formControlName="discount"
-      />
-      <label for="floatingDiscountInput">Desconto</label>
-    </div>
-    <div class="form-floating mb-3 col-2">
-      <input
-        type="text"
-        class="form-control"
-        id="floatingNotesInput"
-        placeholder=""
-        formControlName="notes"
-      />
-      <label for="floatingNotesInput">Notas</label>
-    </div>
-    <div class="form-floating col-3">
-      <select
-        type="type"
-        class="form-select"
-        id="floatingQuotationInput"
-        placeholder="Selecione uma cotação"
-        formControlName="quotationId"
-      >
-      <option [value]="null" selected>
-              Selecione uma cotação
-            </option>
-        @for(quotation of quotations(); track $index) {
-        <option [value]="quotation.id">
-          {{ quotation.name }} de {{ quotation.customer.name }}
-        </option>
-        }
-      </select>
-      <label for="floatingQuotationInput">Cotação</label>
-    </div>
-  </div>
-  @defer (when getPaymentsFormArray().length > 0) {
-  <div class="border rounded p-2 items-background">
-    <h6 class="text-center fw-bold">Pagamentos</h6>
-    <div formArrayName="payments" class="col-12">
-      @for (payment of getPaymentsFormArray(); track $index; let i = $index) {
-      <div
-        [formGroupName]="i"
-        class="d-flex w-100 justify-content-between flex-wrap"
-      >
-        <h6
-          class="fw-semibold col-12 d-flex justify-content-between align-items-center"
-        >
-          Pagamento {{ i + 1 }}
-          <button
-            type="button"
-            class="btn text-danger fs-5"
-            (click)="removePayment(i)"
-          >
-            <i class="bi bi-trash"></i>
-          </button>
-        </h6>
-        <div class="form-floating col-2 mb-3">
-          <input
-            type="number"
-            class="form-control"
-            id="floatingPaymentPayedValueInput"
-            formControlName="payedValue"
-            placeholder="Nome"
-          />
-          <label for="floatingPaymentPayedValueInput">Valor Pago</label>
-        </div>
-        <div class="form-floating col-6 mb-3">
-          <input
-            type="text"
-            class="form-control"
-            id="floatingPaymentDetailsInput"
-            formControlName="details"
-            placeholder="Descrição"
-          />
-          <label for="floatingPaymentDetailsInput">Detalhes</label>
-        </div>
-        <div class="form-floating col-3 mb-3">
-          <select
-            class="form-select"
-            id="floatingQuotationInput"
-            formControlName="paymentType"
-          >
-            <option [value]="null" selected>
-              Selecione um tipo de pagamento
-            </option>
-            @for (paymentType of paymentTypes; track $index) {
-            <option [value]="paymentType.value">{{ paymentType.name }}</option>
-            }
-          </select>
-          <label for="floatingQuotationInput">Tipo de pagamento</label>
-        </div>
-      </div>
+      aria-label="Fechar formulário"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-card-header>
 
-      @if (i !== getPaymentsFormArray().length - 1) {
-      <hr />
-      } }
+  <mat-card-content class="order-form-content">
+    <div class="main-fields-grid">
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Endereço da obra</mat-label>
+        <input matInput type="text" formControlName="workAddress" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Desconto</mat-label>
+        <input matInput type="number" formControlName="discount" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Notas</mat-label>
+        <input matInput type="text" formControlName="notes" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Cotação</mat-label>
+        <mat-select formControlName="quotationId">
+          <mat-option [value]="null">Selecione uma cotação</mat-option>
+          @for(quotation of quotations(); track $index) {
+          <mat-option [value]="quotation.id">
+            {{ quotation.id.split('-').at(0) }} de {{ quotation.customer.name }}
+          </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
     </div>
-  </div>
-  }
-  <div class="d-flex col-12 justify-content-end">
-    <button type="button" class="btn" (click)="addNewPayment()">
-      <i class="bi bi-plus-lg"></i> Pagamento
-    </button>
-  </div>
-  <div class="d-flex justify-content-end gap-2 mt-3">
-    <button type="button" (click)="closeOrderForm()" class="btn btn-secondary">
-      Cancelar
-    </button>
-    <button type="button" (click)="submitOrderForm()" class="btn btn-warning">
-      @if (isSaving()) {
-      <div class="spinner-border spinner-border-sm" role="status">
-        <span class="visually-hidden">Loading...</span>
+
+    @defer (when getPaymentsFormArray().length > 0) {
+    <div class="payments-section">
+      <h4 class="section-title">Pagamentos</h4>
+      <div [formArrayName]="'payments'" class="payments-form-array">
+        @for (payment of getPaymentsFormArray(); track $index; let i = $index) {
+        <div [formGroupName]="i" class="payment-item-group">
+          <h5 class="payment-item-header">
+            Pagamento {{ i + 1 }}
+            <button
+              mat-icon-button
+              color="warn"
+              (click)="removePayment(i)"
+              aria-label="Remover pagamento"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </h5>
+          <div class="payment-fields-grid">
+            <mat-form-field appearance="outline" class="full-width-field">
+              <mat-label>Valor Pago</mat-label>
+              <input matInput type="number" formControlName="payedValue" />
+            </mat-form-field>
+
+            <mat-form-field
+              appearance="outline"
+              class="full-width-field col-span-2"
+            >
+              <mat-label>Detalhes</mat-label>
+              <input matInput type="text" formControlName="details" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width-field">
+              <mat-label>Tipo de pagamento</mat-label>
+              <mat-select formControlName="paymentType">
+                <mat-option [value]="null"
+                  >Selecione um tipo de pagamento</mat-option
+                >
+                @for (paymentType of paymentTypes; track $index) {
+                <mat-option [value]="paymentType.value">{{
+                  paymentType.name
+                }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        @if (i !== getPaymentsFormArray().length - 1) {
+        <mat-divider class="payment-item-divider"></mat-divider>
+        } }
       </div>
-      Salvando } @else { Salvar }
+    </div>
+    }
+
+    <div class="add-payment-button-container">
+      <button mat-button (click)="addNewPayment()">
+        <mat-icon>add</mat-icon> Pagamento
+      </button>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions class="order-form-actions">
+    <button mat-stroked-button (click)="closeOrderForm()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="submitOrderForm()">
+      @if (isSaving()) {
+      <mat-spinner diameter="20"></mat-spinner>
+      <span>Salvando</span> } @else { <span>Salvar</span> }
     </button>
-  </div>
-</form>
+  </mat-card-actions>
+</mat-card>

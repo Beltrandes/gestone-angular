@@ -1,0 +1,82 @@
+.order-form-card
+  width: 100%
+  padding: 1rem
+  margin-bottom: 1rem
+  .order-form-header
+    padding-bottom: 16px
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12)
+    .close-button
+      margin-left: auto
+
+    .form-titles
+      .mat-mdc-card-title
+        font-size: 1.5rem
+        margin-bottom: 4px
+
+      .mat-mdc-card-subtitle
+        font-size: 1rem
+        color: rgba(0, 0, 0, 0.6)
+
+  .order-form-content
+    padding: 16px 0
+
+  .main-fields-grid
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+    gap: 16px
+    margin-bottom: 24px
+
+  .full-width-field
+    width: 100%
+
+  .payments-section
+    border: 1px solid rgba(0, 0, 0, 0.12)
+    border-radius: 8px
+    padding: 16px
+    background-color: var(--mat-card-background-color, #ffffff)
+    margin-bottom: 16px
+
+    .section-title
+      text-align: center
+      font-weight: bold
+      margin-bottom: 16px
+
+    .payments-form-array
+      display: flex
+      flex-direction: column
+      gap: 16px
+
+    .payment-item-group
+      padding: 8px 0
+      .payment-item-header
+        display: flex
+        justify-content: space-between
+        align-items: center
+        font-weight: 600
+        margin-bottom: 8px
+
+      .payment-fields-grid
+        display: grid
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))
+        gap: 16px
+
+      .col-span-2
+        grid-column: span 2
+    .payment-item-divider
+      margin: 16px 0
+
+  .add-payment-button-container
+    display: flex
+    justify-content: flex-end
+    margin-top: 16px
+    margin-bottom: 16px
+
+  .order-form-actions
+    display: flex
+    justify-content: flex-end
+    gap: 8px
+    padding-top: 16px
+    border-top: 1px solid rgba(0, 0, 0, 0.12)
+
+    .mat-spinner
+      margin-right: 8px

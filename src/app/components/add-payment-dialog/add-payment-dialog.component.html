@@ -1,0 +1,55 @@
+<h2 mat-dialog-title>Adicionando pagamento ao pedido</h2>
+<mat-dialog-content>
+  <form [formGroup]="paymentForm" class="payment-form">
+    <div class="input-column">
+      <mat-form-field appearance="outline">
+        <mat-label>Valor Pago</mat-label>
+        <input
+          matInput
+          formControlName="payedValue"
+          type="number"
+          placeholder="Valor Pago"
+        />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Detalhes</mat-label>
+        <input
+          matInput
+          formControlName="details"
+          placeholder="Detalhes do pagamento"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="input-column">
+      <mat-form-field appearance="outline">
+        <mat-label>Data de Pagamento</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="paymentDate"
+          placeholder="Data da despesa"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Tipo de pagamento</mat-label>
+        <mat-select formControlName="paymentType">
+          <mat-option [value]="null">Selecione um tipo de pagamento</mat-option>
+          @for (paymentType of paymentTypes; track $index) {
+          <mat-option [value]="paymentType.value">{{
+            paymentType.name
+          }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button [mat-dialog-close]="paymentForm.value" cdkFocusInitial>
+      Salvar
+    </button>
+  </mat-dialog-actions>
+</mat-dialog-content>

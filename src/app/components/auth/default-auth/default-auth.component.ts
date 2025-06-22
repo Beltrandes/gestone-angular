@@ -1,8 +1,9 @@
-import { Component, EventEmitter, input, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'app-default-auth',
-    imports: [],
+    imports: [MatButtonModule],
     templateUrl: './default-auth.component.html',
     styleUrl: './default-auth.component.sass'
 })

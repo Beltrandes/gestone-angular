@@ -1,30 +1,27 @@
+.customers-container
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr))
+  gap: 16px
+
 .customer-card
   margin-bottom: 16px
-  width: 100%
 
-  &-header
-    display: flex
-    align-items: center
-    padding-bottom: 0
-.customer-card-header mat-card-title,
-.customer-card-header mat-card-subtitle
-  margin: 0
-.title-wrapper
-  display: flex
-  flex-direction: column
-
-.spacer
-  flex: 1 1 auto
+.customer-menu-button
+  margin-left: auto
 
 .button-group
   display: flex
   align-items: center
   gap: 8px
 
-.customer-card-content
-  display: flex
-  justify-content: space-between
-  padding-top: 0
-
 button mat-icon
   margin-right: 8px
+
+mat-card-content
+  display: flex
+  flex-direction: column
+  justify-content: center
+  gap: 0.2rem
+  padding-top: 0.5rem
+  p
+    margin: 0

@@ -1,0 +1,37 @@
+<mat-accordion class="expenses-accordion-group" multi>
+  <h3>Despesas</h3>
+  @for(expense of expenses(); track $index; let j = $index) {
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title class="text-danger">
+        + {{ expense.paidValue | currency : "BRL" }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ expense.paymentDate | date : "dd/MM/yyyy" }}
+        <mat-icon class="text-danger">call_made</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="accordion-body-content">
+      <h4>Detalhes</h4>
+      <p>
+        <strong>Detalhes: </strong>
+        <span>{{ expense.details }}</span>
+      </p>
+      <p>
+        <strong>Conta: </strong>
+        <span>{{ expense.billName!}} ({{expense.billDescription!}})</span>
+      </p>
+      <p>
+        <strong>Valor Total: </strong>
+        <span>{{ expense.billTotalValue! | currency : "BRL" }}</span>
+      </p>
+      <p>
+        <strong>Status: </strong>
+        <span [ngClass]="getBillStatusClass(expense.billStatus!)">
+          {{ expense.billStatus!! | billStatus }}
+        </span>
+    </div>
+  </mat-expansion-panel>
+  }
+</mat-accordion>

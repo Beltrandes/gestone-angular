@@ -1,59 +1,110 @@
-<div id="bills-accordion-group">
-  @for(bill of bills(); track $index; let i = $index) {
-  <div class="accordion mb-2" id="bill-accordion-item-{{ i }}">
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button
-          class="accordion-button bg-danger bg-opacity-10 collapsed"
-          type="button"
-          data-bs-toggle="collapse"
-          [attr.data-bs-target]="'#bill-collapse-' + i"
-          aria-expanded="true"
-          [attr.aria-controls]="'bill-collapse-' + i"
-        >
-          <div class="main-infos text-black w-100 d-flex">
-            <span class="col-9 fs-5 text-danger"
-              >- {{ bill.paidValue | currency : "BRL" }}</span
-            >
+<mat-accordion>
+  @for(bill of bills(); track $index) {
+  <mat-expansion-panel class="bill-expansion-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="bill-header-title">
+        <div class="main-infos">
+          <span class="bill-info-col-lg">{{ bill.name }} </span>
+          <span class="bill-info-col-md">{{
+            bill.totalValue | currency : "BRL"
+          }}</span>
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
 
-            <span class="col-2 fs-5">{{
-              bill.createdAt | date : "dd/MM/yyyy"
-            }}</span>
-          </div>
+    <div class="bill-details-content">
+      <div class="bill-actions">
+        <button
+          matIconButton
+          matTooltip="Adicionar Despesa"
+          class="add-expense-button"
+          aria-label="Adicionar Despesa"
+          (click)="addExpense(bill)"
+        >
+          <mat-icon>payments</mat-icon>
         </button>
-      </h2>
-      <div
-        id="bill-collapse-{{ i }}"
-        class="accordion-collapse collapse"
-        [attr.data-bs-parent]="'#bills-accordion-group'"
-      >
-        <div class="accordion-body position-relative">
-          <h6 class="mb-2 text-center fw-semibold">Detalhes</h6>
-          <p class="mb-0">
-            <strong>Descrição: </strong>
-            <span>{{ bill.description }}</span>
+        <button
+          matIconButton
+          matTooltip="Editar Conta"
+          (click)="editBill(bill)"
+          aria-label="Editar Conta"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          matIconButton
+          matTooltip="Excluir Conta"
+          (click)="deleteBill(bill)"
+          aria-label="Excluir Conta"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+
+      <h4 class="section-title">Informações Principais</h4>
+      <div class="info-grid">
+        <div class="info-column">
+          <p><strong>Descrição:</strong> {{ bill.description }}</p>
+          <p><strong>Categoria:</strong> {{ bill.category | billCategory }}</p>
+
+          <p class="status-line">
+            <strong>Status:</strong>
+            <span [ngClass]="getBillStatusClass(bill.status)">
+              {{ bill.status | billStatus }}
+            </span>
           </p>
-          <p class="mb-0">
-            <strong>Categoria: </strong>
-            <span>{{ bill.category | billCategory }}</span>
-          </p>
-          <p class="mb-0">
-            <strong>Observações: </strong>
-            <span>{{ bill.notes }}</span>
-          </p>
-          <p class="mb-0">
-            <strong>Valor Total: </strong>
-            <span>{{ bill.totalValue | currency : "BRL" }}</span>
-          </p>
-          <p class="mb-0">
-            <strong>Status: </strong>
-            <span [ngClass]="getBillStatusClass(bill.status)">{{
-              bill.status | billStatus
-            }}</span>
+          <p>
+            <strong>Total Pago:</strong>
+            {{ bill.paidValue | currency : "BRL" }}
           </p>
         </div>
+        <div class="info-column">
+          <p>
+            <strong>Criado em:</strong>
+            {{ bill.createdAt | date : "dd/MM/yyyy" }}
+          </p>
+          <p><strong>Notas:</strong> {{ bill.notes }}</p>
+          <p><strong>Vencimento:</strong> {{ bill.dueDate | date: "dd/MM/yyyy" }}</p>
+        </div>
       </div>
+      <mat-divider></mat-divider>
+
+      <h4 class="section-title">Informações de despesas</h4>
+      <div class="expenses-container">
+        @for (expense of bill.expenses; track $index) {
+        <mat-card class="expense-card">
+          <mat-card-header>
+            <mat-card-title>Despesa {{ $index + 1 }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p class="mb-0">
+              Valor:
+              <strong>{{ expense.paidValue | currency : "BRL" }}</strong>
+            </p>
+            <p class="mb-0">
+              Data:
+              <strong>{{ expense.paymentDate | date : "dd/MM/yyyy" }}</strong>
+            </p>
+            <p class="mb-0">
+              Tipo: <strong>{{ expense.paymentType | paymentType }}</strong>
+            </p>
+            <p><strong>Detalhes:</strong> {{ expense.details }}</p>
+          </mat-card-content>
+        </mat-card>
+        }
+      </div>
+      <div class="expense-summary">
+        <p class="fw-semibold">
+          Status de Pagamento:
+          <span
+            class="expense-status"
+            [ngClass]="getPaymentStatusClass(bill.status)"
+            >{{ bill.status | paymentStatus }}</span
+          >
+        </p>
+      </div>
+      <mat-divider></mat-divider>
     </div>
-  </div>
+  </mat-expansion-panel>
   }
-</div>
+</mat-accordion>

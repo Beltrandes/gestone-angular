@@ -1,4 +1,138 @@
-.accordion-button
-  &:focus
-    border: 1px solid darken(#ffc107, 5%)
-    box-shadow: 0 0 5px #ffc107
+@use "sass:color"
+
+.bill-expansion-panel
+  margin-bottom: 1rem
+
+.mat-expansion-panel-header
+  padding: 0 16px
+
+.bill-header-title
+  flex-basis: 100%
+  .main-infos
+    display: flex
+    width: 100%
+    justify-content: space-between
+    align-items: center
+    gap: 16px
+
+.bill-details-content
+  padding: 16px 24px
+  position: relative
+
+.bill-actions
+  position: absolute
+  top: 8px
+  right: 8px
+  display: flex
+  gap: 8px
+  z-index: 1
+
+.section-title, .sub-section-title
+  text-align: center
+  font-weight: 600
+  margin-top: 16px
+  margin-bottom: 8px
+  color: rgba(0,0,0,0.87)
+
+.info-grid
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr))
+  gap: 24px
+  margin-bottom: 16px
+
+  p
+    margin-bottom: 0
+    display: flex
+    gap: 8px
+
+    strong
+      flex-shrink: 0
+
+.status-line
+  .status-icon
+    font-size: 1rem
+    width: 1rem
+    height: 1rem
+    margin-left: 4px
+
+.highlight-value
+  border: 1px solid rgba(0, 0, 0, 0.54)
+  border-radius: 4px
+  padding: 2px 8px
+  font-weight: 600
+
+.highlight-final-value
+  background-color: #333
+  color: white
+  border-radius: 4px
+  padding: 2px 8px
+  font-weight: 600
+
+.expenses-container
+  display: flex
+  flex-wrap: wrap
+  gap: 16px
+  margin-top: 16px
+  margin-bottom: 16px
+
+  .expense-card
+    flex: 0.3
+
+.expense-summary
+  display: flex
+  justify-content: space-between
+  margin-top: 16px
+  margin-bottom: 16px
+  gap: 16px
+  flex-wrap: wrap
+
+.item-card
+  margin-bottom: 16px
+  .item-header
+    background-color: rgba(0, 0, 0, 0.05) // Um cinza claro para o cabeçalho do item
+    padding: 8px 16px
+    .mat-mdc-card-title
+      font-size: 1rem
+      margin-bottom: 0
+
+    .mat-mdc-card-subtitle
+      font-size: 0.875rem
+
+  .mat-mdc-card-content
+    padding: 16px
+
+  p, div
+    margin-bottom: 8px
+
+.sub-item-details
+  padding-left: 16px
+  margin-bottom: 4px
+
+.item-summary
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))
+  gap: 8px
+  margin-top: 16px
+  padding-top: 8px
+  border-top: 1px solid rgba(0, 0, 0, 0.12)
+
+.mb-0
+  margin-bottom: 0
+
+.bg-success
+  background-color: #198754
+.bg-warn
+  background-color: #ffc107
+.bg-danger
+  background-color: #dc3545
+
+.expense-status
+  padding: .2rem 1rem
+  font-weight: 500
+  border-radius: 2rem
+  color: #eee
+
+.add-expense-button
+  display: flex
+  justify-content: center
+  gap: .2rem

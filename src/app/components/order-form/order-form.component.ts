@@ -5,12 +5,20 @@ import { Order } from '../../domain/Order';
 import { Payment } from '../../domain/Payment';
 import { QuotationService } from '../../services/quotation.service';
 import { AuthService } from '../../services/auth.service';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
-    selector: 'app-order-form',
-    imports: [ReactiveFormsModule],
-    templateUrl: './order-form.component.html',
-    styleUrl: './order-form.component.sass'
+  selector: 'app-order-form',
+  imports: [ReactiveFormsModule, MatCardModule, MatButtonModule, MatInputModule, MatSelectModule, MatFormFieldModule, MatIconModule, MatDividerModule, MatProgressSpinner],
+  templateUrl: './order-form.component.html',
+  styleUrl: './order-form.component.sass'
 })
 export class OrderFormComponent {
 

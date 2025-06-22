@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>
+  <p>
+    {{ data.message }}
+  </p>
+  <p>Esta ação não pode ser desfeita e o item será removido permanentemente.</p>
+  <p class="text-danger">
+    <strong>Aviso:</strong> Todos os dados associados a este item serão
+    perdidos.
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button class="bg-danger" [mat-dialog-close]="true" cdkFocusInitial>
+    Continuar
+  </button>
+</mat-dialog-actions>

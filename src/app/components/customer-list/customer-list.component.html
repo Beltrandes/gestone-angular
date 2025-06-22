@@ -1,12 +1,56 @@
-@for (customer of filteredCustomers() ; track $index) {
+<div class="customers-container">
+  @for (customer of filteredCustomers() ; track $index) {
   <mat-card class="customer-card">
     <mat-card-header class="customer-card-header">
-      <mat-card-title>{{ customer.name }}</mat-card-title>
+      <mat-card-title>{{ customer.name }} </mat-card-title>
       <mat-card-subtitle>{{ customer.phone }}</mat-card-subtitle>
-      <div class="spacer"></div> <div class="button-group">
-        <button mat-flat-button [matMenuTriggerFor]="quotationMenu" color="accent">
+      <button
+        matIconButton
+        matTooltip="Menu de opções"
+        class="customer-menu-button"
+        [matMenuTriggerFor]="customerListMenu"
+        aria-label="Menu de opções"
+      >
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #customerListMenu="matMenu">
+        <button mat-menu-item (click)="emitEdit(customer)">
+          <mat-icon>edit</mat-icon>
+          <span>Editar</span>
+        </button>
+        <button mat-menu-item (click)="emitDelete(customer)">
+          <mat-icon>delete</mat-icon>
+          <span>Excluir</span>
+        </button>
+      </mat-menu>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        <strong>Endereço: </strong>
+        @if (customer.address == null || customer.address == '') {
+        <span>Não Informado</span>
+        } @else {
+        <span>{{ customer.address }}</span>
+        }
+      </p>
+      <p>
+        <strong>Email: </strong>
+        @if (customer.email == null || customer.email == '') {
+        <span>Não Informado</span>
+        } @else {
+        <span>{{ customer.email }}</span>
+        }
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="button-group">
+        <button
+          matIconButton
+          matTooltip="Orçamentos"
+          [matMenuTriggerFor]="quotationMenu"
+          color="accent"
+        >
           <mat-icon>pending_actions</mat-icon>
-          Orçamentos
         </button>
         <mat-menu #quotationMenu="matMenu">
           <button mat-menu-item>
@@ -17,9 +61,13 @@
           <button mat-menu-item>Ver todos</button>
         </mat-menu>
 
-        <button mat-flat-button [matMenuTriggerFor]="orderMenu" color="accent">
+        <button
+          matIconButton
+          matTooltip="Pedidos"
+          [matMenuTriggerFor]="orderMenu"
+          color="accent"
+        >
           <mat-icon>inventory</mat-icon>
-          Pedidos
         </button>
         <mat-menu #orderMenu="matMenu">
           <button mat-menu-item>
@@ -30,9 +78,13 @@
           <button mat-menu-item>Ver todos</button>
         </mat-menu>
 
-        <button mat-flat-button [matMenuTriggerFor]="visitMenu" color="accent">
+        <button
+          matIconButton
+          matTooltip="Visitas"
+          [matMenuTriggerFor]="visitMenu"
+          color="accent"
+        >
           <mat-icon>home</mat-icon>
-          Visitas
         </button>
         <mat-menu #visitMenu="matMenu">
           <button mat-menu-item>
@@ -42,27 +94,8 @@
           <mat-divider></mat-divider>
           <button mat-menu-item>Ver todas</button>
         </mat-menu>
-
-        <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
-          <mat-icon>more_vert</mat-icon>
-        </button>
-        <mat-menu #actionsMenu="matMenu">
-          <h6 mat-subheader>Ações</h6>
-          <button mat-menu-item (click)="emitDelete(customer)">
-            <mat-icon color="warn">delete</mat-icon>
-            <span>Excluir</span>
-          </button>
-          <button mat-menu-item (click)="emitEdit(customer)">
-            <mat-icon color="accent">edit</mat-icon>
-            <span>Editar</span>
-          </button>
-        </mat-menu>
       </div>
-    </mat-card-header>
-
-    <mat-card-content class="customer-card-content">
-      <p class="mat-body-1">{{ customer.email }}</p>
-      <p class="mat-body-1">{{ customer.address }}</p>
-    </mat-card-content>
+    </mat-card-actions>
   </mat-card>
-}
+  }
+</div>

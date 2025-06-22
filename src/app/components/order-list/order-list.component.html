@@ -1,179 +1,174 @@
-@for(order of orders(); track $index) {
-<div class="accordion mb-2" id="accordion{{ $index }}">
-  <div class="accordion-item">
-    <h2 class="accordion-header">
-      <button
-        class="accordion-button bg-light collapsed"
-        type="button"
-        data-bs-toggle="collapse"
-        [attr.data-bs-target]="'#collapse' + $index"
-        aria-expanded="true"
-        [attr.aria-controls]="'#collapse' + $index"
-      >
-        <div class="main-infos text-black w-100 d-flex">
-          <span class="col-9"
-            >Pedido #{{ order.localId }} de {{ order.customer.name }}</span
+<mat-accordion>
+  @for(order of orders(); track $index) {
+  <mat-expansion-panel class="order-expansion-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="order-header-title">
+        <div class="main-infos">
+          <span class="order-info-col-lg"
+            >Pedido ({{ order.id.split('-').at(0)}}) de {{ order.customer.name }}</span
           >
-          <span class="col-2">{{ order.totalValue | currency : "BRL" }}</span>
-          <span class="col-1">{{ order.totalArea | number : "1.0-3" }}m²</span>
+          <div class="totals-wrapper">
+            <span class="order-info-col-md">{{
+              order.totalValue | currency : "BRL"
+            }}</span>
+            <span class="order-info-col-sm"
+              >{{ order.totalArea | number : "1.0-3" }}m²</span
+            >
+          </div>
         </div>
-      </button>
-    </h2>
-    <div
-      id="collapse{{ $index }}"
-      class="accordion-collapse collapse"
-      [attr.data-bs-parent]="'#accordion' + $index"
-    >
-      <div class="accordion-body position-relative">
-        <div class="position-absolute top-0 end-0 d-flex p-1 gap-2">
-          <button
-            type="button"
-            (click)="generateOrderPdf(order.id)"
-            class="btn fs-2 p-1"
-          >
-            <i class="bi bi-filetype-pdf"></i>
-          </button>
-          <button type="button" (click)="editOrder(order)" class="btn fs-4 p-1">
-            <i class="bi bi-pencil"></i>
-          </button>
-        </div>
-        <h6 class="text-center fw-semibold">Informações Principais</h6>
-        <div class="row g-0">
-          <div class="col-6 d-flex flex-column align-items-center">
-            <p class="mb-0 w-100">
-              <strong>Cliente:</strong>
-              {{ order.customer.name }}
-            </p>
-            <p class="mb-0 w-100">
-              <strong>Endereço da obra:</strong> {{ order.workAddress }}
-            </p>
-            <p class="mb-0 w-100">
-              <strong>Descrição:</strong> {{ order.notes }}
-            </p>
-            <p class="mb-0 w-100 d-flex gap-2 align-items-center">
-              <strong>Status:</strong>
-              <span [ngClass]="getOrderStatusClass(order.marbleshopOrderStatus)"
-                >{{ order.marbleshopOrderStatus | orderStatus }} @if
-                (order.marbleshopOrderStatus === 'PROJECTING') {<i class="bi bi-clipboard fs-6"></i>}</span
-              >
-            </p>
-            <p class="mb-0 w-100">
-              <strong>Área Total:</strong>
-              {{ order.totalArea | number : "1.0-3" }}m²
-            </p>
-            <p class="mb-0 w-100">
-              <strong>Finalizado em:</strong>
-              {{ order.installmentDate | date }}
-              @if (order.installmentDate == null) {
-              <span>Á definir</span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="order-details-content">
+      <div class="order-actions">
+        <button
+          matIconButton
+          matTooltip="Gerar PDF"
+          (click)="generateOrderPdf(order.id)"
+          aria-label="Gerar PDF"
+        >
+          <mat-icon>picture_as_pdf</mat-icon>
+        </button>
+        <button
+          matIconButton
+          matTooltip="Editar Pedido"
+          (click)="editOrder(order)"
+          aria-label="Editar Pedido"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          matIconButton
+          matTooltip="Adicionar Pagamento"
+          class="add-payment-button"
+          aria-label="Adicionar Pagamento"
+          (click)="addPayment(order)"
+        >
+          <mat-icon>payments</mat-icon>
+        </button>
+      </div>
+
+      <h4 class="section-title">Informações Principais</h4>
+      <div class="info-grid">
+        <div class="info-column">
+          <p><strong>Cliente:</strong> {{ order.customer.name }}</p>
+          <p><strong>Endereço da obra:</strong> {{ order.workAddress }}</p>
+          <p><strong>Descrição:</strong> {{ order.notes }}</p>
+          <p class="status-line">
+            <strong>Status:</strong>
+            <span [ngClass]="getOrderStatusClass(order.marbleshopOrderStatus)">
+              {{ order.marbleshopOrderStatus | orderStatus }}
+              @if (order.marbleshopOrderStatus === 'PROJECTING') {
+              <mat-icon class="status-icon">assignment</mat-icon>
               }
-            </p>
-          </div>
-          <div class="col-6 d-flex flex-column">
-            <p class="mb-0 w-100">
-              <strong>Contato:</strong>
-              {{ order.customer.phone }}
-            </p>
-            <p class="mb-0 w-100">
-              <strong>Gerado em:</strong>
-              {{ order.createdAt | date : "dd/MM/yyyy" }}
-            </p>
-            <p class="mb-0 w-100">
-              <strong>Prometido para:</strong>
-              {{ order.estimatedInstallmentDate | date : "dd/MM/yyyy" }}
-            </p>
-            <p class="mb-1 fs-6 d-flex gap-2 align-items-center">
-              <strong>Valor Total:</strong>
-              <span
-                class="border border-dark rounded-1 px-2 py-1 fw-semibold"
-                >{{ order.totalValue | currency : "BRL" }}</span
-              >
-            </p>
-            <p class="mb-0 w-100 fs-6 d-flex align-items-center">
-              <strong class="me-2">Desconto:</strong>
-
-              <span class="fw-semibold">{{ order.discount }}</span>
-              @if (order.discount != 0) { % }
-            </p>
-            <p class="mb-1 w-100 fs-6 d-flex gap-2 align-items-center">
-              <strong>Valor Final:</strong>
-              <span class="text-bg-dark rounded-1 px-2 py-1 fw-semibold">{{
-                order.finalValue | currency : "BRL"
-              }}</span>
-            </p>
-          </div>
+            </span>
+          </p>
+          <p>
+            <strong>Área Total:</strong>
+            {{ order.totalArea | number : "1.0-3" }}m²
+          </p>
+          <p>
+            <strong>Finalizado em:</strong>
+            {{ order.installmentDate | date }}
+            @if (order.installmentDate == null) {
+            <span>Á definir</span>
+            }
+          </p>
         </div>
-        <hr />
-        <h6 class="text-center fw-semibold">Informações de pagamento</h6>
-        <div class="d-flex gap-3">
-          @for (payment of order.payments; track $index) {
-          <div class="card w-25">
-            <div class="card-body">
-              <h6 class="card-title fw-semibold">Pagamento {{ $index + 1 }}</h6>
-              <p class="mb-0">
-                Valor:
-                <strong>{{ payment.payedValue | currency : "BRL" }}</strong>
-              </p>
-              <p class="mb-0">
-                Data:
-                <strong>{{ payment.createdAt | date : "dd/MM/yyyy" }}</strong>
-              </p>
-              <p class="mb-0">
-                Tipo:
-                <strong>{{ payment.paymentType | paymentType }}</strong>
-              </p>
-              <p class="mb-0">
-                <strong>Detalhes:</strong>
-                {{ payment.details }}
-              </p>
-            </div>
-          </div>
-
-          }
-        </div>
-        <div class="d-flex justify-content-between mt-3">
-          <p class="fw-semibold mb-0">
-            Status de Pagamento:
-            <span [ngClass]="getPaymentStatusClass(order.paymentStatus)">{{
-              order.paymentStatus | paymentStatus
+        <div class="info-column">
+          <p><strong>Contato:</strong> {{ order.customer.phone }}</p>
+          <p>
+            <strong>Gerado em:</strong>
+            {{ order.createdAt | date : "dd/MM/yyyy" }}
+          </p>
+          <p>
+            <strong>Prometido para:</strong>
+            {{ order.estimatedInstallmentDate | date : "dd/MM/yyyy" }}
+          </p>
+          <p class="value-line">
+            <strong>Valor Total:</strong>
+            <span class="highlight-value">{{
+              order.totalValue | currency : "BRL"
             }}</span>
           </p>
-          <p class="mb-0">
-            Total Pago:
-            <strong>{{ order.totalPaid | currency : "BRL" }}</strong>
+          <p class="discount-line">
+            <strong>Desconto:</strong>
+            <span class="fw-semibold">{{ order.discount }}</span>
+            @if (order.discount != 0) { % }
+          </p>
+          <p class="value-line">
+            <strong>Valor Final:</strong>
+            <span class="highlight-final-value">{{
+              order.finalValue | currency : "BRL"
+            }}</span>
           </p>
         </div>
-        <hr />
+      </div>
+      <mat-divider></mat-divider>
 
-        <h6 class="text-center fw-semibold">Itens Principais</h6>
-        @if (order.marbleshopItems.length > 0) { @for (item of
-        order.marbleshopItems; track $index) {
-        <div class="mb-2 border rounded overflow-hidden">
-          <div class="px-2 py-1 bg-dark bg-opacity-10 mb-2">
-            <h6>Item {{ $index + 1 }}</h6>
-            <div class="d-flex justify-content-between align-content-center">
-              <div>
-                <strong>{{ item.name }}</strong>
-                - {{ item.measureX | number : "1.0-3" }}x{{
-                  item.measureY | number : "1.0-3"
-                }}
-              </div>
-              <p class="mb-0">
-                <strong>Detalhes:</strong> {{ item.description }}
-              </p>
-              <p class="mb-0">
-                <strong>Quantidade:</strong> {{ item.quantity }}
-              </p>
-              <p class="mb-0">
-                <strong>Material:</strong> {{ item.marbleshopMaterial.name }}
-              </p>
-            </div>
-          </div>
+      <h4 class="section-title">Informações de pagamento</h4>
+      <div class="payments-container">
+        @for (payment of order.payments; track $index) {
+        <mat-card class="payment-card">
+          <mat-card-header>
+            <mat-card-title>Pagamento {{ $index + 1 }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p class="mb-0">
+              Valor:
+              <strong>{{ payment.payedValue | currency : "BRL" }}</strong>
+            </p>
+            <p class="mb-0">
+              Data:
+              <strong>{{ payment.createdAt | date : "dd/MM/yyyy" }}</strong>
+            </p>
+            <p class="mb-0">
+              Tipo: <strong>{{ payment.paymentType | paymentType }}</strong>
+            </p>
+            <p><strong>Detalhes:</strong> {{ payment.details }}</p>
+          </mat-card-content>
+        </mat-card>
+        }
+      </div>
+      <div class="payment-summary">
+        <p class="fw-semibold">
+          Status de Pagamento:
+          <span
+            class="payment-status"
+            [ngClass]="getPaymentStatusClass(order.paymentStatus)"
+            >{{ order.paymentStatus | paymentStatus }}</span
+          >
+        </p>
+        <p>
+          Total Pago:
+          <strong>{{ order.totalPaid | currency : "BRL" }}</strong>
+        </p>
+      </div>
+      <mat-divider></mat-divider>
+
+      <h4 class="section-title">Itens Principais</h4>
+      @if (order.marbleshopItems.length > 0) { @for (item of
+      order.marbleshopItems; track $index) {
+      <mat-card class="item-card">
+        <mat-card-header class="item-header">
+          <mat-card-title>Item {{ $index + 1 }}</mat-card-title>
+          <mat-card-subtitle>
+            <strong>{{ item.name }}</strong> -
+            {{ item.measureX | number : "1.0-3" }}x{{
+              item.measureY | number : "1.0-3"
+            }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p><strong>Detalhes:</strong> {{ item.description }}</p>
+          <p><strong>Quantidade:</strong> {{ item.quantity }}</p>
+          <p><strong>Material:</strong> {{ item.marbleshopMaterial.name }}</p>
 
           @if (item.marbleshopSubItems.length > 0) {
-          <h6 class="text-center">Complementos/Acabamentos</h6>
+          <mat-divider></mat-divider>
+          <h4 class="sub-section-title">Complementos/Acabamentos</h4>
           @for (subItem of item.marbleshopSubItems; track $index) {
-          <div class="px-2 py-1">
+          <div class="sub-item-details">
             <strong>{{ subItem.quantity }}</strong>
             - {{ subItem.name }} - {{ subItem.measureX | number : "1.0-3" }}x{{
               subItem.measureY | number : "1.0-3"
@@ -183,58 +178,48 @@
             }
           </div>
           }
-          <hr />
-
+          <mat-divider></mat-divider>
           }
-          <div
-            class="d-flex px-2 py-1 justify-content-between align-items-center"
-          >
+
+          <div class="item-summary">
             <p>
-              <strong>Área:</strong>
-              {{ item.unitArea | number : "1.0-3" }}m²
+              <strong>Área:</strong> {{ item.unitArea | number : "1.0-3" }}m²
             </p>
             <p class="fw-semibold">
               Área Total: {{ item.totalArea | number : "1.0-3" }}m²
             </p>
             <p>
-              <strong>Valor:</strong>
-              {{ item.unitValue | currency : "BRL" }}
+              <strong>Valor:</strong> {{ item.unitValue | currency : "BRL" }}
             </p>
             <p class="fw-semibold">
-              Valor Total:
-              {{ item.totalValue | currency : "BRL" }}
+              Valor Total: {{ item.totalValue | currency : "BRL" }}
             </p>
           </div>
-        </div>
-        } } @else {
-        <p class="text-muted">Nenhum item de marmoraria registrado.</p>
-        }
+        </mat-card-content>
+      </mat-card>
+      } } @else {
+      <p class="text-muted">Nenhum item de marmoraria registrado.</p>
+      }
+      <mat-divider></mat-divider>
 
-        <hr />
-
-        <!-- Itens Diversos -->
-        @if (order.miscellaneousItems.length > 0) {
-        <h6 class="text-center fw-semibold">Itens Diversos</h6>
-        <div class="border rounded overflow-hidden">
-          @for (miscellaneousItem of order.miscellaneousItems; track $index) {
-
-          <div class="px-2 py-1 bg-dark bg-opacity-10 mb-2">
-            <h6>Item {{ $index + 1 }}</h6>
-            <div class="d-flex align-content-center justify-content-between">
-              <strong>{{ miscellaneousItem.name }}</strong>
-              <p class="mb-0">
-                <strong>Quantidade: </strong>{{ miscellaneousItem.quantity }}
-              </p>
-              <p class="mb-0">
-                <strong>Material:</strong>
-                {{ miscellaneousItem.miscellaneousMaterial.name }} -
-                {{ miscellaneousItem.miscellaneousMaterial.details }}
-              </p>
-            </div>
-          </div>
-          <div
-            class="d-flex px-2 py-1 justify-content-between align-items-center"
+      @if (order.miscellaneousItems.length > 0) {
+      <h4 class="section-title">Itens Diversos</h4>
+      @for (miscellaneousItem of order.miscellaneousItems; track $index) {
+      <mat-card class="item-card">
+        <mat-card-header class="item-header">
+          <mat-card-title>Item {{ $index + 1 }}</mat-card-title>
+          <mat-card-subtitle
+            ><strong>{{ miscellaneousItem.name }}</strong></mat-card-subtitle
           >
+        </mat-card-header>
+        <mat-card-content>
+          <p><strong>Quantidade: </strong>{{ miscellaneousItem.quantity }}</p>
+          <p>
+            <strong>Material:</strong>
+            {{ miscellaneousItem.miscellaneousMaterial.name }} -
+            {{ miscellaneousItem.miscellaneousMaterial.details }}
+          </p>
+          <div class="item-summary">
             <p>
               <strong>Valor:</strong>
               {{ miscellaneousItem.unitValue | currency : "BRL" }}
@@ -243,15 +228,13 @@
               Valor Total: {{ miscellaneousItem.totalValue | currency : "BRL" }}
             </p>
           </div>
-          }
-        </div>
-
-        } @else {
-        <p class="text-muted">Nenhum item diverso registrado.</p>
-        }
-        <hr />
-      </div>
+        </mat-card-content>
+      </mat-card>
+      } } @else {
+      <p class="text-muted">Nenhum item diverso registrado.</p>
+      }
+      <mat-divider></mat-divider>
     </div>
-  </div>
-</div>
-}
+  </mat-expansion-panel>
+  }
+</mat-accordion>

@@ -1,10 +1,10 @@
-<div class="container-fluid h-100">
+<div class="container-80">
   <div class="row">
     <div class="col-10 mx-auto py-3 d-flex flex-column gap-3">
       <app-controller
         controllerTitle="Clientes"
         controllerIconText="people"
-        controllerPrimaryButtonText="Cadastrar cliente"
+        matTooltipText="Adicionar Cliente"
         (add)="openAddCustomerForm()"
         (search)="searchCustomer($event)"
       ></app-controller>
@@ -27,19 +27,3 @@
     </div>
   </div>
 </div>
-@defer (when customerToDelete) {
-<app-modal
-  (confirm)="deleteCustomer()"
-  modalConfirmActionButtonText="Excluir"
-  modalConfirmActionButtonColor="danger"
->
-  <h5>
-    Quer mesmo excluir o cadastro de
-    <span class="text-danger">{{ customerToDelete.name!! }}</span> ?
-  </h5>
-  <h6 class="text-black">
-    Este cliente pode ter orçamentos, pedidos ou visitas em aberto, todos esses
-    dados serão perdidos
-  </h6>
-</app-modal>
-}

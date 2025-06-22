@@ -1,105 +1,168 @@
 <mat-accordion>
-  @for (quotation of quotations(); track $index) {
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{ quotation.name }} de {{ quotation.customer.name }}
-        </mat-panel-title>
-        <mat-panel-description>
-          {{ quotation.totalValue | currency : 'BRL' }} -
-          {{ quotation.totalArea | number : '1.0-3' }}m²
-        </mat-panel-description>
-      </mat-expansion-panel-header>
+  @for (quotation of filteredQuotations(); track $index) {
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ quotation.name }} de {{ quotation.customer.name }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ quotation.totalValue | currency : "BRL" }} -
+        {{ quotation.totalArea | number : "1.0-3" }}m²
+      </mat-panel-description>
+    </mat-expansion-panel-header>
 
-      <div class="action-buttons">
-        <button mat-icon-button (click)="copyQuotation(quotation)">
-          <mat-icon>content_copy</mat-icon>
-        </button>
-        <button mat-icon-button (click)="generatePdfOfQuotation(quotation.id)">
-          <mat-icon>picture_as_pdf</mat-icon>
-        </button>
-        <button mat-icon-button (click)="editQuotation(quotation)">
-          <mat-icon>edit</mat-icon>
-        </button>
-      </div>
+    <div class="action-buttons">
+      <button
+        matTooltip="Gerar pedido"
+        mat-icon-button
+        (click)="generateOrder(quotation)"
+      >
+        <mat-icon>gavel</mat-icon>
+      </button>
+      <button
+        matTooltip="Criar cópia"
+        mat-icon-button
+        (click)="copyQuotation(quotation)"
+      >
+        <mat-icon>content_copy</mat-icon>
+      </button>
+      <button
+        matTooltip="Gerar PDF"
+        mat-icon-button
+        (click)="generateQuotationPdf(quotation.id)"
+      >
+        <mat-icon>picture_as_pdf</mat-icon>
+      </button>
+      <button
+        matTooltip="Editar"
+        mat-icon-button
+        (click)="editQuotation(quotation)"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
 
-      <h6 class="info-header">Informações Principais</h6>
-      <div class="info-section">
-        <div>
-          <p><strong>Cliente:</strong> {{ quotation.customer.name }}</p>
-          <p><strong>Endereço:</strong> {{ quotation.address }}</p>
-          <p><strong>Descrição:</strong> {{ quotation.details }}</p>
-          <p><strong>Status:</strong> {{ quotation.quotationStatus | quotationStatus }}</p>
-          <p><strong>Área Total:</strong> {{ quotation.totalArea | number : '1.0-3' }}m²</p>
-        </div>
-
-        <div>
-          <p><strong>Contato:</strong> {{ quotation.customer.phone }}</p>
-          <p><strong>Gerado em:</strong> {{ quotation.createdAt | date : 'dd/MM/yyyy' }}</p>
-          <p><strong>Prazo de entrega:</strong> {{ quotation.deadlineDays }} dias</p>
-          <p><strong>Valor Total:</strong> {{ quotation.totalValue | currency : 'BRL' }}</p>
-        </div>
-      </div>
-      <mat-divider></mat-divider>
-      <h6 class="items-header">Itens Principais</h6>
-      @if (quotation.marbleshopItems.length > 0) {
-        @for (item of quotation.marbleshopItems; track $index) {
-          <div class="item-card">
-            <h6 class="item-header">Item {{ $index + 1 }}</h6>
-            <div class="item-details">
-              <p><strong>{{ item.name }}</strong> - {{ item.measureX | number : '1.0-3' }}x{{ item.measureY | number : '1.0-3' }}</p>
-              <p><strong>Detalhes:</strong> {{ item.description }}</p>
-              <p><strong>Quantidade:</strong> {{ item.quantity }}</p>
-              <p><strong>Material:</strong> {{ item.marbleshopMaterial.name }}</p>
-            </div>
-
-            @if (item.marbleshopSubItems.length > 0) {
-              <h6 class="items-header">Complementos/Acabamentos</h6>
-              @for (subItem of item.marbleshopSubItems; track $index) {
-                <p>
-                  <strong>{{ subItem.quantity }}</strong> - {{ subItem.name }} -
-                  {{ subItem.measureX | number : '1.0-3' }}x{{ subItem.measureY | number : '1.0-3' }}
-                  @if (subItem.description != null && subItem.description != '') {
-                    <span> - {{ subItem.description }}</span>
-                  }
-                </p>
-              }
+    <h6 class="info-header">Informações Principais</h6>
+    <div class="info-section">
+      <div>
+        <p><strong>Cliente:</strong> {{ quotation.customer.name }}</p>
+        <p><strong>Endereço:</strong> {{ quotation.address }}</p>
+        <p><strong>Descrição:</strong> {{ quotation.details }}</p>
+        <p class="quotation-status">
+          <strong>Status: </strong>
+          <span
+            [ngClass]="getQuotationStatusClass(quotation.quotationStatus)"
+          >
+            {{ quotation.quotationStatus | quotationStatus }}
+            @if (quotation.quotationStatus === 'APPROVED') {
+            <mat-icon>check</mat-icon>
             }
+            @if (quotation.quotationStatus === 'PENDING') {
+            <mat-icon>pending</mat-icon>
+            }
+            @if (quotation.quotationStatus === 'EXPIRED') {
+            <mat-icon>error</mat-icon>
+            }
+          </span>
+        </p>
+        <p>
+          <strong>Área Total:</strong>
+          {{ quotation.totalArea | number : "1.0-3" }}m²
+        </p>
+      </div>
 
-            <div class="item-summary">
-              <p><strong>Área:</strong> {{ item.unitArea | number : '1.0-3' }}m²</p>
-              <p><strong>Área Total:</strong> {{ item.totalArea | number : '1.0-3' }}m²</p>
-              <p><strong>Valor:</strong> {{ item.unitValue | currency : 'BRL' }}</p>
-              <p><strong>Valor Total:</strong> {{ item.totalValue | currency : 'BRL' }}</p>
-            </div>
-          </div>
-        }
-      } @else {
-        <p class="text-muted">Nenhum item de marmoraria registrado.</p>
-      }
+      <div>
+        <p><strong>Contato:</strong> {{ quotation.customer.phone }}</p>
+        <p>
+          <strong>Gerado em:</strong>
+          {{ quotation.createdAt | date : "dd/MM/yyyy" }}
+        </p>
+        <p>
+          <strong>Prazo de entrega:</strong> {{ quotation.deadlineDays }} dias
+        </p>
+        <p>
+          <strong>Valor Total:</strong>
+          {{ quotation.totalValue | currency : "BRL" }}
+        </p>
+      </div>
+    </div>
+    <mat-divider></mat-divider>
+    <h6 class="items-header">Itens Principais</h6>
+    @if (quotation.marbleshopItems.length > 0) { @for (item of
+    quotation.marbleshopItems; track $index) {
+    <div class="item-card">
+      <h6 class="item-header">Item {{ $index + 1 }}</h6>
+      <div class="item-details">
+        <p>
+          <strong>{{ item.name }}</strong> -
+          {{ item.measureX | number : "1.0-3" }}x{{
+            item.measureY | number : "1.0-3"
+          }}
+        </p>
+        <p><strong>Detalhes:</strong> {{ item.description }}</p>
+        <p><strong>Quantidade:</strong> {{ item.quantity }}</p>
+        <p><strong>Material:</strong> {{ item.marbleshopMaterial.name }}</p>
+      </div>
 
-      <h6>Itens Diversos</h6>
-      @if (quotation.miscellaneousItems.length > 0) {
-        @for (miscellaneousItem of quotation.miscellaneousItems; track $index) {
-          <div class="item-card">
-            <h6>Item {{ $index + 1 }}</h6>
-            <div class="item-details">
-              <p><strong>{{ miscellaneousItem.name }}</strong></p>
-              <p><strong>Quantidade:</strong> {{ miscellaneousItem.quantity }}</p>
-              <p>
-                <strong>Material:</strong> {{ miscellaneousItem.miscellaneousMaterial.name }} -
-                {{ miscellaneousItem.miscellaneousMaterial.details }}
-              </p>
-            </div>
-            <div class="item-summary">
-              <p><strong>Valor:</strong> {{ miscellaneousItem.unitValue | currency : 'BRL' }}</p>
-              <p><strong>Valor Total:</strong> {{ miscellaneousItem.totalValue | currency : 'BRL' }}</p>
-            </div>
-          </div>
+      @if (item.marbleshopSubItems.length > 0) {
+      <h6 class="items-header">Complementos/Acabamentos</h6>
+      @for (subItem of item.marbleshopSubItems; track $index) {
+      <p>
+        <strong>{{ subItem.quantity }}</strong> - {{ subItem.name }} -
+        {{ subItem.measureX | number : "1.0-3" }}x{{
+          subItem.measureY | number : "1.0-3"
+        }}
+        @if (subItem.description != null && subItem.description != '') {
+        <span> - {{ subItem.description }}</span>
         }
-      } @else {
-        <p class="text-muted">Nenhum item diverso registrado.</p>
-      }
-    </mat-expansion-panel>
+      </p>
+      } }
+
+      <div class="item-summary">
+        <p><strong>Área:</strong> {{ item.unitArea | number : "1.0-3" }}m²</p>
+        <p>
+          <strong>Área Total:</strong> {{ item.totalArea | number : "1.0-3" }}m²
+        </p>
+        <p><strong>Valor:</strong> {{ item.unitValue | currency : "BRL" }}</p>
+        <p>
+          <strong>Valor Total:</strong> {{ item.totalValue | currency : "BRL" }}
+        </p>
+      </div>
+    </div>
+    } } @else {
+    <p class="text-muted">Nenhum item de marmoraria registrado.</p>
+    }
+
+    <h6>Itens Diversos</h6>
+    @if (quotation.miscellaneousItems.length > 0) { @for (miscellaneousItem of
+    quotation.miscellaneousItems; track $index) {
+    <div class="item-card">
+      <h6>Item {{ $index + 1 }}</h6>
+      <div class="item-details">
+        <p>
+          <strong>{{ miscellaneousItem.name }}</strong>
+        </p>
+        <p><strong>Quantidade:</strong> {{ miscellaneousItem.quantity }}</p>
+        <p>
+          <strong>Material:</strong>
+          {{ miscellaneousItem.miscellaneousMaterial.name }} -
+          {{ miscellaneousItem.miscellaneousMaterial.details }}
+        </p>
+      </div>
+      <div class="item-summary">
+        <p>
+          <strong>Valor:</strong>
+          {{ miscellaneousItem.unitValue | currency : "BRL" }}
+        </p>
+        <p>
+          <strong>Valor Total:</strong>
+          {{ miscellaneousItem.totalValue | currency : "BRL" }}
+        </p>
+      </div>
+    </div>
+    } } @else {
+    <p class="text-muted">Nenhum item diverso registrado.</p>
+    }
+  </mat-expansion-panel>
   }
 </mat-accordion>

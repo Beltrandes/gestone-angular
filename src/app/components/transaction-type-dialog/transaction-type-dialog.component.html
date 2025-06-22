@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>
+  <mat-button-toggle-group [(ngModel)]="transactionType" aria-label="Transaction Type">
+    <mat-button-toggle value="payment"
+      >Entrada</mat-button-toggle
+    >
+    <mat-button-toggle value="expense"
+      >Saída</mat-button-toggle
+    >
+  </mat-button-toggle-group>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button [mat-dialog-close]="transactionType" cdkFocusInitial>
+    Continuar
+  </button>
+</mat-dialog-actions>

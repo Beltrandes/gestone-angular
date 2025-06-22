@@ -1,11 +1,11 @@
-<mat-card class="quotation-form-card">
+<mat-card cdkTrapFocus [cdkTrapFocusAutoCapture]="true" class="quotation-form-card">
   <form [formGroup]="quotationForm">
     <mat-card-header class="form-header">
       <div class="form-titles">
         <mat-card-title>Criando orçamento</mat-card-title>
         <mat-card-subtitle>Preencha os dados</mat-card-subtitle>
       </div>
-      <button mat-icon-button (click)="closeQuotationForm()" aria-label="Fechar formulário">
+      <button type="button" mat-icon-button (click)="closeQuotationForm()" aria-label="Fechar formulário">
         <mat-icon>close</mat-icon>
       </button>
     </mat-card-header>

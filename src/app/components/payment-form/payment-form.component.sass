@@ -1,0 +1,39 @@
+.payment-form-card
+  width: 100%
+  padding: 16px
+  border-radius: 8px
+  box-shadow: var(--mat-elevation-z4)
+
+  .payment-form-header
+    padding: 0
+    .close-button
+      margin-left: auto
+    .form-titles
+      .mat-mdc-card-title
+        font-size: 1.5rem
+        margin-bottom: 4px
+
+      .mat-mdc-card-subtitle
+        font-size: 1rem
+        color: rgba(0, 0, 0, 0.6)
+
+  .payment-form-content
+    padding: 16px 0
+
+  .form-fields-grid
+    display: grid
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))
+    gap: 16px
+
+  .full-width-field
+    width: 100%
+
+  .payment-form-actions
+    display: flex
+    justify-content: flex-end
+    gap: 8px
+    padding-top: 16px
+    border-top: 1px solid rgba(0, 0, 0, 0.12)
+
+    .mat-spinner
+      margin-right: 8px

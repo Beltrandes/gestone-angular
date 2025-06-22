@@ -1,17 +1,18 @@
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-import { Component, inject, input, output, SimpleChanges } from '@angular/core';
+import { Component, inject, input, OnInit, output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { Customer } from '../../domain/Customer';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @Component({
     selector: 'app-customer-form',
@@ -19,7 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
     templateUrl: './customer-form.component.html',
     styleUrl: './customer-form.component.sass'
 })
-export class CustomerFormComponent {
+export class CustomerFormComponent implements OnInit {
   customerForm: FormGroup;
   customer = input<Customer>();
   fb = inject(FormBuilder);
@@ -37,8 +38,8 @@ export class CustomerFormComponent {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['customer']?.currentValue) {
+  ngOnInit() {
+    if (this.customer()?.id) {
       this.customerForm.patchValue({
         id: this.customer()?.id,
         name: this.customer()?.name,
@@ -46,12 +47,12 @@ export class CustomerFormComponent {
         email: this.customer()?.email,
         address: this.customer()?.address,
       });
-      console.log(this.customerForm.value)
     }
   }
 
   closeCustomerForm() {
     this.close.emit();
+    this.customerForm.reset();
   }
 
   submitCustomerForm() {

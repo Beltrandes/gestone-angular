@@ -1,49 +1,51 @@
-<form [formGroup]="miscellaneousMaterialForm" class="card px-3 py-2 bg-light">
-    <div class="card-header d-flex align-items-center justify-content-between mb-3">
-        <div class="form-titles">
-            <h5 class="card-title">Adicionando material diverso</h5>
-            <h6 class="card-subtitle">Preencha os dados</h6>
-        </div>
-        <button (click)="closeMiscellaneousMaterialForm()" type="button" class="btn-close" aria-label="Close"></button>
+<mat-card [formGroup]="miscellaneousMaterialForm" class="miscellaneous-material-form-card">
+  <mat-card-header>
+    <div class="form-titles">
+      <mat-card-title>Adicionando material diverso</mat-card-title>
+      <mat-card-subtitle>Preencha os dados</mat-card-subtitle>
     </div>
-    <div class="d-flex gap-2">
-        <div class="form-floating mb-3 col-3">
-            <input type="text" class="form-control" id="floatingMaterialNameInput" placeholder="name@example.com"
-                formControlName="name" />
-            <label for="floatingMaterialNameInput">Nome</label>
-        </div>
-        <div class="form-floating col-3">
-            <input type="text" class="form-control" id="floatingMaterialDetailsInput" placeholder="(11) 911111111"
-                formControlName="details" />
-            <label for="floatingMaterialDetailsInput">Cor/Detalhes</label>
-        </div>
-        <div class="form-floating mb-3 col-2">
-            <input type="number" class="form-control" id="floatingMaterialPriceInput" placeholder="Password"
-                formControlName="price" />
-            <label for="floatingMaterialPriceInput">Preço</label>
-        </div>
-        <div class="form-floating col-3">
-            <select type="type" class="form-select" id="floatingCustomerAddressInput" placeholder="Password"
-                formControlName="miscellaneousMaterialType">
-                @for(type of types; track $index) {
-                <option [value]="type.value">{{ type.label }}</option>
-                }
-            </select>
-            <label for="floatingCustomerAddressInput">Tipo de Material</label>
-        </div>
-    </div>
+    <button mat-icon-button (click)="closeMiscellaneousMaterialForm()" aria-label="Fechar">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-card-header>
 
-    <div class="d-flex justify-content-end gap-2 mt-3">
-        <button type="button" (click)="closeMiscellaneousMaterialForm()" class="btn btn-secondary">
-            Cancelar
-        </button>
-        <button type="button" (click)="submitMaterialForm()" class="btn btn-warning">
+  <mat-card-content class="form-fields-container">
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="name">
+    </mat-form-field>
 
-            @if (isSaving()) {
-            <div class="spinner-border spinner-border-sm" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            Salvando } @else { Salvar }
-        </button>
-    </div>
-</form>
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Cor/Detalhes</mat-label>
+      <input matInput formControlName="details">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Preço</mat-label>
+      <input matInput type="number" formControlName="price">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Tipo de Material</mat-label>
+      <mat-select formControlName="miscellaneousMaterialType">
+        @for(type of types; track $index) {
+          <mat-option [value]="type.value">{{ type.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </mat-card-content>
+
+  <mat-card-actions align="end" class="form-actions">
+    <button mat-stroked-button (click)="closeMiscellaneousMaterialForm()">
+      Cancelar
+    </button>
+    <button mat-raised-button color="primary" (click)="submitMaterialForm()" [disabled]="isSaving()">
+      @if (isSaving()) {
+        <mat-spinner diameter="20"></mat-spinner>
+        <span>Salvando</span>
+      } @else {
+        <span>Salvar</span>
+      }
+    </button>
+  </mat-card-actions>
+</mat-card>

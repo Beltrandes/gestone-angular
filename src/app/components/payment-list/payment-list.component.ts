@@ -3,10 +3,12 @@ import { Payment } from '../../domain/Payment';
 import { CurrencyPipe, DatePipe, NgClass } from '@angular/common';
 import { PaymentTypePipe } from '../../pipes/payment-type.pipe';
 import { PaymentStatusPipe } from "../../pipes/payment-status.pipe";
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-payment-list',
-    imports: [CurrencyPipe, DatePipe, PaymentTypePipe, PaymentStatusPipe, NgClass],
+    imports: [CurrencyPipe, DatePipe, PaymentTypePipe, PaymentStatusPipe, NgClass, MatExpansionModule,MatIconModule],
     templateUrl: './payment-list.component.html',
     styleUrl: './payment-list.component.sass'
 })

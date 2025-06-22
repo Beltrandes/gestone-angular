@@ -2,11 +2,19 @@ import { Component, inject, input, output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MiscellaneousMaterial } from '../../domain/MiscellaneousMaterial';
 import { MiscellaneousMaterialType } from '../../domain/MiscellaneousMaterialType';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
-    selector: 'app-miscellaneous-material-form',
-    imports: [ReactiveFormsModule],
-    templateUrl: './miscellaneous-material-form.component.html'
+  selector: 'app-miscellaneous-material-form',
+  imports: [ReactiveFormsModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatProgressSpinner, MatIconModule],
+  templateUrl: './miscellaneous-material-form.component.html',
+  styleUrls: ['./miscellaneous-material-form.component.sass'],
 })
 export class MiscellaneousMaterialFormComponent {
   miscellaneousMaterialForm!: FormGroup
