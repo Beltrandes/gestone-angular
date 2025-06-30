@@ -1,0 +1,150 @@
+<mat-accordion>
+  @for(productionOrder of productionOrders(); track $index) {
+  <mat-expansion-panel class="productionOrder-expansion-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="productionOrder-header-title">
+        <div class="main-infos">
+          <span class="productionOrder-info-col-lg"
+            >Pedido de Produção ({{
+              productionOrder.id.split("-").at(0)
+            }})</span
+          >
+        </div>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div class="productionOrder-details-content">
+      <div class="productionOrder-actions">
+        <button
+          matIconButton
+          matTooltip="Gerar PDF"
+          (click)="generateProductionOrderPdf(productionOrder.id)"
+          aria-label="Gerar PDF"
+        >
+          <mat-icon>picture_as_pdf</mat-icon>
+        </button>
+        <button
+          matIconButton
+          matTooltip="Editar Pedido"
+          aria-label="Editar Pedido"
+        >
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button
+          matIconButton
+          matTooltip="Adicionar Pagamento"
+          class="add-payment-button"
+          aria-label="Adicionar Pagamento"
+        >
+          <mat-icon>payments</mat-icon>
+        </button>
+      </div>
+
+      <h4 class="section-title">Informações Principais</h4>
+      <div class="info-grid">
+        <div class="info-column">
+          <p><strong>Cliente:</strong> {{ productionOrder.customer.name }}</p>
+
+          <p><strong>Descrição:</strong> {{ productionOrder.notes }}</p>
+          <p class="status-line">
+            <strong>Status:</strong>
+            <span>
+              {{ productionOrder.productionStatus }}
+            </span>
+          </p>
+
+          <p>
+            <strong>Início esperado:</strong>
+            {{ productionOrder.expectedStartDate | date }}
+          </p>
+          <p>
+            <strong>Término esperado:</strong>
+            {{ productionOrder.expectedEndDate | date }}
+          </p>
+          <p>
+            <strong>Data prevista para instalação:</strong>
+            {{productionOrder.expectedInstallmentDate | date}}
+          </p>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+
+      <h4 class="section-title">Itens Principais</h4>
+      <div class="items-wrapper">
+        @if (productionOrder.productionOrderItems.length > 0) { @for
+        (productionOrderItem of productionOrder.productionOrderItems; track
+        $index) {
+
+        <mat-card class="item-card">
+          <mat-card-header class="item-header">
+            <mat-card-subtitle>
+              <strong>{{ productionOrderItem.marbleshopItem.name }}</strong> -
+              {{
+                productionOrderItem.marbleshopItem.measureX | number : "1.0-3"
+              }}x{{
+                productionOrderItem.marbleshopItem.measureY | number : "1.0-3"
+              }}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              <strong>Detalhes:</strong>
+              {{ productionOrderItem.marbleshopItem.description }}
+            </p>
+            <p>
+              <strong>Quantidade:</strong>
+              {{ productionOrderItem.marbleshopItem.quantity }}
+            </p>
+            <p>
+              <strong>Material:</strong>
+              {{ productionOrderItem.marbleshopItem.marbleshopMaterial.name }}
+            </p>
+
+            @if (productionOrderItem.marbleshopItem.marbleshopSubItems.length >
+            0) {
+            <mat-divider></mat-divider>
+            <h4 class="sub-section-title">Complementos/Acabamentos</h4>
+            @for (subItem of
+            productionOrderItem.marbleshopItem.marbleshopSubItems; track $index)
+            {
+            <div class="sub-item-details">
+              <strong>{{ subItem.quantity }}</strong>
+              - {{ subItem.name }} -
+              {{ subItem.measureX | number : "1.0-3" }}x{{
+                subItem.measureY | number : "1.0-3"
+              }}
+              @if (subItem.description != null && subItem.description != "") {
+              <span> - {{ subItem.description }}</span>
+              }
+            </div>
+            }
+            <mat-divider></mat-divider>
+            }
+
+            <div class="item-summary">
+              <p>
+                <strong>Área:</strong>
+                {{
+                  productionOrderItem.marbleshopItem.unitArea
+                    | number : "1.0-3"
+                }}m²
+              </p>
+              <p class="fw-semibold">
+                <strong>Área Total: </strong>
+                {{
+                  productionOrderItem.marbleshopItem.totalArea
+                    | number : "1.0-3"
+                }}m²
+              </p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <img [src]="productionOrder.projectUrl"  style="max-width: 400px; height: auto;">
+        <p>{{productionOrder.projectUrl}}</p>
+        } }
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </mat-expansion-panel>
+  }
+</mat-accordion>

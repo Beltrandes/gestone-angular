@@ -8,6 +8,7 @@ import { MaterialComponent } from './pages/material/material.component';
 import { OrderComponent } from './pages/order/order.component';
 import { FinanceComponent } from './pages/finance/finance.component';
 import { BillComponent } from './pages/bill/bill.component';
+import { ProductionComponent } from './pages/production/production.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -19,6 +20,7 @@ export const routes: Routes = [
   {path: ':marbleshopId/financas', component: FinanceComponent},
   {path: ':marbleshopId/contas', component: BillComponent, },
   {path: 'materiais', component: MaterialComponent},
+  {path: ':marbleshopId/producao', component: ProductionComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', redirectTo: '/login' },
 ];

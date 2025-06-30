@@ -14,16 +14,13 @@ import { NgClass } from '@angular/common';
 export class AppComponent {
   showNavbar = true;
   private readonly hiddenRoutes = ['/login', '/register'];
-  marbleshopName: string | null = null
 
-  constructor(private readonly router: Router, private readonly authService: AuthService) {
-    this.marbleshopName = authService.getMarbleshopName()
+  constructor(private readonly router: Router) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         const isAuthRoute = this.hiddenRoutes.includes(event.url);
-        const isLoggedIn = !!this.authService.getToken();
-        this.showNavbar = isLoggedIn && !isAuthRoute;
+        this.showNavbar = !isAuthRoute;
       });
   }
 }

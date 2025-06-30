@@ -1,0 +1,12 @@
+<div class="container-80">
+  <app-controller
+    controllerTitle="Produção"
+    controllerIconText="factory"
+  ></app-controller>
+  @if (productionOrders$ | async; as productionOrders) {
+  <app-production-order-list
+    [productionOrders]="productionOrders"
+  ></app-production-order-list>
+
+  }
+</div>
