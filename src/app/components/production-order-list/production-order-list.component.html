@@ -63,7 +63,7 @@
           </p>
           <p>
             <strong>Data prevista para instalação:</strong>
-            {{productionOrder.expectedInstallmentDate | date}}
+            {{ productionOrder.expectedInstallmentDate | date }}
           </p>
         </div>
       </div>
@@ -139,12 +139,22 @@
             </div>
           </mat-card-content>
         </mat-card>
-        <img [src]="productionOrder.projectUrl"  style="max-width: 400px; height: auto;">
-        <p>{{productionOrder.projectUrl}}</p>
+
         } }
       </div>
       <mat-divider></mat-divider>
+      <div class="img-wrapper">
+        <h4>Projeto</h4>
+      <img
+        class="project-img"
+        [src]="
+          'http://localhost:8080/api/v1/production/project-image/' +
+          productionOrder.id
+        "
+      />
     </div>
+    </div>
+
   </mat-expansion-panel>
   }
 </mat-accordion>
